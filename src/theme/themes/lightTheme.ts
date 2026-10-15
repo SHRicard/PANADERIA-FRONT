@@ -1,8 +1,7 @@
 import { palette } from '../tokens/colors';
-import type { Theme } from '../types';
-import { base } from './base';
+import { base, type TemaSinTipografia } from './base';
 
-export const lightTheme: Theme = {
+export const lightTheme: TemaSinTipografia = {
   ...base,
   mode: 'light',
   colors: {
@@ -24,5 +23,7 @@ export const lightTheme: Theme = {
     warningSoft: palette.ambar50,
     danger: palette.rojo700,
     dangerSoft: palette.rojo50,
+    shadow: palette.sombraTostada,
+    overlay: palette.veloTostado,
   },
 };

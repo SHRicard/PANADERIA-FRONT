@@ -28,7 +28,7 @@ export function useRestablecer() {
     defaultValues: { codigo: '', password: '', confirmacion: '' },
   });
 
-  // Si sale bien no hay que navegar: con la sesión iniciada, el layout de (admin) muestra el panel
+  // Si sale bien no hay que navegar: con la sesión iniciada, el layout de (admin) muestra las pestañas
   const enviar = form.handleSubmit(async ({ codigo, password }) => {
     if (!email) return;
     setError(null);

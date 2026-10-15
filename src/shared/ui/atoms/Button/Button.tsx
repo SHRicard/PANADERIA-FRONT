@@ -9,6 +9,7 @@ function ButtonComponent({
   label,
   onPress,
   variant = 'primary',
+  size = 'md',
   icon,
   disabled = false,
   loading = false,
@@ -19,7 +20,7 @@ function ButtonComponent({
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const bloqueado = disabled || loading;
-  const colorContenido = variant === 'primary' ? 'onPrimary' : 'primary';
+  const colorContenido = variant === 'primary' ? 'onPrimary' : variant === 'danger' ? 'danger' : 'primary';
 
   return (
     <Pressable
@@ -32,6 +33,7 @@ function ButtonComponent({
       style={({ pressed }) => [
         styles.base,
         styles[variant],
+        size === 'sm' && styles.sm,
         pressed && !bloqueado && styles[`${variant}Pressed`],
         fullWidth && styles.fullWidth,
         disabled && styles.disabled,
@@ -40,9 +42,9 @@ function ButtonComponent({
       {loading ? (
         <ActivityIndicator size="small" color={theme.colors[colorContenido]} />
       ) : (
-        icon && <Icon icon={icon} size="md" color={colorContenido} />
+        icon && <Icon icon={icon} size={size === 'sm' ? 'sm' : 'md'} color={colorContenido} />
       )}
-      <Text style={[styles.label, styles[`${variant}Label`]]}>{label}</Text>
+      <Text style={[styles.label, size === 'sm' && styles.labelSm, styles[`${variant}Label`]]}>{label}</Text>
     </Pressable>
   );
 }

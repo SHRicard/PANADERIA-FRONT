@@ -42,4 +42,11 @@ export const palette = {
   rojo300: '#F2857B',
   rojo700: '#B3261E',
   rojo900: '#3A1E1B',
+
+  // Sombras: el tostado con transparencia en claro; en oscuro, negro más cargado para que se note
+  sombraTostada: 'rgba(43, 29, 18, 0.18)',
+  sombraNegra: 'rgba(0, 0, 0, 0.5)',
+  // Velos: oscurecen la pantalla detrás de una hoja que sube desde abajo (el select)
+  veloTostado: 'rgba(43, 29, 18, 0.45)',
+  veloNegro: 'rgba(0, 0, 0, 0.6)',
 } as const;

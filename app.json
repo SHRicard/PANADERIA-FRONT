@@ -28,6 +28,14 @@
         }
       ],
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Dama Blanca usa tus fotos para cargarlas en los productos.",
+          "cameraPermission": "Dama Blanca usa la cámara para sacarles fotos a los productos.",
+          "microphonePermission": false
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "backgroundColor": "#FBF7F0",
