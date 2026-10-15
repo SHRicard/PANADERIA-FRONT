@@ -14,7 +14,7 @@ export function useLogin() {
     defaultValues: { usuario: '', password: '' },
   });
 
-  // Si sale bien no hay que navegar: el layout de (admin) ve la sesión y muestra el panel
+  // Si sale bien no hay que navegar: el layout de (admin) ve la sesión y muestra las pestañas
   const enviar = form.handleSubmit(async (datos) => {
     setError(null);
     try {

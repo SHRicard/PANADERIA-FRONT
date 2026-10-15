@@ -1,5 +1,11 @@
 import { StyleSheet, View } from 'react-native';
 import { Croissant, Plus, Search, ShoppingBag, Trash2, Wheat } from 'lucide-react-native';
+import {
+  ESTILO_BARRA_POR_DEFECTO,
+  ESTILO_ENCABEZADO_POR_DEFECTO,
+  ESTILOS_BARRA,
+  ESTILOS_ENCABEZADO,
+} from '@/features/navegacion';
 import LogoDamaBlanca from '@/shared/assets/logo-dama-blanca.svg';
 import {
   Alert,
@@ -8,18 +14,35 @@ import {
   Icon,
   InputField,
   ScreenContainer,
+  Segmentado,
+  Select,
+  SelectorTema,
   Text,
   type BadgeTone,
+  type OpcionSegmentado,
 } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type ColorToken, type TextVariant, type Theme } from '@/theme';
+import {
+  ESTILO_TIPOGRAFIA_POR_DEFECTO,
+  ESTILOS_TIPOGRAFIA,
+  useStyles,
+  useTheme,
+  useThemeMode,
+  useTipografia,
+  type ColorToken,
+  type EstiloTipografia,
+  type Fuentes,
+  type TextVariant,
+  type Theme,
+} from '@/theme';
 import { Grilla } from '../components/Grilla';
+import { MuestraBarra } from '../components/MuestraBarra';
 import { MuestraColor } from '../components/MuestraColor';
+import { MuestraEncabezado } from '../components/MuestraEncabezado';
 import { Seccion } from '../components/Seccion';
-import { SelectorTema } from '../components/SelectorTema';
-import { useDiseno } from '../hooks/useDiseno';
+import { GUSTOS, PERIODOS, useDiseno } from '../hooks/useDiseno';
 
 const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
-  { titulo: 'Superficies', tokens: ['background', 'surface', 'surfaceMuted', 'border'] },
+  { titulo: 'Superficies', tokens: ['background', 'surface', 'surfaceMuted', 'border', 'shadow', 'overlay'] },
   { titulo: 'Texto', tokens: ['text', 'textMuted'] },
   { titulo: 'Marca', tokens: ['primary', 'primaryPressed', 'onPrimary', 'primarySoft', 'accent', 'onAccent'] },
   {
@@ -37,7 +60,14 @@ const EJEMPLOS_TEXTO: { variante: TextVariant; ejemplo: string }[] = [
   { variante: 'bodyStrong', ejemplo: '$ 4.800 la docena' },
   { variante: 'label', ejemplo: 'Disponible hoy' },
   { variante: 'caption', ejemplo: '12 unidades · 540 g' },
+  { variante: 'overline', ejemplo: 'Jueves 15 de octubre' },
 ];
+
+const OPCIONES_TIPOGRAFIA: OpcionSegmentado<EstiloTipografia>[] = Object.values(ESTILOS_TIPOGRAFIA).map(
+  ({ estilo, nombre }) => ({ valor: estilo, label: nombre }),
+);
+
+const ROLES_FUENTE: (keyof Fuentes)[] = ['titulo', 'tituloSuave', 'texto', 'textoMedio', 'textoNegrita'];
 
 const BADGES: { tono: BadgeTone; label: string }[] = [
   { tono: 'neutral', label: 'Sin categoría' },
@@ -52,7 +82,9 @@ const COLORES_ICONO: ColorToken[] = ['text', 'textMuted', 'primary', 'accent', '
 export function DisenoScreen() {
   const theme = useTheme();
   const styles = useStyles(createStyles);
-  const { columnas, cargando, simularCarga, texto, setTexto } = useDiseno();
+  const { columnas, cargando, simularCarga, texto, setTexto, periodo, setPeriodo, gusto, setGusto } = useDiseno();
+  const tipografia = useTipografia();
+  const tema = useThemeMode();
 
   return (
     <ScreenContainer edges={['bottom', 'left', 'right']}>
@@ -63,7 +95,7 @@ export function DisenoScreen() {
             Los tokens del theme y los atoms de shared/ui/atoms, con los valores del tema activo. No llega a la APK de
             release ni a la web publicada.
           </Text>
-          <SelectorTema />
+          <SelectorTema valor={tema.preferencia} alCambiar={tema.cambiarPreferencia} />
         </View>
 
         <Seccion titulo="Colores" descripcion="Tokens semánticos. Los componentes usan estos nombres, nunca la paleta cruda.">
@@ -81,18 +113,50 @@ export function DisenoScreen() {
           ))}
         </Seccion>
 
-        <Seccion titulo="Tipografía" descripcion="Variantes del atom Text: tamaño / interlineado · peso.">
-          {EJEMPLOS_TEXTO.map(({ variante, ejemplo }) => {
-            const { fontSize, lineHeight, fontWeight } = theme.text[variante];
-            return (
-              <View key={variante} style={styles.filaTexto}>
-                <Text variant={variante}>{ejemplo}</Text>
+        <Seccion
+          titulo="Tipografía"
+          descripcion={`Tres estilos de fuentes; el dueño elige el suyo en Más → Preferencias (por defecto, ${ESTILOS_TIPOGRAFIA[ESTILO_TIPOGRAFIA_POR_DEFECTO].nombre.toLowerCase()}). Cambiarlo acá lo cambia en toda la app.`}
+        >
+          <Segmentado
+            opciones={OPCIONES_TIPOGRAFIA}
+            valor={tipografia.estilo}
+            alCambiar={tipografia.cambiarEstilo}
+            accessibilityLabel="Tipografía"
+          />
+          <Text variant="caption" color="textMuted">
+            {ESTILOS_TIPOGRAFIA[tipografia.estilo].descripcion}
+          </Text>
+
+          <View style={styles.grupo}>
+            <Text variant="label" color="textMuted">
+              Variantes del atom Text: tamaño / interlineado · fuente
+            </Text>
+            {EJEMPLOS_TEXTO.map(({ variante, ejemplo }) => {
+              const { fontSize, lineHeight, fontFamily } = theme.text[variante];
+              return (
+                <View key={variante} style={styles.filaTexto}>
+                  <Text variant={variante}>{ejemplo}</Text>
+                  <Text variant="caption" color="textMuted">
+                    {variante} · {fontSize}/{lineHeight} · {fontFamily}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+
+          <View style={styles.grupo}>
+            <Text variant="label" color="textMuted">
+              theme.fonts: para un estilo propio, sin fontWeight
+            </Text>
+            {ROLES_FUENTE.map((rol) => (
+              <View key={rol} style={styles.filaTexto}>
+                <Text style={{ fontFamily: theme.fonts[rol] }}>Medialunas de manteca · $ 4.800</Text>
                 <Text variant="caption" color="textMuted">
-                  {variante} · {fontSize}/{lineHeight} · {fontWeight}
+                  {rol} · {theme.fonts[rol]}
                 </Text>
               </View>
-            );
-          })}
+            ))}
+          </View>
         </Seccion>
 
         <Seccion titulo="Espaciado" descripcion="Escala base 4, para márgenes, padding y gap.">
@@ -129,10 +193,16 @@ export function DisenoScreen() {
           </View>
           <View style={styles.filaLibre}>
             <Button icon={Plus} label="Nuevo producto" onPress={simularCarga} />
-            <Button variant="secondary" icon={Trash2} label="Borrar" onPress={simularCarga} />
+            <Button variant="danger" icon={Trash2} label="Eliminar" onPress={simularCarga} />
             <Button label="Deshabilitado" onPress={simularCarga} disabled />
           </View>
           <Button icon={ShoppingBag} label="Ancho completo" onPress={simularCarga} fullWidth />
+          <View style={styles.filaLibre}>
+            <Button size="sm" icon={Plus} label="Nuevo" onPress={simularCarga} />
+            <Text variant="caption" color="textMuted">
+              size="sm": la píldora al lado de un título
+            </Text>
+          </View>
         </Seccion>
 
         <Seccion titulo="Campos" descripcion="InputField: label, ícono, ayuda y error.">
@@ -146,7 +216,27 @@ export function DisenoScreen() {
           />
           <InputField label="Buscar" placeholder="Pan, facturas, tortas…" icon={Search} />
           <InputField label="Precio" value="mil doscientos" error="Ingresá solo números, por ejemplo 1200" />
-          <InputField label="Categoría" value="Facturas" disabled />
+          <InputField label="Gusto" value="Dulce" disabled />
+        </Seccion>
+
+        <Seccion
+          titulo="Select"
+          descripcion="Elegir una entre varias en un formulario: se ve como un campo y abre una hoja desde abajo. Lo usa el gusto del producto."
+        >
+          <Select
+            label="Gusto"
+            tituloHoja="¿De qué gusto es?"
+            opciones={GUSTOS}
+            valor={gusto}
+            alCambiar={setGusto}
+            placeholder="Dulce, salado, picante…"
+          />
+          <Select label="Gusto" opciones={GUSTOS} valor={null} alCambiar={setGusto} error="Elegí un gusto" />
+          <Select label="Gusto" opciones={[]} valor={null} alCambiar={setGusto} placeholder="Cargando gustos…" disabled />
+        </Seccion>
+
+        <Seccion titulo="Segmentado" descripcion="Elegir una entre pocas opciones, todas a la vista. Lo usan el tema, la barra de pestañas y la tipografía.">
+          <Segmentado opciones={PERIODOS} valor={periodo} alCambiar={setPeriodo} accessibilityLabel="Período" />
         </Seccion>
 
         <Seccion titulo="Badges" descripcion="El texto va siempre en color de texto: el tono lo dan el fondo y el punto.">
@@ -185,6 +275,40 @@ export function DisenoScreen() {
               </View>
             ))}
           </View>
+        </Seccion>
+
+        <Seccion
+          titulo="Barra de pestañas"
+          descripcion="Los estilos que el dueño elige en Más → Preferencias. Tocá las pestañas para ver la activa."
+        >
+          {Object.values(ESTILOS_BARRA).map(({ estilo, nombre, descripcion, Barra }) => (
+            <View key={estilo} style={styles.grupo}>
+              <View style={styles.filaTexto}>
+                <Text variant="label">{estilo === ESTILO_BARRA_POR_DEFECTO ? `${nombre} (por defecto)` : nombre}</Text>
+                <Text variant="caption" color="textMuted">
+                  {descripcion}
+                </Text>
+              </View>
+              <MuestraBarra Barra={Barra} />
+            </View>
+          ))}
+        </Seccion>
+
+        <Seccion
+          titulo="Encabezado de las pestañas"
+          descripcion="Los estilos que el dueño elige en Más → Preferencias. El grande va arriba de cada pestaña; al bajar, queda la barra chica."
+        >
+          {Object.values(ESTILOS_ENCABEZADO).map(({ estilo, nombre, descripcion, Encabezado, BarraChica }) => (
+            <View key={estilo} style={styles.grupo}>
+              <View style={styles.filaTexto}>
+                <Text variant="label">{estilo === ESTILO_ENCABEZADO_POR_DEFECTO ? `${nombre} (por defecto)` : nombre}</Text>
+                <Text variant="caption" color="textMuted">
+                  {descripcion}
+                </Text>
+              </View>
+              <MuestraEncabezado Encabezado={Encabezado} BarraChica={BarraChica} />
+            </View>
+          ))}
         </Seccion>
 
         <Seccion

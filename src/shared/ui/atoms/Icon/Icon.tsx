@@ -8,11 +8,24 @@ export interface IconProps {
   icon: LucideIcon;
   size?: keyof Theme['iconSize'];
   color?: ColorToken;
+  /**
+   * Rellena el dibujo con el mismo color, translúcido para no tapar los trazos de adentro (la pestaña activa
+   * de la barra). Solo se nota en íconos con formas cerradas
+   */
+  relleno?: boolean;
+  trazo?: keyof Theme['iconStroke'];
   /** Solo si el ícono comunica algo por sí solo. Sin label es decorativo y el lector lo saltea */
   accessibilityLabel?: string;
 }
 
-function IconComponent({ icon: Glifo, size = 'md', color = 'text', accessibilityLabel }: IconProps) {
+function IconComponent({
+  icon: Glifo,
+  size = 'md',
+  color = 'text',
+  relleno = false,
+  trazo = 'normal',
+  accessibilityLabel,
+}: IconProps) {
   const theme = useTheme();
   const decorativo = !accessibilityLabel;
 
@@ -25,7 +38,13 @@ function IconComponent({ icon: Glifo, size = 'md', color = 'text', accessibility
       aria-label={accessibilityLabel}
       aria-hidden={decorativo}
     >
-      <Glifo size={theme.iconSize[size]} color={theme.colors[color]} strokeWidth={2} />
+      <Glifo
+        size={theme.iconSize[size]}
+        color={theme.colors[color]}
+        fill={relleno ? theme.colors[color] : 'none'}
+        fillOpacity={relleno ? theme.opacity.relleno : undefined}
+        strokeWidth={theme.iconStroke[trazo]}
+      />
     </View>
   );
 }

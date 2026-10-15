@@ -11,6 +11,14 @@ export interface ScreenContainerProps {
   centered?: boolean;
   /** El `control` de `useRefrescar`, en pantallas con datos de la API */
   refreshControl?: ScrollViewProps['refreshControl'];
+  /** Se llama cuando el scroll se acerca al final: para traer la página siguiente de una lista */
+  alLlegarAlFinal?: () => void;
+  /** Se llama al desplazar, con cuánto se bajó (en px) */
+  alDesplazar?: (y: number) => void;
+  /** El contenido ocupa todo el alto disponible: para mandar algo al fondo (ej.: Cerrar sesión en Más) */
+  llenarAlto?: boolean;
+  /** Algo fijo arriba, encima del scroll (ej.: la barra que aparece al bajar). Lo anima quien lo pasa */
+  superpuesto?: ReactNode;
   edges?: Edge[];
 }
 
@@ -21,9 +29,20 @@ export function ScreenContainer({
   width = 'content',
   centered = false,
   refreshControl,
+  alLlegarAlFinal,
+  alDesplazar,
+  llenarAlto = false,
+  superpuesto,
   edges = BORDES_POR_DEFECTO,
 }: ScreenContainerProps) {
   const styles = useStyles(createStyles);
+
+  const escuchaScroll = Boolean(alLlegarAlFinal || alDesplazar);
+  const alScrollear: ScrollViewProps['onScroll'] = ({ nativeEvent: { layoutMeasurement, contentOffset, contentSize } }) => {
+    alDesplazar?.(contentOffset.y);
+    // Avisa cuando falta menos de media pantalla para el final: la página siguiente llega antes de que se note
+    if (contentOffset.y + layoutMeasurement.height * 1.5 >= contentSize.height) alLlegarAlFinal?.();
+  };
 
   return (
     <SafeAreaView edges={edges} style={styles.fondo}>
@@ -34,11 +53,18 @@ export function ScreenContainer({
           contentContainerStyle={[styles.scroll, width === 'form' && styles.scrollForm, centered && styles.centrado]}
           keyboardShouldPersistTaps="handled"
           refreshControl={refreshControl}
+          onScroll={escuchaScroll ? alScrollear : undefined}
+          // Más seguido si alguien sigue el scroll (la barra que aparece al bajar); para la página siguiente alcanza con menos
+          scrollEventThrottle={alDesplazar ? 32 : alLlegarAlFinal && 200}
         >
-          <View style={[styles.contenido, width === 'form' ? styles.anchoForm : styles.anchoContenido]}>
+          <View
+            style={[styles.contenido, width === 'form' ? styles.anchoForm : styles.anchoContenido, llenarAlto && styles.llenar]}
+          >
             {children}
           </View>
         </ScrollView>
+        {/* Siempre montado mientras haya prop: así lo que entra y sale adentro puede animarse */}
+        {superpuesto !== undefined && <View style={styles.superpuesto}>{superpuesto}</View>}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -55,4 +81,6 @@ const createStyles = (theme: Theme) =>
     contenido: { width: '100%', alignSelf: 'center' },
     anchoForm: { width: theme.sizes.formWidth, maxWidth: theme.sizes.formMax },
     anchoContenido: { maxWidth: theme.sizes.contentMax },
+    llenar: { flexGrow: 1 },
+    superpuesto: { position: 'absolute', top: theme.spacing.none, left: theme.spacing.none, right: theme.spacing.none, pointerEvents: 'box-none' },
   });

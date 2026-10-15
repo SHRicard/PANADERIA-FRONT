@@ -1,10 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import { KeyRound } from 'lucide-react-native';
-import { Alert, Button, ScreenContainer } from '@/shared/ui/atoms';
+import { Alert, Button, CampoTexto, ScreenContainer } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import { AuthEncabezado } from '../components/AuthEncabezado';
 import { CampoContrasena } from '../components/CampoContrasena';
-import { CampoTexto } from '../components/CampoTexto';
 import { useRestablecer } from '../hooks/useRestablecer';
 import { PASSWORD_MIN } from '../schemas';
 
