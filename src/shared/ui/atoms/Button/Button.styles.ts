@@ -17,6 +17,14 @@ export const createStyles = (theme: Theme) =>
     fullWidth: { alignSelf: 'stretch' },
     label: theme.text.bodyStrong,
 
+    sm: {
+      minHeight: theme.sizes.touchMin,
+      paddingHorizontal: theme.spacing.lg,
+      gap: theme.spacing.xs,
+      borderRadius: theme.radius.full,
+    },
+    labelSm: { ...theme.text.label, fontFamily: theme.fonts.textoNegrita },
+
     primary: { backgroundColor: theme.colors.primary },
     primaryPressed: { backgroundColor: theme.colors.primaryPressed },
     primaryLabel: { color: theme.colors.onPrimary },
@@ -28,6 +36,10 @@ export const createStyles = (theme: Theme) =>
     ghost: { backgroundColor: 'transparent', paddingHorizontal: theme.spacing.md },
     ghostPressed: { backgroundColor: theme.colors.primarySoft },
     ghostLabel: { color: theme.colors.primary },
+
+    danger: { backgroundColor: theme.colors.surface, borderColor: theme.colors.danger },
+    dangerPressed: { backgroundColor: theme.colors.dangerSoft },
+    dangerLabel: { color: theme.colors.danger },
 
     disabled: { opacity: theme.opacity.disabled },
   });

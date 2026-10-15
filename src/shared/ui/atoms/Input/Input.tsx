@@ -20,6 +20,7 @@ function InputComponent({
   accessoryRight,
   invalid = false,
   disabled = false,
+  multiline = false,
   onFocus,
   onBlur,
   ...rest
@@ -53,7 +54,8 @@ function InputComponent({
           setEnfocado(false);
           onBlur?.(e);
         }}
-        style={styles.input}
+        multiline={multiline}
+        style={[styles.input, multiline && styles.multilinea]}
         {...rest}
       />
       {accessoryRight}
@@ -85,6 +87,12 @@ const createStyles = (theme: Theme) =>
       paddingVertical: theme.spacing.none,
       // En la web, el borde del contenedor ya marca el foco: sin el recuadro del navegador
       outlineWidth: 0,
+    },
+    // Textos largos (una descripción): más alto, con aire arriba y abajo y el texto empezando arriba
+    multilinea: {
+      minHeight: theme.sizes.control * 2,
+      paddingVertical: theme.spacing.md,
+      textAlignVertical: 'top',
     },
   });
 

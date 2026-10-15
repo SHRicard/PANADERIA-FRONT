@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Eye, EyeOff, Lock } from 'lucide-react-native';
 import type { FieldValues } from 'react-hook-form';
-import { Icon } from '@/shared/ui/atoms';
+import { CampoTexto, Icon, type CampoTextoProps } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import { CampoTexto, type CampoTextoProps } from './CampoTexto';
 
 type CampoContrasenaProps<T extends FieldValues> = Omit<
   CampoTextoProps<T>,

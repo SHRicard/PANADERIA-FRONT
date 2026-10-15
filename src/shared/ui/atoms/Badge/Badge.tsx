@@ -53,7 +53,7 @@ const createStyles = (theme: Theme) =>
       borderRadius: theme.radius.full,
     },
     punto: { width: theme.spacing.sm, height: theme.spacing.sm, borderRadius: theme.radius.full },
-    label: { fontWeight: theme.text.label.fontWeight },
+    label: { fontFamily: theme.fonts.textoMedio },
   });
 
 export const Badge = memo(BadgeComponent);

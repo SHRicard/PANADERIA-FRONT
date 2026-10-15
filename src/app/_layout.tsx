@@ -8,17 +8,31 @@ import {
   type Theme as NavigationTheme,
 } from 'expo-router';
 import { NavigationBar } from 'expo-navigation-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { Provider } from 'react-redux';
+import { EncabezadoPantalla } from '@/features/navegacion';
 import { store } from '@/store';
-import { ThemeProvider, useTheme } from '@/theme';
+import { ThemeProvider, useCargarFuentes, useTheme } from '@/theme';
 
 // El corte entre las dos caras vive acá y en ningún otro lado:
 // la web es la cara pública (catálogo), la APK es la del admin.
 const esWeb = Platform.OS === 'web';
 
+// La splash queda hasta que cargan las fuentes: así no se ve un instante la letra del sistema
+void SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
+  const fuentesListas = useCargarFuentes();
+
+  useEffect(() => {
+    if (fuentesListas) void SplashScreen.hideAsync();
+  }, [fuentesListas]);
+
+  // En la web el prerender ya las da por cargadas: el HTML sale completo
+  if (!fuentesListas) return null;
+
   return (
     <Provider store={store}>
       <ThemeProvider>
@@ -41,6 +55,14 @@ function Navegacion() {
       text: theme.colors.text,
       border: theme.colors.border,
       notification: theme.colors.danger,
+    },
+    // Los headers del Stack (por ejemplo «Nuevo producto») con las fuentes del estilo elegido.
+    // El peso va en el nombre de la fuente: fontWeight queda en el normal
+    fonts: {
+      regular: { fontFamily: theme.fonts.texto, fontWeight: '400' },
+      medium: { fontFamily: theme.fonts.textoMedio, fontWeight: '400' },
+      bold: { fontFamily: theme.fonts.textoNegrita, fontWeight: '400' },
+      heavy: { fontFamily: theme.fonts.textoNegrita, fontWeight: '400' },
     },
   };
 
@@ -68,7 +90,10 @@ function Navegacion() {
 
         {/* Diseño del sistema: solo en desarrollo, en las dos caras */}
         <Stack.Protected guard={__DEV__}>
-          <Stack.Screen name="(dev)" options={{ headerShown: true, title: 'Diseño del sistema' }} />
+          <Stack.Screen
+            name="(dev)"
+            options={{ headerShown: true, title: 'Diseño del sistema', header: (props) => <EncabezadoPantalla {...props} /> }}
+          />
         </Stack.Protected>
       </Stack>
     </NavigationThemeProvider>

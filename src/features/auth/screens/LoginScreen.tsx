@@ -1,11 +1,10 @@
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Palette, User } from 'lucide-react-native';
-import { Alert, Button, ScreenContainer } from '@/shared/ui/atoms';
+import { Alert, Button, CampoTexto, ScreenContainer } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import { AuthEncabezado } from '../components/AuthEncabezado';
 import { CampoContrasena } from '../components/CampoContrasena';
-import { CampoTexto } from '../components/CampoTexto';
 import { useLogin } from '../hooks/useLogin';
 
 export function LoginScreen() {

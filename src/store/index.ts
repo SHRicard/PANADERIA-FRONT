@@ -2,7 +2,11 @@ import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { recuperacionReducer } from '@/features/auth/store/recuperacionSlice';
 import { guardarToken, sesionReducer } from '@/features/auth/store/sesionSlice';
+import { estiloBarraReducer, guardarEstiloBarra } from '@/features/navegacion/store/estiloBarraSlice';
+import { estiloEncabezadoReducer, guardarEstiloEncabezado } from '@/features/navegacion/store/estiloEncabezadoSlice';
+import { subidaFotosReducer } from '@/features/productos/store/subidaFotosSlice';
 import { baseApi } from '@/services/api';
+import { estiloTipografiaReducer, guardarEstiloTipografia } from '@/theme/store/estiloTipografiaSlice';
 import { guardarPreferenciaTema, preferenciaTemaReducer } from '@/theme/store/preferenciaTemaSlice';
 
 const persistencia = createListenerMiddleware();
@@ -13,6 +17,10 @@ export const store = configureStore({
     sesion: sesionReducer,
     recuperacion: recuperacionReducer,
     preferenciaTema: preferenciaTemaReducer,
+    estiloTipografia: estiloTipografiaReducer,
+    estiloBarra: estiloBarraReducer,
+    estiloEncabezado: estiloEncabezadoReducer,
+    subidaFotos: subidaFotosReducer,
   },
   middleware: (getDefault) => getDefault().prepend(persistencia.middleware).concat(baseApi.middleware),
 });
@@ -37,3 +45,6 @@ function persistir<T>(seleccionar: (estado: RootState) => T, guardar: (valor: T)
 
 persistir((estado) => estado.sesion.token, guardarToken);
 persistir((estado) => estado.preferenciaTema.preferencia, guardarPreferenciaTema);
+persistir((estado) => estado.estiloTipografia.estilo, guardarEstiloTipografia);
+persistir((estado) => estado.estiloBarra.estilo, guardarEstiloBarra);
+persistir((estado) => estado.estiloEncabezado.estilo, guardarEstiloEncabezado);

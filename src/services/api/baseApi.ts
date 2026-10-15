@@ -51,6 +51,9 @@ function traducirError(error: FetchBaseQueryError): ApiError {
     case 'TIMEOUT_ERROR':
       return { status: null, mensaje: 'El servidor tardó demasiado en responder. Probá de nuevo.' };
     case 'FETCH_ERROR':
+      // Puede ser falta de red o un pedido que fetch no pudo ni armar (ej.: un FormData mal formado).
+      // En desarrollo se muestra la causa real: al usuario le llega igual que sin conexión
+      if (__DEV__) console.warn('Pedido sin respuesta del servidor:', error.error);
       return { status: null, mensaje: 'No hay conexión con el servidor. Revisá tu internet y probá de nuevo.' };
     // La respuesta no era JSON: si además era un error HTTP (ej.: un 502 de Render), se trata como tal
     case 'PARSING_ERROR':
