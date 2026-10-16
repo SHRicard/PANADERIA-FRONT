@@ -26,6 +26,7 @@ export type ColorToken =
   | 'overlay';
 
 export type TextVariant =
+  | 'hero'
   | 'display'
   | 'heading'
   | 'title'

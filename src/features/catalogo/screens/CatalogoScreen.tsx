@@ -1,31 +1,30 @@
-import { StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Palette } from 'lucide-react-native';
-import { Button, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, type Theme } from '@/theme';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ScreenContainer } from '@/shared/ui/atoms';
+import { useStyles, useTheme, type Theme } from '@/theme';
+import { useEstiloCatalogo } from '../hooks/useEstiloCatalogo';
+import { CatalogoCartaScreen } from './CatalogoCartaScreen';
+import { CatalogoVidrieraScreen } from './CatalogoVidrieraScreen';
 
-// Placeholder de la web pública. Cuando traiga /api/catalogo, suma useRefrescar en la misma tarea
+/**
+ * La portada de la web: el catálogo con el estilo que eligió el dueño en Más → Preferencias (se guarda en
+ * el back). Espera a saberlo para no mostrar uno y saltar al otro; si el back no responde, va el de por defecto
+ */
 export function CatalogoScreen() {
+  const theme = useTheme();
   const styles = useStyles(createStyles);
-  const router = useRouter();
+  const { estilo, cargando } = useEstiloCatalogo();
 
-  return (
-    <ScreenContainer>
-      <View style={styles.contenido}>
-        <Text variant="display">Panadería Digital</Text>
-        <Text color="textMuted">Muy pronto vas a ver acá todos nuestros productos.</Text>
-        {__DEV__ && (
-          <View style={styles.dev}>
-            <Button variant="ghost" icon={Palette} label="Diseño del sistema" onPress={() => router.push('/diseno')} />
-          </View>
-        )}
-      </View>
-    </ScreenContainer>
-  );
+  if (cargando) {
+    return (
+      <ScreenContainer centered>
+        <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+      </ScreenContainer>
+    );
+  }
+  return estilo === 'vidriera' ? <CatalogoVidrieraScreen /> : <CatalogoCartaScreen />;
 }
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.sm },
-    dev: { alignItems: 'flex-start', marginTop: theme.spacing.lg },
+    cargando: { paddingVertical: theme.spacing.xxl },
   });

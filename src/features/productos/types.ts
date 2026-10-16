@@ -5,10 +5,12 @@ import type {
   paginaProductosSchema,
   productoFormSchema,
   productoSchema,
+  recomendacionSchema,
 } from './schemas';
 
 export type Imagen = z.infer<typeof imagenSchema>;
 export type Producto = z.infer<typeof productoSchema>;
+export type Recomendacion = z.infer<typeof recomendacionSchema>;
 export type PaginaProductos = z.infer<typeof paginaProductosSchema>;
 export type Categoria = z.infer<typeof categoriasSchema>[number];
 export type ProductoFormulario = z.infer<typeof productoFormSchema>;
@@ -26,14 +28,18 @@ export interface FiltrosProductos {
 }
 
 /** Lo que viaja a POST /api/productos (JSON, sin fotos: las fotos van después, por la cola) */
-export type DatosProducto = Pick<Producto, 'nombre' | 'precio' | 'categoria' | 'ingredientes' | 'disponible'> &
-  Partial<Pick<Producto, 'descripcion' | 'pesoGramos'>>;
+export type DatosProducto = Pick<
+  Producto,
+  'nombre' | 'precio' | 'categoria' | 'anticipacionHoras' | 'ingredientes' | 'disponible'
+> &
+  Partial<Pick<Producto, 'descripcion' | 'etiqueta' | 'pesoGramos'>>;
 
 /** Lo que viaja a PUT /api/productos/:id: solo lo que cambió. Un opcional en null se borra del producto */
 export type CambiosProducto = Partial<
-  Pick<DatosProducto, 'nombre' | 'precio' | 'categoria' | 'ingredientes' | 'disponible'>
+  Pick<DatosProducto, 'nombre' | 'precio' | 'categoria' | 'anticipacionHoras' | 'ingredientes' | 'disponible'>
 > & {
   descripcion?: string | null;
+  etiqueta?: string | null;
   pesoGramos?: number | null;
 };
 

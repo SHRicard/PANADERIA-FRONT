@@ -2,10 +2,9 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Pause, Pencil, Play, Trash2 } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Badge, Button, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { formatearPrecio } from '@/shared/utils';
+import { Alert, Badge, Button, CarruselFotos, ScreenContainer, Sello, Text } from '@/shared/ui/atoms';
+import { formatearPrecio, textoAnticipacion } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import { CarruselFotos } from '../components/CarruselFotos';
 import { EstadoSubida } from '../components/EstadoSubida';
 import { useProducto } from '../hooks/useProducto';
 
@@ -40,12 +39,21 @@ export function DetalleProductoScreen() {
     );
   }
 
-  const datos = [producto.categoria, producto.pesoGramos && `${producto.pesoGramos} g`].filter(Boolean).join(' · ');
+  // El dueño ve también el 0, que en la web no se muestra
+  const datos = [
+    producto.categoria,
+    producto.pesoGramos && `${producto.pesoGramos} g`,
+    textoAnticipacion(producto.anticipacionHoras) ?? 'Se pide en el momento',
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
       <View style={styles.contenido}>
-        <CarruselFotos imagenes={producto.imagenes} nombre={producto.nombre} />
+        <CarruselFotos fotos={producto.imagenes} nombre={producto.nombre} />
+        {/* La etiqueta que se ve en el catálogo, justo debajo de las fotos */}
+        {producto.etiqueta ? <Sello texto={producto.etiqueta} recto /> : null}
         <EstadoSubida
           enCola={detalle.enCola}
           onReintentar={detalle.reintentarFotos}

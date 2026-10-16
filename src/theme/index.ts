@@ -1,4 +1,5 @@
 export { ThemeProvider, useStyles, useTheme, useThemeMode, useTipografia } from './ThemeProvider';
+export { fondoDegradado, sinContornoDeFoco } from './estilosWeb';
 export { ESTILO_TIPOGRAFIA_POR_DEFECTO } from './store/estiloTipografiaSlice';
 export type { PreferenciaTema } from './store/preferenciaTemaSlice';
 export { ESTILOS_TIPOGRAFIA, useCargarFuentes, type InfoTipografia } from './tipografia';

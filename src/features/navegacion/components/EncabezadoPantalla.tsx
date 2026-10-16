@@ -2,9 +2,8 @@ import { StyleSheet, View } from 'react-native';
 import type { NativeStackHeaderProps } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Text } from '@/shared/ui/atoms';
+import { Adorno, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import { Adorno } from './Adorno';
 import { BotonRedondo } from './BotonRedondo';
 
 /**

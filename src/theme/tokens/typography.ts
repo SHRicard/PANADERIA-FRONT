@@ -8,6 +8,8 @@ export const fontSize = {
   xl: 22,
   xxl: 28,
   xxxl: 34,
+  // El título grande de la web en la compu («¿Qué se te antoja hoy?»)
+  hero: 52,
 } as const;
 
 export const lineHeight = {
@@ -18,6 +20,7 @@ export const lineHeight = {
   xl: 28,
   xxl: 34,
   xxxl: 40,
+  hero: 60,
 } as const;
 
 // Aire entre letras: solo para textos cortos en mayúsculas (la fecha arriba del título de cada pestaña)
