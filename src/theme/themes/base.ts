@@ -25,6 +25,7 @@ export function crearTipografia(estilo: EstiloTipografia): TipografiaTema {
   return {
     fonts: fuentes,
     text: {
+      hero: { fontSize: fontSize.hero, lineHeight: lineHeight.hero, fontFamily: fuentes.titulo },
       display: { fontSize: fontSize.xxxl, lineHeight: lineHeight.xxxl, fontFamily: fuentes.titulo },
       heading: { fontSize: fontSize.xxl, lineHeight: lineHeight.xxl, fontFamily: fuentes.titulo },
       title: { fontSize: fontSize.xl, lineHeight: lineHeight.xl, fontFamily: fuentes.titulo },

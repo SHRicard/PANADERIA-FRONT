@@ -44,6 +44,8 @@ export function useProductos() {
   }, [fotosEnCola]);
 
   const hayFiltros = Boolean(buscar || estado || categoria);
+  // Los de la hoja de filtros: la búsqueda ya se ve en su campo
+  const filtrosPuestos = (estado ? 1 : 0) + (categoria ? 1 : 0);
 
   return {
     productos,
@@ -73,6 +75,12 @@ export function useProductos() {
       setCategoria,
       categorias,
       hayFiltros,
+      filtrosPuestos,
+      /** Saca el estado y el gusto; la búsqueda queda */
+      limpiarHoja: () => {
+        setEstado(null);
+        setCategoria(null);
+      },
       limpiar: () => {
         setTexto('');
         setBuscar('');

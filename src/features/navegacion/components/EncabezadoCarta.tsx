@@ -1,9 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import LogoDamaBlanca from '@/shared/assets/logo-dama-blanca.svg';
-import { Text } from '@/shared/ui/atoms';
+import { Adorno, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import type { EncabezadoProps } from '../encabezado';
-import { Adorno } from './Adorno';
 import { BotonRedondo } from './BotonRedondo';
 
 /** Centrado, como la carta de una pastelería: el logo arriba, el nombre de la panadería y un adorno bajo el título */

@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Controller, type Control, type UseFormSetFocus } from 'react-hook-form';
 import { CampoTexto, Segmentado, Select, Text, type OpcionSegmentado, type OpcionSelect } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
+import { ETIQUETA_MAX } from '../schemas';
 import type { EstadoProducto, ProductoFormulario } from '../types';
 
 const ESTADOS: OpcionSegmentado<EstadoProducto>[] = [
@@ -34,6 +35,18 @@ export function CamposProducto({ control, enfocar, categorias }: CamposProductoP
         label="Nombre"
         placeholder="Medialunas de manteca"
         autoCapitalize="sentences"
+        returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => enfocar('etiqueta')}
+      />
+      <CampoTexto
+        control={control}
+        name="etiqueta"
+        label="Etiqueta"
+        placeholder="Promo lanzamiento"
+        helper={`Se ve destacada en el catálogo. Hasta ${ETIQUETA_MAX} caracteres. Opcional.`}
+        autoCapitalize="sentences"
+        maxLength={ETIQUETA_MAX}
         returnKeyType="next"
         submitBehavior="submit"
         onSubmitEditing={() => enfocar('precio')}
@@ -94,6 +107,17 @@ export function CamposProducto({ control, enfocar, categorias }: CamposProductoP
         label="Peso en gramos"
         placeholder="540"
         helper="Opcional."
+        keyboardType="number-pad"
+        returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => enfocar('anticipacionHoras')}
+      />
+      <CampoTexto
+        control={control}
+        name="anticipacionHoras"
+        label="Anticipación en horas"
+        placeholder="24"
+        helper="Con cuántas horas hay que encargarlo. 0 si se puede pedir en el momento."
         keyboardType="number-pad"
         returnKeyType="next"
         submitBehavior="submit"

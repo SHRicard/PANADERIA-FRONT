@@ -1,8 +1,7 @@
 import { StyleSheet, View } from 'react-native';
-import { Text } from '@/shared/ui/atoms';
+import { Adorno, Text } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import type { EncabezadoProps } from '../encabezado';
-import { Adorno } from './Adorno';
 import { BotonRedondo } from './BotonRedondo';
 
 /** Todo al centro: el título, la línea dorada corta y qué es el apartado. El botón redondo, en la esquina */

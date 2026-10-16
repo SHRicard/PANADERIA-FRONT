@@ -1,7 +1,7 @@
 import { memo, useState, type ReactNode, type Ref } from 'react';
 import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { sinContornoDeFoco, useStyles, useTheme, type Theme } from '@/theme';
 import { Icon } from '../Icon';
 
 export interface InputProps extends Omit<TextInputProps, 'style' | 'editable' | 'placeholderTextColor'> {
@@ -86,7 +86,7 @@ const createStyles = (theme: Theme) =>
       color: theme.colors.text,
       paddingVertical: theme.spacing.none,
       // En la web, el borde del contenedor ya marca el foco: sin el recuadro del navegador
-      outlineWidth: 0,
+      ...sinContornoDeFoco(),
     },
     // Textos largos (una descripción): más alto, con aire arriba y abajo y el texto empezando arriba
     multilinea: {

@@ -1,0 +1,1 @@
+export { PedidoScreen } from './PedidoScreen';
