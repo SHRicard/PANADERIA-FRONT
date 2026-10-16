@@ -10,9 +10,9 @@ export interface IconProps {
   color?: ColorToken;
   /**
    * Rellena el dibujo con el mismo color, translúcido para no tapar los trazos de adentro (la pestaña activa
-   * de la barra). Solo se nota en íconos con formas cerradas
+   * de la barra). Con 'lleno', macizo (las estrellas de un puntaje). Solo se nota en íconos con formas cerradas
    */
-  relleno?: boolean;
+  relleno?: boolean | 'lleno';
   trazo?: keyof Theme['iconStroke'];
   /** Solo si el ícono comunica algo por sí solo. Sin label es decorativo y el lector lo saltea */
   accessibilityLabel?: string;
@@ -42,7 +42,7 @@ function IconComponent({
         size={theme.iconSize[size]}
         color={theme.colors[color]}
         fill={relleno ? theme.colors[color] : 'none'}
-        fillOpacity={relleno ? theme.opacity.relleno : undefined}
+        fillOpacity={relleno === true ? theme.opacity.relleno : undefined}
         strokeWidth={theme.iconStroke[trazo]}
       />
     </View>

@@ -2,6 +2,7 @@ import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { recuperacionReducer } from '@/features/auth/store/recuperacionSlice';
 import { guardarToken, sesionReducer } from '@/features/auth/store/sesionSlice';
+import { carritoReducer, guardarCarrito } from '@/features/carrito/store/carritoSlice';
 import { estiloBarraReducer, guardarEstiloBarra } from '@/features/navegacion/store/estiloBarraSlice';
 import { estiloEncabezadoReducer, guardarEstiloEncabezado } from '@/features/navegacion/store/estiloEncabezadoSlice';
 import { subidaFotosReducer } from '@/features/productos/store/subidaFotosSlice';
@@ -21,6 +22,7 @@ export const store = configureStore({
     estiloBarra: estiloBarraReducer,
     estiloEncabezado: estiloEncabezadoReducer,
     subidaFotos: subidaFotosReducer,
+    carrito: carritoReducer,
   },
   middleware: (getDefault) => getDefault().prepend(persistencia.middleware).concat(baseApi.middleware),
 });
@@ -48,3 +50,4 @@ persistir((estado) => estado.preferenciaTema.preferencia, guardarPreferenciaTema
 persistir((estado) => estado.estiloTipografia.estilo, guardarEstiloTipografia);
 persistir((estado) => estado.estiloBarra.estilo, guardarEstiloBarra);
 persistir((estado) => estado.estiloEncabezado.estilo, guardarEstiloEncabezado);
+persistir((estado) => estado.carrito.items, guardarCarrito);

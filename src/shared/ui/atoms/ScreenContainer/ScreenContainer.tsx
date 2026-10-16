@@ -5,8 +5,11 @@ import { useStyles, type Theme } from '@/theme';
 
 export interface ScreenContainerProps {
   children: ReactNode;
-  /** Ancho máximo en pantallas anchas: `form` para formularios, `content` para listados */
-  width?: 'form' | 'content';
+  /**
+   * Ancho máximo en pantallas anchas: `form` para formularios, `content` para listados y `completo` sin tope,
+   * para cuando la pantalla arma su propio ancho (la carta del catálogo ocupa el 80% en la compu)
+   */
+  width?: 'form' | 'content' | 'completo';
   /** Centra el contenido en vertical (formularios cortos, como el login) */
   centered?: boolean;
   /** El `control` de `useRefrescar`, en pantallas con datos de la API */
@@ -19,6 +22,8 @@ export interface ScreenContainerProps {
   llenarAlto?: boolean;
   /** Algo fijo arriba, encima del scroll (ej.: la barra que aparece al bajar). Lo anima quien lo pasa */
   superpuesto?: ReactNode;
+  /** Algo fijo abajo, debajo del scroll: no tapa el contenido (ej.: la barra del pedido en la web) */
+  pie?: ReactNode;
   edges?: Edge[];
 }
 
@@ -33,6 +38,7 @@ export function ScreenContainer({
   alDesplazar,
   llenarAlto = false,
   superpuesto,
+  pie,
   edges = BORDES_POR_DEFECTO,
 }: ScreenContainerProps) {
   const styles = useStyles(createStyles);
@@ -58,11 +64,17 @@ export function ScreenContainer({
           scrollEventThrottle={alDesplazar ? 32 : alLlegarAlFinal && 200}
         >
           <View
-            style={[styles.contenido, width === 'form' ? styles.anchoForm : styles.anchoContenido, llenarAlto && styles.llenar]}
+            style={[
+              styles.contenido,
+              width === 'form' && styles.anchoForm,
+              width === 'content' && styles.anchoContenido,
+              llenarAlto && styles.llenar,
+            ]}
           >
             {children}
           </View>
         </ScrollView>
+        {pie}
         {/* Siempre montado mientras haya prop: así lo que entra y sale adentro puede animarse */}
         {superpuesto !== undefined && <View style={styles.superpuesto}>{superpuesto}</View>}
       </KeyboardAvoidingView>

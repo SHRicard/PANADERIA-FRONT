@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Croissant, Plus, Search, ShoppingBag, Trash2, Wheat } from 'lucide-react-native';
+import { Croissant, Plus, Search, ShoppingBag, Star, Trash2, Wheat } from 'lucide-react-native';
 import {
   ESTILO_BARRA_POR_DEFECTO,
   ESTILO_ENCABEZADO_POR_DEFECTO,
@@ -8,15 +8,20 @@ import {
 } from '@/features/navegacion';
 import LogoDamaBlanca from '@/shared/assets/logo-dama-blanca.svg';
 import {
+  Adorno,
   Alert,
   Badge,
   Button,
+  CarruselFotos,
   Icon,
   InputField,
   ScreenContainer,
   Segmentado,
+  HojaInferior,
+  ListaOpcionesHoja,
   Select,
   SelectorTema,
+  Sello,
   Text,
   type BadgeTone,
   type OpcionSegmentado,
@@ -52,6 +57,7 @@ const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
 ];
 
 const EJEMPLOS_TEXTO: { variante: TextVariant; ejemplo: string }[] = [
+  { variante: 'hero', ejemplo: '¿Qué se te antoja hoy?' },
   { variante: 'display', ejemplo: 'Panadería Digital' },
   { variante: 'heading', ejemplo: 'Promos de la semana' },
   { variante: 'title', ejemplo: 'Medialunas de manteca' },
@@ -77,12 +83,20 @@ const BADGES: { tono: BadgeTone; label: string }[] = [
   { tono: 'danger', label: 'Agotado' },
 ];
 
+const SELLOS = ['Promo lanzamiento', 'Nuevo producto', 'El gusto más elegido'];
+
 const COLORES_ICONO: ColorToken[] = ['text', 'textMuted', 'primary', 'accent', 'success', 'danger'];
+// Sin relleno, translúcido (la pestaña activa) y macizo (las estrellas de un puntaje)
+const RELLENOS_ICONO: { relleno: boolean | 'lleno'; nombre: string }[] = [
+  { relleno: false, nombre: 'sin relleno' },
+  { relleno: true, nombre: 'relleno' },
+  { relleno: 'lleno', nombre: "relleno='lleno'" },
+];
 
 export function DisenoScreen() {
   const theme = useTheme();
   const styles = useStyles(createStyles);
-  const { columnas, cargando, simularCarga, texto, setTexto, periodo, setPeriodo, gusto, setGusto } = useDiseno();
+  const { columnas, cargando, simularCarga, texto, setTexto, periodo, setPeriodo, gusto, setGusto, hojaAbierta, setHojaAbierta } = useDiseno();
   const tipografia = useTipografia();
   const tema = useThemeMode();
 
@@ -235,6 +249,31 @@ export function DisenoScreen() {
           <Select label="Gusto" opciones={[]} valor={null} alCambiar={setGusto} placeholder="Cargando gustos…" disabled />
         </Seccion>
 
+        <Seccion titulo="Adorno" descripcion="La línea dorada con el rombo: separa un encabezado del contenido. En la web el degradado sale con fondoDegradado.">
+          <Adorno forma="ancho" />
+          <Adorno forma="corto" />
+          <Adorno forma="izquierda" />
+        </Seccion>
+
+        <Seccion titulo="Carrusel de fotos" descripcion="Las fotos de un producto, de a una. Con varias: contador, puntos y, si hay ancho, flechas. Acá, sin fotos.">
+          <CarruselFotos fotos={[]} nombre="Medialunas de manteca" />
+        </Seccion>
+
+        <Seccion
+          titulo="Hoja inferior"
+          descripcion="Sube desde abajo sobre un velo. La usan el Select y los filtros de Productos; el pie queda fijo abajo."
+        >
+          <Button variant="secondary" label="Abrir la hoja" onPress={() => setHojaAbierta(true)} />
+          <HojaInferior
+            visible={hojaAbierta}
+            alCerrar={() => setHojaAbierta(false)}
+            titulo="Filtros"
+            pie={<Button label="Ver 8 productos" onPress={() => setHojaAbierta(false)} fullWidth />}
+          >
+            <ListaOpcionesHoja opciones={GUSTOS} valor={gusto} alElegir={setGusto} accessibilityLabel="Gusto" />
+          </HojaInferior>
+        </Seccion>
+
         <Seccion titulo="Segmentado" descripcion="Elegir una entre pocas opciones, todas a la vista. Lo usan el tema, la barra de pestañas y la tipografía.">
           <Segmentado opciones={PERIODOS} valor={periodo} alCambiar={setPeriodo} accessibilityLabel="Período" />
         </Seccion>
@@ -243,6 +282,14 @@ export function DisenoScreen() {
           <View style={styles.filaLibre}>
             {BADGES.map(({ tono, label }) => (
               <Badge key={tono} tone={tono} label={label} />
+            ))}
+          </View>
+        </Seccion>
+
+        <Seccion titulo="Sellos" descripcion="La etiqueta que el dueño le pone a un producto: dorada, como una estampilla. Se ve en el catálogo y en la lista del admin.">
+          <View style={styles.filaLibre}>
+            {SELLOS.map((texto) => (
+              <Sello key={texto} texto={texto} />
             ))}
           </View>
         </Seccion>
@@ -271,6 +318,16 @@ export function DisenoScreen() {
                 <Icon icon={Croissant} size="lg" color={color} />
                 <Text variant="caption" color="textMuted">
                   {color}
+                </Text>
+              </View>
+            ))}
+          </View>
+          <View style={styles.filaLibre}>
+            {RELLENOS_ICONO.map(({ relleno, nombre }) => (
+              <View key={nombre} style={styles.item}>
+                <Icon icon={Star} size="lg" color="accent" relleno={relleno} />
+                <Text variant="caption" color="textMuted">
+                  {nombre}
                 </Text>
               </View>
             ))}

@@ -1,10 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import LogoDamaBlanca from '@/shared/assets/logo-dama-blanca.svg';
-import { Text } from '@/shared/ui/atoms';
+import { Adorno, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import type { EncabezadoProps } from '../encabezado';
-import { Adorno } from './Adorno';
 import { BotonRedondo } from './BotonRedondo';
 import { IconoPestana } from './IconoPestana';
 

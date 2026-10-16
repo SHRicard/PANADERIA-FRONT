@@ -24,6 +24,7 @@ export function useDiseno() {
   const [texto, setTexto] = useState('');
   const [periodo, setPeriodo] = useState<Periodo>('hoy');
   const [gusto, setGusto] = useState<string | null>(null);
+  const [hojaAbierta, setHojaAbierta] = useState(false);
 
   // El botón de ejemplo muestra el spinner un rato y vuelve solo
   useEffect(() => {
@@ -43,5 +44,7 @@ export function useDiseno() {
     setPeriodo,
     gusto,
     setGusto,
+    hojaAbierta,
+    setHojaAbierta,
   };
 }

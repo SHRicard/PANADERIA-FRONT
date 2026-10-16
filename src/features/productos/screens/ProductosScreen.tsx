@@ -2,18 +2,11 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Croissant, Plus, Search } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, Icon, Input, Segmentado, Text, type OpcionSegmentado } from '@/shared/ui/atoms';
+import { Alert, Button, Icon, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import { ChipsCategorias } from '../components/ChipsCategorias';
+import { FiltrosProductos } from '../components/FiltrosProductos';
 import { TarjetaProducto } from '../components/TarjetaProducto';
 import { useProductos } from '../hooks/useProductos';
-import type { EstadoProducto } from '../types';
-
-const ESTADOS: OpcionSegmentado<EstadoProducto | 'todos'>[] = [
-  { valor: 'todos', label: 'Todos' },
-  { valor: 'activo', label: 'Activos' },
-  { valor: 'pausado', label: 'Pausados' },
-];
 
 const cantidad = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
@@ -34,30 +27,7 @@ export function ProductosScreen() {
     >
       <View style={styles.contenido}>
         <View style={styles.filtros}>
-          <Input
-            icon={Search}
-            value={filtros.texto}
-            onChangeText={filtros.setTexto}
-            placeholder="Buscar por nombre"
-            accessibilityLabel="Buscar por nombre"
-            autoCorrect={false}
-            returnKeyType="search"
-          />
-          <Segmentado
-            opciones={ESTADOS}
-            valor={filtros.estado ?? 'todos'}
-            alCambiar={(estado) => filtros.setEstado(estado === 'todos' ? null : estado)}
-            accessibilityLabel="Estado"
-          />
-          {filtros.categorias.length > 0 && (
-            <ChipsCategorias
-              categorias={filtros.categorias}
-              valor={filtros.categoria}
-              alCambiar={filtros.setCategoria}
-              conTodos
-              accessibilityLabel="Gusto"
-            />
-          )}
+          <FiltrosProductos filtros={filtros} total={productos.cargando ? null : productos.total} />
           {!productos.cargando && !productos.error && productos.total > 0 && (
             <Text variant="caption" color="textMuted">
               {cantidad(productos.total)}

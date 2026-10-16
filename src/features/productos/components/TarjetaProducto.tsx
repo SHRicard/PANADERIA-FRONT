@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { ChevronRight, Croissant } from 'lucide-react-native';
-import { Badge, Icon, Text } from '@/shared/ui/atoms';
+import { Badge, Icon, Sello, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
 import type { FotoEnCola } from '../store/subidaFotosSlice';
@@ -32,7 +32,7 @@ export function TarjetaProducto({ producto, enCola, onPress, onReintentar, onDes
       <Pressable
         onPress={onPress}
         accessibilityRole="button"
-        accessibilityLabel={`${producto.nombre}, ${formatearPrecio(producto.precio)}`}
+        accessibilityLabel={[producto.nombre, producto.etiqueta, formatearPrecio(producto.precio)].filter(Boolean).join(', ')}
         accessibilityHint="Ver el detalle"
         style={({ pressed }) => [styles.fila, pressed && styles.presionada]}
       >
@@ -58,8 +58,12 @@ export function TarjetaProducto({ producto, enCola, onPress, onReintentar, onDes
               {detalle}
             </Text>
           ) : null}
-          <View style={styles.etiquetas}>
-            {!producto.disponible && <Badge tone="neutral" label="Pausado" />}
+          {/* Al principio, la etiqueta que se ve en el catálogo y si está pausado; al final, cuántas fotos tiene */}
+          <View style={styles.pie}>
+            <View style={styles.etiquetas}>
+              {producto.etiqueta ? <Sello texto={producto.etiqueta} recto /> : null}
+              {!producto.disponible && <Badge tone="neutral" label="Pausado" />}
+            </View>
             <Text variant="caption" color="textMuted">
               {cantidadDeFotos(producto.imagenes.length)}
             </Text>
@@ -103,6 +107,7 @@ const createStyles = (theme: Theme) =>
     // Cifras de ancho fijo: los precios de la lista quedan parejos
     precio: { fontVariant: ['tabular-nums'] },
     nombre: { flex: 1 },
-    etiquetas: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: theme.spacing.sm },
+    pie: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm },
+    etiquetas: { flex: 1, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: theme.spacing.sm },
     flecha: { justifyContent: 'center' },
   });
