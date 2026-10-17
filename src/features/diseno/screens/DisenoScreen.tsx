@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Croissant, Plus, Search, ShoppingBag, Star, Trash2, Wheat } from 'lucide-react-native';
+import { Croissant, MessageCircle, Plus, Search, ShoppingBag, Star, Trash2, Wheat } from 'lucide-react-native';
 import {
   ESTILO_BARRA_POR_DEFECTO,
   ESTILO_ENCABEZADO_POR_DEFECTO,
@@ -52,7 +52,7 @@ const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
   { titulo: 'Marca', tokens: ['primary', 'primaryPressed', 'onPrimary', 'primarySoft', 'accent', 'onAccent'] },
   {
     titulo: 'Estados',
-    tokens: ['success', 'successSoft', 'warning', 'warningSoft', 'danger', 'dangerSoft'],
+    tokens: ['success', 'successSoft', 'successStrong', 'successStrongPressed', 'onSuccess', 'warning', 'warningSoft', 'danger', 'dangerSoft'],
   },
 ];
 
@@ -209,6 +209,12 @@ export function DisenoScreen() {
             <Button icon={Plus} label="Nuevo producto" onPress={simularCarga} />
             <Button variant="danger" icon={Trash2} label="Eliminar" onPress={simularCarga} />
             <Button label="Deshabilitado" onPress={simularCarga} disabled />
+          </View>
+          <View style={styles.filaLibre}>
+            <Button variant="success" icon={MessageCircle} label="WhatsApp" onPress={simularCarga} />
+            <Text variant="caption" color="textMuted">
+              variant="success": todo lo que abre WhatsApp
+            </Text>
           </View>
           <Button icon={ShoppingBag} label="Ancho completo" onPress={simularCarga} fullWidth />
           <View style={styles.filaLibre}>

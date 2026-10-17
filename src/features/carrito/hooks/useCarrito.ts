@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useRouter } from 'expo-router';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { MAX_UNIDADES, ponerCantidad, vaciarCarrito } from '../store/carritoSlice';
+import { MAX_UNIDADES, ponerCantidad } from '../store/carritoSlice';
 
 /** El carrito del navegador: qué productos y cuántos. Los precios los da la cotización (useCotizacion) */
 export function useCarrito() {
@@ -18,7 +18,6 @@ export function useCarrito() {
     cantidadDe: (productoId: string): number => cantidades[productoId] ?? 0,
     /** Con 0 lo saca del carrito */
     cambiarCantidad: (productoId: string, cantidad: number) => dispatch(ponerCantidad({ productoId, cantidad })),
-    vaciar: () => dispatch(vaciarCarrito()),
     abrirPedido: () => router.push('/pedido'),
   };
 }

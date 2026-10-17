@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { BotonCarrito } from '@/features/carrito';
 import LogoDamaBlanca from '@/shared/assets/logo-dama-blanca.svg';
 import { useBreakpoint } from '@/shared/hooks';
 import { Text } from '@/shared/ui/atoms';
@@ -7,19 +8,15 @@ import { useStyles, useTheme, type Theme } from '@/theme';
 import { saludoSegunHora } from '../textos';
 
 interface CabeceraBienvenidaProps {
-  /** Cuántos productos activos hay y en cuántos gustos. null mientras cargan */
-  resumen: { productos: number; gustos: number } | null;
   /** Los filtros (el buscador y el gusto): van al final de la bienvenida */
   children: ReactNode;
 }
 
-const cantidad = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
-
 /**
- * Arriba de la carta: una barra con la marca y cuántos productos hay, y abajo la bienvenida (el saludo según
+ * Arriba de la carta: una barra con la marca y el botón del carrito, y abajo la bienvenida (el saludo según
  * la hora, «¿Qué se te antoja hoy?», dos líneas y los filtros). Alineada a la izquierda, como una página web
  */
-export function CabeceraBienvenida({ resumen, children }: CabeceraBienvenidaProps) {
+export function CabeceraBienvenida({ children }: CabeceraBienvenidaProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const enCompu = useBreakpoint() === 'compu';
@@ -34,11 +31,7 @@ export function CabeceraBienvenida({ resumen, children }: CabeceraBienvenidaProp
             Horneados
           </Text>
         </View>
-        {resumen && (
-          <Text variant="caption" color="textMuted" align="right">
-            {`${cantidad(resumen.productos)} · ${resumen.gustos} ${resumen.gustos === 1 ? 'gusto' : 'gustos'}`}
-          </Text>
-        )}
+        <BotonCarrito />
       </View>
 
       <View style={[styles.bienvenida, enCompu && styles.bienvenidaCompu]}>
