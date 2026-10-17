@@ -41,5 +41,9 @@ export const createStyles = (theme: Theme) =>
     dangerPressed: { backgroundColor: theme.colors.dangerSoft },
     dangerLabel: { color: theme.colors.danger },
 
+    success: { backgroundColor: theme.colors.successStrong },
+    successPressed: { backgroundColor: theme.colors.successStrongPressed },
+    successLabel: { color: theme.colors.onSuccess },
+
     disabled: { opacity: theme.opacity.disabled },
   });

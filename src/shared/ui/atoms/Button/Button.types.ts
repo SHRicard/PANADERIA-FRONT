@@ -1,7 +1,10 @@
 import type { LucideIcon } from 'lucide-react-native';
 
-/** `danger`: acciones que borran algo y no se pueden deshacer */
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+/**
+ * `danger`: acciones que borran algo y no se pueden deshacer. `success`: verde con el texto blanco; lo usa todo lo que abre WhatsApp
+ * (hablar con el cliente o con el dueño), así se reconoce de un vistazo
+ */
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'success';
 
 /** `sm`: una píldora más chica, para acciones al lado de un título (ej.: «Nuevo» en Productos) */
 export type ButtonSize = 'md' | 'sm';

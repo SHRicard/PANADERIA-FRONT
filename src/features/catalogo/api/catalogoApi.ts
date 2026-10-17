@@ -3,6 +3,9 @@ import { baseApi } from '@/services/api';
 import { paginaCatalogoSchema, recomendacionCreadaSchema } from '../schemas';
 import type { ConsultaCatalogo, NuevaRecomendacion, PaginaCatalogo, RecomendacionCreada } from '../types';
 
+/** El máximo que acepta el back por página: la carta lo pide todo de una (y de ahí sale la anticipación del pedido) */
+export const TODO_EL_CATALOGO = 100;
+
 // El back guarda las últimas 50 de cada producto
 const RECOMENDACIONES_MAX = 50;
 

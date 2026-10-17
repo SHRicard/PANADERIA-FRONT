@@ -8,10 +8,8 @@ import { EstadoCatalogo, FinDeLista, PieCatalogo } from '../components/AvisosCat
 import { CabeceraBienvenida } from '../components/CabeceraBienvenida';
 import { FiltrosCarta } from '../components/FiltrosCarta';
 import { SeccionCarta } from '../components/SeccionCarta';
+import { TODO_EL_CATALOGO } from '../api/catalogoApi';
 import { useCatalogo } from '../hooks/useCatalogo';
-
-// Todo de una (el máximo del back): la carta se lee entera, agrupada por gusto
-const POR_PAGINA = 100;
 
 /**
  * El catálogo como carta: agrupado por gusto, con la descripción a la vista y el precio a la derecha.
@@ -20,7 +18,8 @@ const POR_PAGINA = 100;
 export function CatalogoCartaScreen() {
   const styles = useStyles(createStyles);
   const enCompu = useBreakpoint() === 'compu';
-  const catalogo = useCatalogo(POR_PAGINA);
+  // Todo de una: la carta se lee entera, agrupada por gusto
+  const catalogo = useCatalogo(TODO_EL_CATALOGO);
   const { filtros } = catalogo;
   const refresco = useRefrescar(catalogo.refrescar);
   const carrito = useCarrito();
@@ -42,7 +41,7 @@ export function CatalogoCartaScreen() {
       pie={<BarraCarrito />}
     >
       <View style={[styles.hoja, enCompu && styles.hojaCompu]}>
-        <CabeceraBienvenida resumen={catalogo.resumen}>
+        <CabeceraBienvenida>
           <FiltrosCarta
             texto={filtros.texto}
             setTexto={filtros.setTexto}

@@ -3,15 +3,21 @@ import { CircleCheck } from 'lucide-react-native';
 import { Adorno, Button, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
+import type { Cobro, Entrega } from '../sena';
 import type { PedidoCreado } from '../types';
+import { PagoSena } from './PagoSena';
+import { ResumenPedido } from './ResumenPedido';
 
 interface PedidoConfirmadoProps {
   pedido: PedidoCreado;
+  /** La seña y el resto: con la seña empiezan a prepararlo */
+  cobro: Cobro | null;
+  entrega: Entrega | null;
   alVolver: () => void;
 }
 
-/** Después de confirmar: el pedido como quedó en el back (con los precios que cobró) */
-export function PedidoConfirmado({ pedido, alVolver }: PedidoConfirmadoProps) {
+/** Después de confirmar: el pedido como quedó en el back (con los precios que cobró), la seña y cuándo está listo */
+export function PedidoConfirmado({ pedido, cobro, entrega, alVolver }: PedidoConfirmadoProps) {
   const styles = useStyles(createStyles);
 
   return (
@@ -22,7 +28,7 @@ export function PedidoConfirmado({ pedido, alVolver }: PedidoConfirmadoProps) {
           ¡Recibimos tu pedido!
         </Text>
         <Text color="textMuted" align="center">
-          Te vamos a contactar al teléfono que dejaste para coordinar la entrega.
+          Te vamos a contactar al teléfono que dejaste para coordinar la seña y la entrega.
         </Text>
       </View>
       <Adorno forma="izquierda" />
@@ -35,14 +41,18 @@ export function PedidoConfirmado({ pedido, alVolver }: PedidoConfirmadoProps) {
             <Text style={styles.cifra}>{formatearPrecio(item.precio * item.cantidad)}</Text>
           </View>
         ))}
-        <View style={[styles.fila, styles.total]}>
-          <Text variant="subtitle">Total</Text>
-          <Text variant="subtitle" style={styles.cifra}>
-            {formatearPrecio(pedido.total)}
-          </Text>
+        <View style={styles.cuentas}>
+          <ResumenPedido
+            unidades={pedido.items.reduce((suma, { cantidad }) => suma + cantidad, 0)}
+            total={pedido.total}
+            cobro={cobro}
+            entrega={entrega}
+          />
         </View>
       </View>
-      <Button label="Volver al catálogo" onPress={alVolver} fullWidth />
+      {/* Cómo pagar la seña: transferencia o, en efectivo, por WhatsApp */}
+      {cobro && <PagoSena pedido={pedido} sena={cobro.sena} />}
+      <Button variant="ghost" label="Volver al catálogo" onPress={alVolver} fullWidth />
     </View>
   );
 }
@@ -54,6 +64,6 @@ const createStyles = (theme: Theme) =>
     lista: { gap: theme.spacing.sm },
     fila: { flexDirection: 'row', justifyContent: 'space-between', gap: theme.spacing.md },
     nombre: { flex: 1 },
-    total: { paddingTop: theme.spacing.sm, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.colors.border },
+    cuentas: { paddingTop: theme.spacing.md, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.colors.border },
     cifra: { fontVariant: ['tabular-nums'] },
   });
