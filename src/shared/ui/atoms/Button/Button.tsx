@@ -1,9 +1,18 @@
 import { memo } from 'react';
 import { ActivityIndicator, Pressable, Text } from 'react-native';
-import { useStyles, useTheme } from '@/theme';
+import { useStyles, useTheme, type ColorToken } from '@/theme';
 import { Icon } from '../Icon';
 import { createStyles } from './Button.styles';
-import type { ButtonProps } from './Button.types';
+import type { ButtonProps, ButtonVariant } from './Button.types';
+
+/** El color del ícono y del spinner: el mismo que el del texto */
+const COLOR_CONTENIDO: Record<ButtonVariant, ColorToken> = {
+  primary: 'onPrimary',
+  secondary: 'primary',
+  ghost: 'primary',
+  danger: 'danger',
+  success: 'onSuccess',
+};
 
 function ButtonComponent({
   label,
@@ -20,7 +29,7 @@ function ButtonComponent({
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const bloqueado = disabled || loading;
-  const colorContenido = variant === 'primary' ? 'onPrimary' : variant === 'danger' ? 'danger' : 'primary';
+  const colorContenido = COLOR_CONTENIDO[variant];
 
   return (
     <Pressable

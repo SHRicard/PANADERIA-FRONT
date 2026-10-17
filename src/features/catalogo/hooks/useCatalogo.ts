@@ -35,19 +35,9 @@ export function useCatalogo(porPagina: number) {
   const categorias = useListarCategoriasQuery();
   // Para la web, solo los gustos que tienen productos activos, con cuántos tiene cada uno
   const gustos = useMemo(() => categorias.data?.filter(({ cantidad }) => cantidad > 0) ?? [], [categorias.data]);
-  // Todo el catálogo, sin filtros: sale de los gustos (cada uno trae cuántos productos activos tiene)
-  const resumen = useMemo(
-    () =>
-      categorias.data
-        ? { productos: categorias.data.reduce((suma, { cantidad }) => suma + cantidad, 0), gustos: gustos.length }
-        : null,
-    [categorias.data, gustos.length],
-  );
 
   return {
     productos,
-    /** Cuántos productos activos hay en total y en cuántos gustos. null mientras cargan */
-    resumen,
     /** Cuántos hay con estos filtros, contando los que todavía no se cargaron */
     total: paginas?.[0]?.totalProductos ?? 0,
     cargando: !paginas && consulta.isFetching,

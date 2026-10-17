@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ShoppingBag } from 'lucide-react-native';
 import { useBreakpoint } from '@/shared/hooks';
@@ -7,6 +6,7 @@ import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
 import { useCarrito } from '../hooks/useCarrito';
 import { useCotizacion } from '../hooks/useCotizacion';
+import { useEnNavegador } from '../hooks/useEnNavegador';
 
 const unidades = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
@@ -19,11 +19,10 @@ export function BarraCarrito() {
   const enCompu = useBreakpoint() === 'compu';
   const carrito = useCarrito();
   const { cotizacion } = useCotizacion(carrito.items);
-  // La web se prerenderiza sin carrito (no hay localStorage en el servidor): aparece recién en el navegador
-  const [montada, setMontada] = useState(false);
-  useEffect(() => setMontada(true), []);
+  // La web se prerenderiza sin carrito: aparece recién en el navegador
+  const enNavegador = useEnNavegador();
 
-  if (!montada || carrito.unidades === 0) return null;
+  if (!enNavegador || carrito.unidades === 0) return null;
 
   return (
     <View style={styles.barra}>

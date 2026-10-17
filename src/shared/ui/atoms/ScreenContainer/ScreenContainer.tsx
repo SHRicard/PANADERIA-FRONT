@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View, type ScrollViewProps } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 import { useStyles, type Theme } from '@/theme';
@@ -42,6 +42,12 @@ export function ScreenContainer({
   edges = BORDES_POR_DEFECTO,
 }: ScreenContainerProps) {
   const styles = useStyles(createStyles);
+  // Dónde empieza la pantalla en la ventana: debajo del header del Stack, si hay (Billetera, editar un
+  // producto…). El KeyboardAvoidingView mide su lugar relativo al padre, no a la ventana: sin sumarle esto,
+  // se quedaba corto justo el alto del header y el teclado tapaba los últimos campos
+  const pantalla = useRef<View>(null);
+  const [arriba, setArriba] = useState(0);
+  const medir = () => pantalla.current?.measureInWindow((_x, y) => setArriba(y));
 
   const escuchaScroll = Boolean(alLlegarAlFinal || alDesplazar);
   const alScrollear: ScrollViewProps['onScroll'] = ({ nativeEvent: { layoutMeasurement, contentOffset, contentSize } }) => {
@@ -51,9 +57,9 @@ export function ScreenContainer({
   };
 
   return (
-    <SafeAreaView edges={edges} style={styles.fondo}>
+    <SafeAreaView ref={pantalla} onLayout={medir} edges={edges} style={styles.fondo}>
       {/* También en Android: con edge-to-edge (SDK 54+) el adjustResize ya no achica la ventana y el teclado tapaba los inputs */}
-      <KeyboardAvoidingView behavior="padding" style={styles.flex}>
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={arriba} style={styles.flex}>
         <ScrollView
           style={styles.flex}
           contentContainerStyle={[styles.scroll, width === 'form' && styles.scrollForm, centered && styles.centrado]}

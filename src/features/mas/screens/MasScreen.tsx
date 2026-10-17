@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { LogOut, Palette, Settings } from 'lucide-react-native';
+import { LogOut, Palette, Settings, Wallet } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useStyles, type Theme } from '@/theme';
 import { OpcionMenu } from '../components/OpcionMenu';
@@ -18,6 +18,16 @@ export function MasScreen() {
       <View style={styles.cuerpo}>
         <View style={styles.arriba}>
           <TarjetaUsuario usuario={mas.usuario} />
+
+          {/* El negocio: lo que ven los clientes para pagar */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={Wallet}
+              titulo="Billetera"
+              descripcion="La cuenta a la que te transfieren la seña"
+              onPress={mas.abrirBilletera}
+            />
+          </View>
 
           <View style={styles.grupo}>
             <OpcionMenu

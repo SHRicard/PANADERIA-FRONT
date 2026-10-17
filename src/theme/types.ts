@@ -18,6 +18,10 @@ export type ColorToken =
   | 'onAccent'
   | 'success'
   | 'successSoft'
+  // El botón verde (WhatsApp): relleno con texto blanco, oscuro en los dos modos para que el blanco se lea
+  | 'successStrong'
+  | 'successStrongPressed'
+  | 'onSuccess'
   | 'warning'
   | 'warningSoft'
   | 'danger'

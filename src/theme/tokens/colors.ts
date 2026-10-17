@@ -31,6 +31,7 @@ export const palette = {
   verde50: '#E5F2EA',
   verde300: '#6CC08A',
   verde700: '#2F7D4A',
+  verde800: '#25643B',
   verde900: '#1C3324',
 
   ambar50: '#FBF0DC',
