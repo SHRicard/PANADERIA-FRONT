@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { ClipboardPlus, LogOut, Palette, Settings, Wallet } from 'lucide-react-native';
+import { ClipboardPlus, LogOut, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useStyles, type Theme } from '@/theme';
 import { OpcionMenu } from '../components/OpcionMenu';
@@ -26,6 +26,16 @@ export function MasScreen() {
               titulo="Pedido manual"
               descripcion="Cargá un pedido que te hicieron por WhatsApp o en persona"
               onPress={mas.abrirPedidoManual}
+            />
+          </View>
+
+          {/* Los gastos: lo que compra para producir */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={Wheat}
+              titulo="Insumos"
+              descripcion="Lo que comprás para producir y cuánto pagaste"
+              onPress={mas.abrirInsumos}
             />
           </View>
 
