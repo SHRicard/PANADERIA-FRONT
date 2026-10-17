@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { Badge, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
-import { ESTADO, fechaYHora, textoUnidades } from '../textos';
+import { ESTADO, fechaYHora, MARCA_MANUAL, textoUnidades } from '../textos';
 import type { Pedido } from '../types';
 
 interface TarjetaPedidoProps {
@@ -38,7 +38,10 @@ export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
           {fechaYHora(pedido.createdAt)} · {textoUnidades(unidades)}
         </Text>
         <View style={styles.fila}>
-          <Badge tone={estado.tone} label={estado.label} />
+          <View style={styles.marcas}>
+            <Badge tone={estado.tone} label={estado.label} />
+            {pedido.origen === 'manual' && <Badge tone="neutral" label={MARCA_MANUAL} />}
+          </View>
           {/* Con seña, lo que falta cobrar al entregar */}
           {pedido.estado === 'confirmado' && (
             <Text variant="caption" color="textMuted" style={styles.cifra}>
@@ -69,6 +72,7 @@ const createStyles = (theme: Theme) =>
     datos: { flex: 1, gap: theme.spacing.xs },
     fila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: theme.spacing.sm },
     nombre: { flex: 1 },
+    marcas: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.xs, flexShrink: 1 },
     cifra: { fontVariant: ['tabular-nums'] },
     flecha: { justifyContent: 'center' },
   });

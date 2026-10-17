@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { LogOut, Palette, Settings, Wallet } from 'lucide-react-native';
+import { ClipboardPlus, LogOut, Palette, Settings, Wallet } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useStyles, type Theme } from '@/theme';
 import { OpcionMenu } from '../components/OpcionMenu';
@@ -18,6 +18,16 @@ export function MasScreen() {
       <View style={styles.cuerpo}>
         <View style={styles.arriba}>
           <TarjetaUsuario usuario={mas.usuario} />
+
+          {/* Los pedidos que llegan por fuera de la web: la app como agenda */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={ClipboardPlus}
+              titulo="Pedido manual"
+              descripcion="Cargá un pedido que te hicieron por WhatsApp o en persona"
+              onPress={mas.abrirPedidoManual}
+            />
+          </View>
 
           {/* El negocio: lo que ven los clientes para pagar */}
           <View style={styles.grupo}>

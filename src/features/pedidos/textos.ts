@@ -10,6 +10,9 @@ export const ESTADO: Record<EstadoPedido, { label: string; tone: BadgeTone }> = 
   cancelado: { label: 'Cancelado', tone: 'neutral' },
 };
 
+/** Los pedidos que cargó el dueño llevan esta marca en la lista y en el detalle */
+export const MARCA_MANUAL = 'Cargado a mano';
+
 const hora = new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 
 /** "2026-10-16T21:08:13.392Z" → "viernes 16 de octubre, 18:08" (en la hora del celular) */
