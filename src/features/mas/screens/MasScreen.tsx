@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { ClipboardPlus, LogOut, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
+import { ClipboardPlus, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useStyles, type Theme } from '@/theme';
 import { OpcionMenu } from '../components/OpcionMenu';
@@ -36,6 +36,16 @@ export function MasScreen() {
               titulo="Insumos"
               descripcion="Lo que comprás para producir y cuánto pagaste"
               onPress={mas.abrirInsumos}
+            />
+          </View>
+
+          {/* La difusión: lo que publica en su estado de WhatsApp */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={Megaphone}
+              titulo="Promos"
+              descripcion="Fotos y videos para compartir en tu estado"
+              onPress={mas.abrirPromos}
             />
           </View>
 
