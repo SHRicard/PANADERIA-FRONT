@@ -1,13 +1,13 @@
 import { baseApi } from '@/services/api';
-import { detallePedidoSchema, paginaPedidosSchema } from '../schemas';
-import type { DetallePedido, FiltrosPedidos, PaginaPedidos } from '../types';
+import { clientesSchema, detallePedidoSchema, paginaPedidosSchema } from '../schemas';
+import type { ClienteGuardado, DetallePedido, FiltrosPedidos, NuevoPedidoManual, PaginaPedidos } from '../types';
 
 /** Pedidos por página. El back acepta hasta 100 */
 const POR_PAGINA = 20;
 /** Las listas (con cualquier filtro). Cada detalle tiene su propio tag: { type: 'Pedido', id } */
 const LISTA = { type: 'Pedido', id: 'LISTA' } as const;
 
-export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido'] }).injectEndpoints({
+export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido', 'Cliente'] }).injectEndpoints({
   endpoints: (build) => {
     // Cada acción responde el detalle actualizado: se guarda en la caché del detalle (sin otro pedido)
     // y se recargan las listas, porque el pedido cambió de estado
@@ -72,6 +72,31 @@ export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido'] }).
       cancelarPedido: accion('cancelacion', 'PUT'),
       /** Vuelve a confirmado si tiene seña, si no a pendiente */
       quitarCancelacion: accion('cancelacion', 'DELETE'),
+
+      /**
+       * Un pedido que le hicieron al dueño por fuera de la web (WhatsApp, en persona). Responde el detalle: se guarda
+       * en su caché para abrirlo sin otro pedido. Puede sumar un cliente nuevo: recarga la lista de clientes
+       */
+      crearPedidoManual: build.mutation<DetallePedido, NuevoPedidoManual>({
+        query: (pedido) => ({ url: '/pedidos/manuales', method: 'POST', body: pedido }),
+        rawResponseSchema: detallePedidoSchema,
+        invalidatesTags: [LISTA, 'Cliente'],
+        async onQueryStarted(_pedido, { dispatch, queryFulfilled }): Promise<void> {
+          try {
+            const { data } = await queryFulfilled;
+            dispatch(pedidosApi.util.upsertQueryData('obtenerPedido', data._id, data));
+          } catch {
+            // El error lo muestra el formulario
+          }
+        },
+      }),
+
+      /** Los que ya hicieron algún pedido: para elegir uno en el pedido manual sin escribir su teléfono */
+      listarClientes: build.query<ClienteGuardado[], void>({
+        query: () => '/clientes',
+        rawResponseSchema: clientesSchema,
+        providesTags: ['Cliente'],
+      }),
     };
   },
 });
@@ -85,4 +110,6 @@ export const {
   useQuitarEntregaMutation,
   useCancelarPedidoMutation,
   useQuitarCancelacionMutation,
+  useCrearPedidoManualMutation,
+  useListarClientesQuery,
 } = pedidosApi;
