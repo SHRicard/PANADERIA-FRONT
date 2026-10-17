@@ -19,6 +19,10 @@ export default function AdminLayout() {
         <Stack.Screen name="preferencias" options={{ headerShown: true, title: 'Preferencias' }} />
         <Stack.Screen name="billetera" options={{ headerShown: true, title: 'Billetera' }} />
         <Stack.Screen name="pedido-manual" options={{ headerShown: true, title: 'Pedido manual' }} />
+        <Stack.Screen name="insumos/index" options={{ headerShown: true, title: 'Insumos' }} />
+        <Stack.Screen name="insumos/nuevo" options={{ headerShown: true, title: 'Nuevo insumo' }} />
+        <Stack.Screen name="insumos/[id]/index" options={{ headerShown: true, title: 'Insumo' }} />
+        <Stack.Screen name="insumos/[id]/actualizar" options={{ headerShown: true, title: 'Actualizar insumo' }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!haySesion}>
