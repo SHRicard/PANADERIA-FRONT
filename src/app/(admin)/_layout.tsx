@@ -26,6 +26,7 @@ export default function AdminLayout() {
         <Stack.Screen name="promos/index" options={{ headerShown: true, title: 'Promos' }} />
         <Stack.Screen name="promos/nueva" options={{ headerShown: true, title: 'Nueva promo' }} />
         <Stack.Screen name="promos/[id]" options={{ headerShown: true, title: 'Editar promo' }} />
+        <Stack.Screen name="memoria" options={{ headerShown: true, title: 'Memoria' }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!haySesion}>
