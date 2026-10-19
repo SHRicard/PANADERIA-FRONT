@@ -11,6 +11,7 @@ export function useMas() {
   return {
     usuario,
     abrirPedidoManual: () => router.push('/pedido-manual'),
+    abrirMetricas: () => router.push('/metricas'),
     abrirInsumos: () => router.push('/insumos'),
     abrirPromos: () => router.push('/promos'),
     abrirBilletera: () => router.push('/billetera'),

@@ -26,6 +26,8 @@ export const lightTheme: TemaSinTipografia = {
     warningSoft: palette.ambar50,
     danger: palette.rojo700,
     dangerSoft: palette.rojo50,
+    grafico1: palette.corteza600,
+    grafico2: palette.manteca400,
     shadow: palette.sombraTostada,
     overlay: palette.veloTostado,
   },

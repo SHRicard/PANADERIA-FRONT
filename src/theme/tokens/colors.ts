@@ -17,6 +17,10 @@ export const palette = {
   manteca300: '#F0C063',
   manteca400: '#E2A93B',
 
+  // Las dos series de los gráficos en el modo oscuro: más apagadas que corteza y manteca, que ahí no se distinguen
+  teja600: '#9F5226',
+  miel600: '#BB8C2A',
+
   tostado50: '#F5EBDD',
   tostado300: '#BBA68E',
   tostado600: '#6E5A47',

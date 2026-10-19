@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
-import { ClipboardPlus, HardDrive, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
+import { ChartColumn, ClipboardPlus, HardDrive, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
+import { OpcionMenu } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
-import { OpcionMenu } from '../components/OpcionMenu';
 import { TarjetaUsuario } from '../components/TarjetaUsuario';
 import { useMas } from '../hooks/useMas';
 
@@ -26,6 +26,16 @@ export function MasScreen() {
               titulo="Pedido manual"
               descripcion="Cargá un pedido que te hicieron por WhatsApp o en persona"
               onPress={mas.abrirPedidoManual}
+            />
+          </View>
+
+          {/* Los números del negocio: lo que se vende, lo que se gasta y lo que queda */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={ChartColumn}
+              titulo="Métricas"
+              descripcion="Ventas, pedidos, clientes, gastos y lo que te queda"
+              onPress={mas.abrirMetricas}
             />
           </View>
 

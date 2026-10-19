@@ -4,6 +4,7 @@ import { Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
 import { fechaLarga } from '../fechas';
+import { textoCantidad, textoPrecioPorUnidad } from '../textos';
 import type { Insumo } from '../types';
 
 interface TarjetaInsumoProps {
@@ -11,7 +12,7 @@ interface TarjetaInsumoProps {
   onPress: () => void;
 }
 
-/** Un insumo en la lista: el nombre, lo que pagó la última vez y cuándo */
+/** Un insumo en la lista: el nombre, lo que pagó la última vez, cuánto vino y cuándo */
 export function TarjetaInsumo({ insumo, onPress }: TarjetaInsumoProps) {
   const styles = useStyles(createStyles);
 
@@ -32,6 +33,11 @@ export function TarjetaInsumo({ insumo, onPress }: TarjetaInsumoProps) {
             {formatearPrecio(insumo.precio)}
           </Text>
         </View>
+        {insumo.cantidad && insumo.unidad ? (
+          <Text variant="caption" color="textMuted">
+            {textoCantidad(insumo.cantidad, insumo.unidad)} · {textoPrecioPorUnidad(insumo)}
+          </Text>
+        ) : null}
         <Text variant="caption" color="textMuted">
           Última compra: {fechaLarga(insumo.fecha)}
         </Text>

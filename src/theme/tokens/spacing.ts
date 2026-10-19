@@ -53,6 +53,10 @@ export const sizes = {
   manijaAlto: 4,
   // El numerito sobre un botón (cuántos filtros hay puestos)
   insignia: 20,
+  // Alto de los gráficos de Métricas: el del balance, el de los días de la semana y el mini de una fila
+  grafico: 160,
+  graficoChico: 96,
+  graficoMini: 28,
 } as const;
 
 export const iconSize = {

@@ -1,7 +1,15 @@
 import { z } from 'zod';
 import { deEscrita, hoy } from './fechas';
 
-export const CAMPOS_INSUMO = ['nombre', 'precio', 'fecha'] as const;
+export const CAMPOS_INSUMO = ['nombre', 'precio', 'fecha', 'cantidad', 'unidad'] as const;
+
+/** En qué se mide lo que vino en la compra: 25 kg de harina, 5 l de leche, 30 huevos */
+export const UNIDADES_INSUMO = ['kg', 'l', 'unidad'] as const;
+/** Hasta cuánto acepta el back */
+export const CANTIDAD_INSUMO_MAX = 100000;
+
+/** Cuánto vino en la compra. Las cargadas antes de que existiera no lo tienen (van juntas: las dos o ninguna) */
+const tamano = { cantidad: z.number().positive().optional(), unidad: z.enum(UNIDADES_INSUMO).optional() };
 
 /** Una entrada del historial: cómo quedó el insumo después del alta o de una actualización */
 export const logInsumoSchema = z.object({
@@ -11,6 +19,7 @@ export const logInsumoSchema = z.object({
   precio: z.number(),
   /** El día de la compra, AAAA-MM-DD */
   fecha: z.string(),
+  ...tamano,
   /** Qué cambió respecto de la entrada anterior. En el alta, vacío */
   cambios: z.array(z.enum(CAMPOS_INSUMO)),
   /** Cuándo se cargó en la app (no es el día de la compra) */
@@ -25,6 +34,7 @@ export const insumoSchema = z.object({
   precio: z.number().positive(),
   /** El día de la última compra, AAAA-MM-DD */
   fecha: z.string(),
+  ...tamano,
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -56,6 +66,15 @@ export const formularioInsumoSchema = z.object({
     .min(1, 'Escribí cuánto pagaste')
     .regex(/^\d+$/, 'Solo números, sin puntos ni comas')
     .refine((valor) => Number(valor) > 0, 'Tiene que ser mayor que 0'),
+  // Con decimales (0,5 kg de levadura): coma o punto, hasta 3 decimales
+  cantidad: z
+    .string()
+    .trim()
+    .min(1, 'Escribí cuánto vino')
+    .regex(/^\d+([.,]\d{1,3})?$/, 'Solo números: 25, o 0,5')
+    .refine((valor) => Number(valor.replace(',', '.')) > 0, 'Tiene que ser mayor que 0')
+    .refine((valor) => Number(valor.replace(',', '.')) <= CANTIDAD_INSUMO_MAX, `Puede ser hasta ${CANTIDAD_INSUMO_MAX}`),
+  unidad: z.enum(UNIDADES_INSUMO),
   /** DD/MM/AAAA, como se escribe acá */
   fecha: z
     .string()

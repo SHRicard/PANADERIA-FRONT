@@ -10,6 +10,7 @@ export * from './Icon';
 export * from './Input';
 export * from './InputField';
 export * from './Miniatura';
+export * from './OpcionMenu';
 export * from './ScreenContainer';
 export * from './Segmentado';
 export * from './Select';
