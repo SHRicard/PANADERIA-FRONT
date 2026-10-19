@@ -5,6 +5,7 @@ import { formatearPrecio } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { CamposInsumo } from '../components/CamposInsumo';
 import { fechaLarga } from '../fechas';
+import { textoCantidad } from '../textos';
 import { useFormularioInsumo } from '../hooks/useFormularioInsumo';
 import type { ModoFormularioInsumo } from '../types';
 
@@ -34,11 +35,20 @@ function FormularioInsumo({ modo, id }: { modo: ModoFormularioInsumo; id?: strin
             )}
             {modo === 'compra' && insumo && (
               <Text color="textMuted">
-                {insumo.nombre}: la última vez pagaste {formatearPrecio(insumo.precio)}, el {fechaLarga(insumo.fecha)}.
+                {insumo.nombre}: la última vez pagaste {formatearPrecio(insumo.precio)}
+                {insumo.cantidad && insumo.unidad ? ` por ${textoCantidad(insumo.cantidad, insumo.unidad)}` : ''}, el{' '}
+                {fechaLarga(insumo.fecha)}.
               </Text>
             )}
             {modo === 'corregir' && (
               <Text color="textMuted">Para arreglar un dato mal cargado. El cambio queda en el historial.</Text>
+            )}
+            {/* Los cargados antes no dicen cuánto vino: es el momento de completarlo y de sacar el tamaño del nombre */}
+            {modo === 'corregir' && insumo && insumo.cantidad === undefined && (
+              <Alert
+                tone="info"
+                message="Este insumo todavía no dice cuánto vino. Completalo abajo y, si el tamaño está en el nombre («HARINA 20 KG»), dejá solo «Harina»."
+              />
             )}
             <CamposInsumo
               control={form.control}

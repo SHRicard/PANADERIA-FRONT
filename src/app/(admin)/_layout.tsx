@@ -27,6 +27,13 @@ export default function AdminLayout() {
         <Stack.Screen name="promos/nueva" options={{ headerShown: true, title: 'Nueva promo' }} />
         <Stack.Screen name="promos/[id]" options={{ headerShown: true, title: 'Editar promo' }} />
         <Stack.Screen name="memoria" options={{ headerShown: true, title: 'Memoria' }} />
+        <Stack.Screen name="metricas/index" options={{ headerShown: true, title: 'Métricas' }} />
+        <Stack.Screen name="metricas/balance" options={{ headerShown: true, title: 'Balance' }} />
+        <Stack.Screen name="metricas/productos" options={{ headerShown: true, title: 'Más vendidos' }} />
+        <Stack.Screen name="metricas/gustos" options={{ headerShown: true, title: 'Gustos' }} />
+        <Stack.Screen name="metricas/pedidos" options={{ headerShown: true, title: 'Pedidos' }} />
+        <Stack.Screen name="metricas/clientes" options={{ headerShown: true, title: 'Clientes' }} />
+        <Stack.Screen name="metricas/insumos" options={{ headerShown: true, title: 'Gasto en insumos' }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!haySesion}>

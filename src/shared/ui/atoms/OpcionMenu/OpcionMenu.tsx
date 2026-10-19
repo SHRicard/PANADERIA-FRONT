@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ChevronRight, type LucideIcon } from 'lucide-react-native';
-import { Icon, Text } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
+import { Icon } from '../Icon';
+import { Text } from '../Text';
 
 export interface OpcionMenuProps {
   icono: LucideIcon;
@@ -16,7 +17,7 @@ export interface OpcionMenuProps {
   navega?: boolean;
 }
 
-/** Una fila del menú de Más: ícono, título con lo que hay adentro y la flecha si lleva a otra pantalla */
+/** Una fila de un menú (Más, Métricas): ícono, título con lo que hay adentro y la flecha si lleva a otra pantalla */
 export function OpcionMenu({ icono, titulo, descripcion, onPress, tono = 'normal', navega = true }: OpcionMenuProps) {
   const styles = useStyles(createStyles);
   const color = tono === 'peligro' ? 'danger' : 'text';

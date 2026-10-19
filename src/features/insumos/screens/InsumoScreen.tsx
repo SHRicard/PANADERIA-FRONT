@@ -8,8 +8,9 @@ import { useStyles, useTheme, type Theme } from '@/theme';
 import { EntradaHistorial } from '../components/EntradaHistorial';
 import { fechaLarga } from '../fechas';
 import { useInsumo } from '../hooks/useInsumo';
+import { textoCantidad, textoPrecioPorUnidad } from '../textos';
 
-/** Un insumo: lo que pagó la última vez, cargar una compra nueva o corregirlo, y todo el historial */
+/** Un insumo: lo que pagó la última vez y cuánto vino, cargar una compra nueva o corregirlo, y todo el historial */
 export function InsumoScreen() {
   const theme = useTheme();
   const styles = useStyles(createStyles);
@@ -48,8 +49,21 @@ export function InsumoScreen() {
           <Text variant="subtitle" color="primary" style={styles.cifra}>
             {formatearPrecio(insumo.precio)}
           </Text>
+          {insumo.cantidad && insumo.unidad ? (
+            <Text color="textMuted">
+              {textoCantidad(insumo.cantidad, insumo.unidad)} · {textoPrecioPorUnidad(insumo)}
+            </Text>
+          ) : null}
           <Text color="textMuted">Última compra: {fechaLarga(insumo.fecha)}</Text>
         </View>
+
+        {/* Los cargados antes no dicen cuánto vino: sin eso, el precio no se compara por kilo */}
+        {insumo.cantidad === undefined && (
+          <Alert
+            tone="info"
+            message="No dice cuánto vino en la compra. Tocá «Corregir datos» para completarlo: así el precio se compara por kilo, litro o unidad."
+          />
+        )}
 
         <View style={styles.acciones}>
           <Button icon={ShoppingBasket} label="Cargar compra nueva" onPress={detalle.cargarCompra} fullWidth />

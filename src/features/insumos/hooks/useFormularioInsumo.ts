@@ -10,15 +10,20 @@ import type { DatosInsumo, FormularioInsumo, InsumoConHistorial, ModoFormularioI
 
 /** Con qué arranca el formulario en cada modo */
 function inicial(modo: ModoFormularioInsumo, insumo: InsumoConHistorial | undefined): FormularioInsumo {
+  // La cantidad se escribe con coma: 0.5 → "0,5". Los insumos de antes no la tienen: arranca vacía
+  const cantidad = insumo?.cantidad !== undefined ? String(insumo.cantidad).replace('.', ',') : '';
+  const unidad = insumo?.unidad ?? 'kg';
   if (modo === 'corregir' && insumo) {
-    return { nombre: insumo.nombre, precio: String(insumo.precio), fecha: aEscrita(insumo.fecha) };
+    return { nombre: insumo.nombre, precio: String(insumo.precio), cantidad, unidad, fecha: aEscrita(insumo.fecha) };
   }
-  // Una compra nueva arranca vacía y con la fecha de hoy. El nombre no se toca (no se muestra)
-  return { nombre: modo === 'compra' && insumo ? insumo.nombre : '', precio: '', fecha: aEscrita(hoy()) };
+  // Una compra nueva arranca sin precio, con la fecha de hoy y la misma cantidad que la última (casi siempre es la
+  // misma bolsa). El nombre no se toca (no se muestra)
+  if (modo === 'compra' && insumo) return { nombre: insumo.nombre, precio: '', cantidad, unidad, fecha: aEscrita(hoy()) };
+  return { nombre: '', precio: '', cantidad: '', unidad: 'kg', fecha: aEscrita(hoy()) };
 }
 
 /**
- * El formulario de insumos: el alta, una compra nueva (precio y fecha) o una corrección. En compra y corrección,
+ * El formulario de insumos: el alta, una compra nueva (precio, cuánto vino y fecha) o una corrección. En compra y corrección,
  * el insumo ya está en la caché (se llega desde su detalle)
  */
 export function useFormularioInsumo(modo: ModoFormularioInsumo, id?: string) {
@@ -37,10 +42,16 @@ export function useFormularioInsumo(modo: ModoFormularioInsumo, id?: string) {
     values: modo === 'nuevo' ? undefined : valores,
   });
 
-  const guardar = form.handleSubmit(async ({ nombre, precio, fecha }) => {
+  const guardar = form.handleSubmit(async ({ nombre, precio, cantidad, unidad, fecha }) => {
     setError(null);
-    // El schema ya validó la fecha
-    const datos: DatosInsumo = { nombre, precio: Number(precio), fecha: deEscrita(fecha) ?? hoy() };
+    // El schema ya validó la fecha y la cantidad
+    const datos: DatosInsumo = {
+      nombre,
+      precio: Number(precio),
+      cantidad: Number(cantidad.replace(',', '.')),
+      unidad,
+      fecha: deEscrita(fecha) ?? hoy(),
+    };
     try {
       if (modo === 'nuevo') {
         const creado = await crearInsumo(datos).unwrap();
@@ -53,8 +64,13 @@ export function useFormularioInsumo(modo: ModoFormularioInsumo, id?: string) {
       if (modo === 'corregir' && datos.nombre !== insumo.nombre) cambios.nombre = datos.nombre;
       if (datos.precio !== insumo.precio) cambios.precio = datos.precio;
       if (datos.fecha !== insumo.fecha) cambios.fecha = datos.fecha;
+      // Cantidad y unidad viajan juntas: el back rechaza una sin la otra
+      if (datos.cantidad !== insumo.cantidad || datos.unidad !== insumo.unidad) {
+        cambios.cantidad = datos.cantidad;
+        cambios.unidad = datos.unidad;
+      }
       if (Object.keys(cambios).length === 0) {
-        setError(modo === 'compra' ? 'Es el mismo precio y la misma fecha de la última compra.' : 'No cambiaste nada.');
+        setError(modo === 'compra' ? 'Es la misma compra que la última: mismo precio, cantidad y fecha.' : 'No cambiaste nada.');
         return;
       }
       await actualizarInsumo({ id, cambios }).unwrap();

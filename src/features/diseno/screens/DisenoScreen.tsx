@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Croissant, MessageCircle, Plus, Search, ShoppingBag, Star, Trash2, Wheat } from 'lucide-react-native';
+import { Croissant, LogOut, MessageCircle, Plus, Search, ShoppingBag, Star, Trash2, Trophy, Wheat } from 'lucide-react-native';
 import {
   ESTILO_BARRA_POR_DEFECTO,
   ESTILO_ENCABEZADO_POR_DEFECTO,
@@ -19,6 +19,7 @@ import {
   Segmentado,
   HojaInferior,
   ListaOpcionesHoja,
+  OpcionMenu,
   Select,
   SelectorTema,
   Sello,
@@ -54,6 +55,7 @@ const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
     titulo: 'Estados',
     tokens: ['success', 'successSoft', 'successStrong', 'successStrongPressed', 'onSuccess', 'warning', 'warningSoft', 'danger', 'dangerSoft'],
   },
+  { titulo: 'Gráficos', tokens: ['grafico1', 'grafico2'] },
 ];
 
 const EJEMPLOS_TEXTO: { variante: TextVariant; ejemplo: string }[] = [
@@ -282,6 +284,14 @@ export function DisenoScreen() {
 
         <Seccion titulo="Segmentado" descripcion="Elegir una entre pocas opciones, todas a la vista. Lo usan el tema, la barra de pestañas y la tipografía.">
           <Segmentado opciones={PERIODOS} valor={periodo} alCambiar={setPeriodo} accessibilityLabel="Período" />
+        </Seccion>
+
+        <Seccion
+          titulo="Fila de menú"
+          descripcion="OpcionMenu: la usan Más y Métricas. La flecha, si abre otra pantalla; en rojo y sin flecha, lo destructivo."
+        >
+          <OpcionMenu icono={Trophy} titulo="Más vendidos" descripcion="Los productos que más salen" onPress={simularCarga} />
+          <OpcionMenu icono={LogOut} titulo="Cerrar sesión" onPress={simularCarga} tono="peligro" navega={false} />
         </Seccion>
 
         <Seccion titulo="Badges" descripcion="El texto va siempre en color de texto: el tono lo dan el fondo y el punto.">

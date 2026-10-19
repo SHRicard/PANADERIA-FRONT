@@ -26,6 +26,8 @@ export const darkTheme: TemaSinTipografia = {
     warningSoft: palette.ambar900,
     danger: palette.rojo300,
     dangerSoft: palette.rojo900,
+    grafico1: palette.teja600,
+    grafico2: palette.miel600,
     shadow: palette.sombraNegra,
     overlay: palette.veloNegro,
   },

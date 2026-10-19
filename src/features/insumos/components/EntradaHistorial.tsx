@@ -3,7 +3,7 @@ import { Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
 import { fechaLarga } from '../fechas';
-import { textoEntrada, variacion } from '../textos';
+import { textoCantidad, textoEntrada, textoPrecioPorUnidad, variacion } from '../textos';
 import type { LogInsumo } from '../types';
 
 interface EntradaHistorialProps {
@@ -12,10 +12,11 @@ interface EntradaHistorialProps {
   anterior?: LogInsumo;
 }
 
-/** Una entrada del historial: el precio y el día de la compra, qué cambió y cuánto varió el precio */
+/** Una entrada del historial: el precio y el día de la compra, cuánto vino, qué cambió y cuánto varió el precio */
 export function EntradaHistorial({ log, anterior }: EntradaHistorialProps) {
   const styles = useStyles(createStyles);
-  const cambio = anterior ? variacion(log.precio, anterior.precio) : null;
+  const cambio = anterior ? variacion(log, anterior) : null;
+  const porUnidad = textoPrecioPorUnidad(log);
 
   return (
     <View style={styles.entrada}>
@@ -27,6 +28,7 @@ export function EntradaHistorial({ log, anterior }: EntradaHistorialProps) {
         <Text color="textMuted">{fechaLarga(log.fecha)}</Text>
       </View>
       <Text variant="caption" color="textMuted">
+        {log.cantidad && log.unidad ? `${textoCantidad(log.cantidad, log.unidad)} · ${porUnidad} · ` : ''}
         {textoEntrada(log)}
         {log.cambios.includes('nombre') ? `: ahora «${log.nombre}»` : ''}
       </Text>
