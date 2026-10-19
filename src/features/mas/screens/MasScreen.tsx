@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { ClipboardPlus, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
+import { ClipboardPlus, HardDrive, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useStyles, type Theme } from '@/theme';
 import { OpcionMenu } from '../components/OpcionMenu';
@@ -56,6 +56,16 @@ export function MasScreen() {
               titulo="Billetera"
               descripcion="La cuenta a la que te transfieren la seña"
               onPress={mas.abrirBilletera}
+            />
+          </View>
+
+          {/* La cuenta de Cloudinary: si queda lugar para las fotos y los videos */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={HardDrive}
+              titulo="Memoria"
+              descripcion="Cuánto lugar usan tus fotos y videos"
+              onPress={mas.abrirMemoria}
             />
           </View>
 

@@ -1,0 +1,1 @@
+export { AlmacenamientoScreen } from './AlmacenamientoScreen';
