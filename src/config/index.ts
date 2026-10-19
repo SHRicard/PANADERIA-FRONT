@@ -7,4 +7,7 @@ export const config = {
   // El link directo al WhatsApp del dueño (https://wa.me/549…): el botón para coordinar la seña en efectivo.
   // Vacío, la web no muestra el botón
   whatsappUrl: process.env.EXPO_PUBLIC_WHATSAPP_URL || '',
+  // La web pública (https://…, sin "/" al final): va como link al final del texto de cada promo que se comparte en el
+  // estado de WhatsApp. Vacío, se comparte solo el texto de la promo
+  webUrl: process.env.EXPO_PUBLIC_WEB_URL || '',
 } as const;

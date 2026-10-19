@@ -26,6 +26,9 @@ export type ColorToken =
   | 'warningSoft'
   | 'danger'
   | 'dangerSoft'
+  // Las dos series de un gráfico (lo que entró y lo que salió, web y a mano). Se distinguen también sin color
+  | 'grafico1'
+  | 'grafico2'
   | 'shadow'
   | 'overlay';
 

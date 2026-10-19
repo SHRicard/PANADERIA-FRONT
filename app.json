@@ -46,6 +46,12 @@
             "image": "./assets/images/splash.png"
           }
         }
+      ],
+      [
+        "react-native-share",
+        {
+          "android": ["com.whatsapp"]
+        }
       ]
     ],
     "experiments": {

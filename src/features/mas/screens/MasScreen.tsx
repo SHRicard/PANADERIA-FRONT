@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
-import { LogOut, Palette, Settings, Wallet } from 'lucide-react-native';
+import { ChartColumn, ClipboardPlus, HardDrive, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
+import { OpcionMenu } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
-import { OpcionMenu } from '../components/OpcionMenu';
 import { TarjetaUsuario } from '../components/TarjetaUsuario';
 import { useMas } from '../hooks/useMas';
 
@@ -19,6 +19,46 @@ export function MasScreen() {
         <View style={styles.arriba}>
           <TarjetaUsuario usuario={mas.usuario} />
 
+          {/* Los pedidos que llegan por fuera de la web: la app como agenda */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={ClipboardPlus}
+              titulo="Pedido manual"
+              descripcion="Cargá un pedido que te hicieron por WhatsApp o en persona"
+              onPress={mas.abrirPedidoManual}
+            />
+          </View>
+
+          {/* Los números del negocio: lo que se vende, lo que se gasta y lo que queda */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={ChartColumn}
+              titulo="Métricas"
+              descripcion="Ventas, pedidos, clientes, gastos y lo que te queda"
+              onPress={mas.abrirMetricas}
+            />
+          </View>
+
+          {/* Los gastos: lo que compra para producir */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={Wheat}
+              titulo="Insumos"
+              descripcion="Lo que comprás para producir y cuánto pagaste"
+              onPress={mas.abrirInsumos}
+            />
+          </View>
+
+          {/* La difusión: lo que publica en su estado de WhatsApp */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={Megaphone}
+              titulo="Promos"
+              descripcion="Fotos y videos para compartir en tu estado"
+              onPress={mas.abrirPromos}
+            />
+          </View>
+
           {/* El negocio: lo que ven los clientes para pagar */}
           <View style={styles.grupo}>
             <OpcionMenu
@@ -26,6 +66,16 @@ export function MasScreen() {
               titulo="Billetera"
               descripcion="La cuenta a la que te transfieren la seña"
               onPress={mas.abrirBilletera}
+            />
+          </View>
+
+          {/* La cuenta de Cloudinary: si queda lugar para las fotos y los videos */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={HardDrive}
+              titulo="Memoria"
+              descripcion="Cuánto lugar usan tus fotos y videos"
+              onPress={mas.abrirMemoria}
             />
           </View>
 

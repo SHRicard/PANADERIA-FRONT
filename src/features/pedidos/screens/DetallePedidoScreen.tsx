@@ -6,7 +6,7 @@ import { Alert, Badge, Button, CampoTexto, ScreenContainer, Text } from '@/share
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { useDetallePedido } from '../hooks/useDetallePedido';
-import { ESTADO, fechaYHora } from '../textos';
+import { ESTADO, fechaYHora, MARCA_MANUAL } from '../textos';
 
 export function DetallePedidoScreen() {
   const theme = useTheme();
@@ -49,7 +49,10 @@ export function DetallePedidoScreen() {
         <View style={styles.bloque}>
           <Badge tone={estado.tone} label={estado.label} />
           <Text variant="title">{pedido.clienteNombre}</Text>
-          <Text color="textMuted">Pedido del {fechaYHora(pedido.createdAt)}</Text>
+          <Text color="textMuted">
+            Pedido del {fechaYHora(pedido.createdAt)}
+            {pedido.origen === 'manual' ? ` · ${MARCA_MANUAL.toLowerCase()}` : ''}
+          </Text>
           {pedido.cliente && (
             <Text variant="caption" color="textMuted">
               {pedido.cliente.cantidadPedidos === 1 ? 'Es su primer pedido' : `Hizo ${pedido.cliente.cantidadPedidos} pedidos`}
