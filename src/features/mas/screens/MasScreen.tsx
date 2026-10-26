@@ -12,7 +12,7 @@ import {
   Wheat,
 } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
-import { OpcionMenu } from '@/shared/ui/atoms';
+import { OpcionMenu, Text } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import { TarjetaUsuario } from '../components/TarjetaUsuario';
 import { useMas } from '../hooks/useMas';
@@ -124,6 +124,11 @@ export function MasScreen() {
 
         <View style={styles.grupo}>
           <OpcionMenu icono={LogOut} titulo="Cerrar sesión" onPress={mas.cerrarSesion} tono="peligro" navega={false} />
+          {mas.version && (
+            <Text variant="caption" color="textMuted" align="center">
+              {mas.version}
+            </Text>
+          )}
         </View>
       </View>
     </PantallaPestana>

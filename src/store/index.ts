@@ -24,7 +24,12 @@ export const store = configureStore({
     subidaFotos: subidaFotosReducer,
     carrito: carritoReducer,
   },
-  middleware: (getDefault) => getDefault().prepend(persistencia.middleware).concat(baseApi.middleware),
+  // El chequeo de inmutabilidad (solo en desarrollo) recorre todo el estado en cada acción: con la caché de RTK Query
+  // llena pasa los 32 ms por defecto y avisa en cada recarga. En producción no corre
+  middleware: (getDefault) =>
+    getDefault({ immutableCheck: { warnAfter: 128 } })
+      .prepend(persistencia.middleware)
+      .concat(baseApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
