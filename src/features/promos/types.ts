@@ -25,6 +25,3 @@ export interface CambiosPromo {
   titulo?: string;
   texto?: string | null;
 }
-
-/** Cómo terminó el toque en Compartir */
-export type ResultadoCompartir = 'compartido' | 'sin-whatsapp';

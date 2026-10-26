@@ -1,6 +1,12 @@
 import { Alert } from 'react-native';
+import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
 import { useCerrarSesion, useUsuarioSesion } from '@/features/auth';
+
+// La de app.json, la misma con la que ./run.sh apk nombra el archivo (panaderia-digital-1.0.0.apk).
+// En desarrollo el número es el mismo que el de la APK: la marca dice cuál está instalada
+const version = Constants.expoConfig?.version;
+const textoVersion = version ? `Versión ${version}${__DEV__ ? ' · desarrollo' : ''}` : null;
 
 /** El menú de Más: con quién está abierta la sesión y a dónde lleva cada fila */
 export function useMas() {
@@ -10,6 +16,8 @@ export function useMas() {
 
   return {
     usuario,
+    /** «Versión 1.0.0»: para saber qué APK tiene instalada el dueño */
+    version: textoVersion,
     abrirPedidoManual: () => router.push('/pedido-manual'),
     abrirMetricas: () => router.push('/metricas'),
     abrirInsumos: () => router.push('/insumos'),
