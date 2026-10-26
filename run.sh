@@ -41,7 +41,7 @@ Compilar
   web:build   Exporta la web estática a dist/
 
 Otros
-  check       Revisa tipos (tsc) y versiones de dependencias contra el SDK
+  check       Revisa tipos (tsc), versiones de dependencias contra el SDK y el link a la web de la APK
   ayuda       Muestra esta ayuda
 
 Opciones
@@ -51,6 +51,9 @@ Opciones
 
 Variables
   API_PORT    Puerto del backend local que se redirige al celular (por defecto 3000)
+
+  EXPO_PUBLIC_WEB_URL es obligatoria para android, start y apk (en .env; la APK de release la toma de
+  .env.production.local): es el link a la web que va en todo lo que se comparte por WhatsApp.
 EOF
 }
 
@@ -92,6 +95,24 @@ dependencias() {
     paso "Instalando dependencias…"
     npm install
   fi
+}
+
+exigir_web_url() {
+  # Todo lo que la app comparte por WhatsApp lleva el link a la web: sin EXPO_PUBLIC_WEB_URL, no se compila.
+  # Se lee como la va a leer Expo: la de la terminal o, si no, la de los .env* del modo ($1: development o production)
+  local modo="$1" archivo=".env" patron='^https?://[^/[:space:]]+' inicio="http:// o https://" url
+  if [[ "$modo" == production ]]; then
+    # Es la que se manda a los clientes: tiene que ser la web publicada
+    archivo=".env.production.local" patron='^https://[^/[:space:]]+' inicio="https://"
+  fi
+  url="$(MODO="$modo" node -e '
+    const { parseProjectEnv } = require("@expo/env");
+    const { env } = parseProjectEnv(process.cwd(), { mode: process.env.MODO, silent: true });
+    process.stdout.write(process.env.EXPO_PUBLIC_WEB_URL || env.EXPO_PUBLIC_WEB_URL || "");
+  ')"
+  [[ -n "$url" ]] || error "Falta EXPO_PUBLIC_WEB_URL en $archivo: es el link a la web que va en todo lo que se comparte por WhatsApp."
+  [[ "$url" =~ $patron ]] || error "EXPO_PUBLIC_WEB_URL no parece un link a la web ($url): tiene que empezar con $inicio en $archivo."
+  ok "Link a la web: $url"
 }
 
 java_ok() {
@@ -178,6 +199,7 @@ prebuild_android() {
 cmd_android() {
   verificar_node
   dependencias
+  exigir_web_url development
   entorno_android
   preparar_dispositivo
   prebuild_android
@@ -195,12 +217,14 @@ cmd_web() {
 cmd_start() {
   verificar_node
   dependencias
+  exigir_web_url development
   exec npx expo start
 }
 
 cmd_apk() {
   verificar_node
   dependencias
+  exigir_web_url production
   entorno_android
   prebuild_android
 
@@ -246,6 +270,8 @@ cmd_check() {
   ok "Tipos en orden"
   paso "Revisando versiones contra el SDK de Expo…"
   npx expo install --check
+  paso "Revisando las variables de la APK de release…"
+  exigir_web_url production
 }
 
 # ── Entrada ──────────────────────────────────────────────────────────────────

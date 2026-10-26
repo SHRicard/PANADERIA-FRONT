@@ -23,6 +23,9 @@ export default function AdminLayout() {
         <Stack.Screen name="insumos/nuevo" options={{ headerShown: true, title: 'Nuevo insumo' }} />
         <Stack.Screen name="insumos/[id]/index" options={{ headerShown: true, title: 'Insumo' }} />
         <Stack.Screen name="insumos/[id]/actualizar" options={{ headerShown: true, title: 'Actualizar insumo' }} />
+        <Stack.Screen name="tipos/index" options={{ headerShown: true, title: 'Tipos' }} />
+        <Stack.Screen name="tipos/nuevo" options={{ headerShown: true, title: 'Nuevo tipo' }} />
+        <Stack.Screen name="tipos/[id]" options={{ headerShown: true, title: 'Renombrar tipo' }} />
         <Stack.Screen name="promos/index" options={{ headerShown: true, title: 'Promos' }} />
         <Stack.Screen name="promos/nueva" options={{ headerShown: true, title: 'Nueva promo' }} />
         <Stack.Screen name="promos/[id]" options={{ headerShown: true, title: 'Editar promo' }} />

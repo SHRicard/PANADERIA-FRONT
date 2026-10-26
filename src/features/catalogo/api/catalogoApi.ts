@@ -1,9 +1,17 @@
 import { productoSchema, type Producto } from '@/features/productos';
 import { baseApi } from '@/services/api';
-import { paginaCatalogoSchema, recomendacionCreadaSchema } from '../schemas';
-import type { ConsultaCatalogo, NuevaRecomendacion, PaginaCatalogo, RecomendacionCreada } from '../types';
+import { filtrosCatalogoSchema, paginaCatalogoSchema, recomendacionCreadaSchema, seccionesCatalogoSchema } from '../schemas';
+import type {
+  ConsultaCatalogo,
+  FiltrosCatalogo,
+  NuevaRecomendacion,
+  OpcionesDeFiltros,
+  PaginaCatalogo,
+  RecomendacionCreada,
+  SeccionesCatalogo,
+} from '../types';
 
-/** El máximo que acepta el back por página: la carta lo pide todo de una (y de ahí sale la anticipación del pedido) */
+/** El máximo que acepta el back por página: la anticipación del pedido lo pide todo de una */
 export const TODO_EL_CATALOGO = 100;
 
 // El back guarda las últimas 50 de cada producto
@@ -24,6 +32,19 @@ export const catalogoApi = baseApi.injectEndpoints({
         params: { ...queryArg, pagina: pageParam },
       }),
       rawResponseSchema: paginaCatalogoSchema,
+    }),
+
+    /** La carta: los activos que coinciden, agrupados por tipo y ordenados por el back. Cada combinación de filtros es una caché aparte */
+    listarSecciones: build.query<SeccionesCatalogo, FiltrosCatalogo>({
+      // Los filtros en undefined no viajan
+      query: (filtros) => ({ url: '/catalogo/secciones', params: filtros }),
+      rawResponseSchema: seccionesCatalogoSchema,
+    }),
+
+    /** Las opciones de los filtros de la web: solo los tipos y los gustos con productos activos */
+    listarFiltrosCatalogo: build.query<OpcionesDeFiltros, void>({
+      query: () => '/catalogo/filtros',
+      rawResponseSchema: filtrosCatalogoSchema,
     }),
 
     /** Un producto activo con todas sus fotos. 404 si está pausado o no existe */
@@ -57,4 +78,10 @@ export const catalogoApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useListarCatalogoInfiniteQuery, useObtenerDelCatalogoQuery, useRecomendarMutation } = catalogoApi;
+export const {
+  useListarCatalogoInfiniteQuery,
+  useListarSeccionesQuery,
+  useListarFiltrosCatalogoQuery,
+  useObtenerDelCatalogoQuery,
+  useRecomendarMutation,
+} = catalogoApi;

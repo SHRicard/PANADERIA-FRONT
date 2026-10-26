@@ -11,6 +11,7 @@ import { subirFotos } from '../store/subidaFotosSlice';
 import type { ProductoFormulario } from '../types';
 import { useCategorias } from './useCategorias';
 import { useFotosElegidas } from './useFotosElegidas';
+import { useTiposDeProducto } from './useTiposDeProducto';
 
 export function useNuevoProducto() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export function useNuevoProducto() {
   const [crearProducto] = useCrearProductoMutation();
   const fotos = useFotosElegidas();
   const categorias = useCategorias();
+  const tipos = useTiposDeProducto();
   const [error, setError] = useState<string | null>(null);
   const form = useForm<ProductoFormulario>({
     resolver: zodResolver(productoFormSchema),
@@ -41,6 +43,7 @@ export function useNuevoProducto() {
 
   return {
     categorias,
+    tipos,
     control: form.control,
     enfocar: form.setFocus,
     enviar,

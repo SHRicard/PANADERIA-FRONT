@@ -1,11 +1,12 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, Pause, Pencil, Play, Trash2 } from 'lucide-react-native';
+import { ArrowLeft, Pause, Pencil, Play, Share2, Trash2 } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
 import { Alert, Badge, Button, CarruselFotos, ScreenContainer, Sello, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, textoAnticipacion } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { EstadoSubida } from '../components/EstadoSubida';
+import { useCompartirProducto } from '../hooks/useCompartirProducto';
 import { useProducto } from '../hooks/useProducto';
 
 export function DetalleProductoScreen() {
@@ -15,6 +16,7 @@ export function DetalleProductoScreen() {
   const detalle = useProducto(id);
   const refresco = useRefrescar(detalle.refrescar);
   const { producto } = detalle;
+  const compartir = useCompartirProducto(producto);
 
   if (!producto) {
     return (
@@ -41,6 +43,7 @@ export function DetalleProductoScreen() {
 
   // El dueño ve también el 0, que en la web no se muestra
   const datos = [
+    producto.tipo?.nombre,
     producto.categoria,
     producto.pesoGramos && `${producto.pesoGramos} g`,
     textoAnticipacion(producto.anticipacionHoras) ?? 'Se pide en el momento',
@@ -78,10 +81,22 @@ export function DetalleProductoScreen() {
           </View>
         )}
 
+        {compartir.aviso && <Alert tone="warning" message={compartir.aviso} />}
         {detalle.errorEstado && <Alert tone="danger" message={detalle.errorEstado} />}
         {detalle.errorEliminar && <Alert tone="danger" message={detalle.errorEliminar} />}
 
         <View style={styles.acciones}>
+          {compartir.puedeCompartir && (
+            <Button
+              variant="success"
+              icon={Share2}
+              label="Compartir por WhatsApp"
+              onPress={compartir.compartir}
+              loading={compartir.preparando}
+              accessibilityHint="Abre WhatsApp con la foto, el precio y el link para pedirlo"
+              fullWidth
+            />
+          )}
           <Button icon={Pencil} label="Editar" onPress={detalle.editar} fullWidth />
           <Button
             variant="secondary"
@@ -93,7 +108,7 @@ export function DetalleProductoScreen() {
           />
           {!producto.disponible && (
             <Text variant="caption" color="textMuted" align="center">
-              Pausado: no se ve en el catálogo ni se puede pedir.
+              Pausado: no se ve en el catálogo ni se puede pedir. Para compartirlo, activalo.
             </Text>
           )}
           <Button

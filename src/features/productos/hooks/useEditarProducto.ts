@@ -10,11 +10,13 @@ import type { ProductoFormulario } from '../types';
 import { useCategorias } from './useCategorias';
 import { useFotosProducto } from './useFotosProducto';
 import { useProductoGuardado } from './useProductoGuardado';
+import { useTiposDeProducto } from './useTiposDeProducto';
 
 export function useEditarProducto(id: string) {
   const router = useRouter();
   const { producto, cargando } = useProductoGuardado(id);
   const categorias = useCategorias();
+  const tipos = useTiposDeProducto();
   const [editarProducto] = useEditarProductoMutation();
   const fotos = useFotosProducto(producto);
   const [error, setError] = useState<string | null>(null);
@@ -52,6 +54,7 @@ export function useEditarProducto(id: string) {
     producto,
     cargando,
     categorias,
+    tipos,
     control: form.control,
     enfocar: form.setFocus,
     enviar,

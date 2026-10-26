@@ -11,7 +11,8 @@ export function EditarProductoScreen() {
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { producto, cargando, categorias, control, enfocar, enviar, enviando, error, fotos } = useEditarProducto(id);
+  const { producto, cargando, categorias, tipos, control, enfocar, enviar, enviando, error, fotos } =
+    useEditarProducto(id);
 
   if (!producto) {
     return (
@@ -43,7 +44,7 @@ export function EditarProductoScreen() {
           onTocar={fotos.tocar}
         />
 
-        <CamposProducto control={control} enfocar={enfocar} categorias={categorias} />
+        <CamposProducto control={control} enfocar={enfocar} categorias={categorias} tipos={tipos} />
 
         <Button label="Guardar cambios" onPress={enviar} loading={enviando} fullWidth />
       </View>

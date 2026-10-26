@@ -12,7 +12,7 @@ import { useCatalogo } from '../hooks/useCatalogo';
 // De a 20: con muchas fotos, la primera página llega antes
 const POR_PAGINA = 20;
 
-/** El catálogo como vidriera: una grilla de fotos grandes, con buscador y filtro por gusto */
+/** El catálogo como vidriera: una grilla de fotos grandes, con buscador y filtros por tipo y por gusto */
 export function CatalogoVidrieraScreen() {
   const styles = useStyles(createStyles);
   const catalogo = useCatalogo(POR_PAGINA);
@@ -25,14 +25,7 @@ export function CatalogoVidrieraScreen() {
     <ScreenContainer refreshControl={refresco.control} alLlegarAlFinal={catalogo.cargarMas} pie={<BarraCarrito />}>
       <View style={styles.contenido}>
         <CabeceraVidriera />
-        <FiltrosVidriera
-          texto={filtros.texto}
-          setTexto={filtros.setTexto}
-          gustos={filtros.gustos}
-          gusto={filtros.gusto}
-          setGusto={filtros.setGusto}
-          total={listo ? catalogo.total : null}
-        />
+        <FiltrosVidriera filtros={filtros} total={listo ? catalogo.total : null} />
         <EstadoCatalogo
           cargando={catalogo.cargando}
           refrescando={refresco.refrescando}

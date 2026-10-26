@@ -12,12 +12,12 @@ export const ESTILOS_CATALOGO: Record<EstiloCatalogo, InfoEstiloCatalogo> = {
   vidriera: {
     estilo: 'vidriera',
     nombre: 'Vidriera',
-    descripcion: 'Una grilla de fotos grandes, con buscador y filtro por gusto. Luce con buenas fotos',
+    descripcion: 'Una grilla de fotos grandes, con buscador y filtros por tipo y por gusto. Luce con buenas fotos',
   },
   carta: {
     estilo: 'carta',
     nombre: 'Carta',
-    descripcion: 'Agrupada por gusto, con la descripción a la vista y el precio a la derecha',
+    descripcion: 'Agrupada por tipo, con la descripción a la vista y el precio a la derecha',
   },
 };
 

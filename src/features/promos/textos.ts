@@ -1,10 +1,9 @@
 import { config } from '@/config';
 import type { Promo } from './types';
 
-/** Lo que acompaña la publicación: el texto de la promo y, abajo, el link a la web (si está configurado) */
+/** Lo que acompaña la publicación: el texto de la promo y, abajo, el link a la web */
 export function textoParaCompartir(promo: Promo): string {
-  const link = config.webUrl ? `Hacé tu pedido acá 👉 ${config.webUrl}` : '';
-  return [promo.texto, link].filter(Boolean).join('\n\n');
+  return [promo.texto, `Hacé tu pedido acá 👉 ${config.webUrl}`].filter(Boolean).join('\n\n');
 }
 
 /** «Nunca la compartiste» / «Compartida 3 veces · la última, hoy» */

@@ -18,6 +18,9 @@ export const recomendacionSchema = z.object({
   createdAt: z.string(),
 });
 
+/** El tipo del producto (Tortas, Tartas…), de los que arma el dueño en Más → Tipos */
+export const tipoDeProductoSchema = z.object({ _id: z.string(), nombre: z.string() });
+
 /** GET /api/productos y todas las rutas privadas de productos: el producto completo, con sus fotos en orden */
 export const productoSchema = z.object({
   _id: z.string(),
@@ -30,6 +33,8 @@ export const productoSchema = z.object({
   pesoGramos: z.number().positive().optional(),
   // El gusto. z.string() y no un enum: si el back suma un gusto, la app no se rompe
   categoria: z.string(),
+  /** Opcional: null si no tiene. El default cubre la app nueva contra un back que todavía no lo manda */
+  tipo: tipoDeProductoSchema.nullable().default(null),
   /** Con cuántas horas de anticipación hay que encargarlo; 0 = se pide en el momento. Informativa */
   anticipacionHoras: z.number().int().min(0),
   /** false = pausado: no sale en el catálogo ni se puede pedir */
@@ -82,6 +87,8 @@ export const productoFormSchema = z.object({
   descripcion: z.string().trim(),
   etiqueta: z.string().trim().max(ETIQUETA_MAX, `La etiqueta puede tener hasta ${ETIQUETA_MAX} caracteres`),
   categoria: z.string().min(1, 'Elegí un gusto'),
+  /** El _id del tipo; '' = sin tipo (es opcional) */
+  tipo: z.string(),
   anticipacionHoras: z
     .string()
     .trim()

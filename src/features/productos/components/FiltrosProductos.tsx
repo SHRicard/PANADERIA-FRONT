@@ -13,7 +13,7 @@ interface FiltrosProductosProps {
 }
 
 /**
- * El buscador y, a su lado, el botón que abre la hoja con el estado y el gusto. Con filtros puestos, el
+ * El buscador y, a su lado, el botón que abre la hoja con el estado, el gusto y el tipo. Con filtros puestos, el
  * botón se marca con cuántos son y abajo se lee cuáles, con «Limpiar»
  */
 export function FiltrosProductos({ filtros, total }: FiltrosProductosProps) {
@@ -23,6 +23,7 @@ export function FiltrosProductos({ filtros, total }: FiltrosProductosProps) {
   const puestos = filtros.filtrosPuestos;
   const resumen = [
     filtros.categoria,
+    filtros.tipo && filtros.tipos?.find(({ _id }) => _id === filtros.tipo)?.nombre,
     filtros.estado && ESTADOS_FILTRO.find(({ valor }) => valor === filtros.estado)?.label,
   ].filter(Boolean);
 
@@ -86,6 +87,9 @@ export function FiltrosProductos({ filtros, total }: FiltrosProductosProps) {
         categorias={filtros.categorias}
         categoria={filtros.categoria}
         alCambiarCategoria={filtros.setCategoria}
+        tipos={filtros.tipos}
+        tipo={filtros.tipo}
+        alCambiarTipo={filtros.setTipo}
         total={total}
       />
     </View>

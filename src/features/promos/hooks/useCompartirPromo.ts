@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { compartirEnWhatsApp, sePuedeCompartir } from '@/services/compartir';
 import { useRegistrarPublicacionMutation } from '../api/promosApi';
-import { compartirEnEstado, sePuedeCompartir } from '../compartir';
 import { textoParaCompartir } from '../textos';
 import type { Promo } from '../types';
 
@@ -19,7 +19,11 @@ export function useCompartirPromo() {
     setAviso(null);
     setPreparando(promo._id);
     try {
-      const resultado = await compartirEnEstado(promo, textoParaCompartir(promo));
+      // El archivo de una promo no cambia nunca (editar solo toca título y texto): con el id alcanza para la clave
+      const resultado = await compartirEnWhatsApp({
+        texto: textoParaCompartir(promo),
+        archivo: { url: promo.url, clave: `promo-${promo._id}`, tipo: promo.tipo },
+      });
       if (resultado === 'sin-whatsapp') {
         setAviso('No encontramos WhatsApp en este celular.');
         return;

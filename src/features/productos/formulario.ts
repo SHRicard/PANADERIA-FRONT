@@ -7,6 +7,7 @@ export const FORMULARIO_VACIO: ProductoFormulario = {
   descripcion: '',
   etiqueta: '',
   categoria: '',
+  tipo: '',
   // Vacía a propósito: la tiene que elegir el dueño, el back no pone una por defecto
   anticipacionHoras: '',
   pesoGramos: '',
@@ -22,6 +23,7 @@ export function aFormulario(producto: Producto): ProductoFormulario {
     descripcion: producto.descripcion ?? '',
     etiqueta: producto.etiqueta ?? '',
     categoria: producto.categoria,
+    tipo: producto.tipo?._id ?? '',
     anticipacionHoras: String(producto.anticipacionHoras),
     pesoGramos: producto.pesoGramos ? String(producto.pesoGramos) : '',
     ingredientes: producto.ingredientes.join(', '),
@@ -44,6 +46,7 @@ export function aDatosProducto(valores: ProductoFormulario): DatosProducto {
     ...(valores.descripcion && { descripcion: valores.descripcion }),
     ...(valores.etiqueta && { etiqueta: valores.etiqueta }),
     ...(valores.pesoGramos && { pesoGramos: Number(valores.pesoGramos) }),
+    ...(valores.tipo && { tipo: valores.tipo }),
   };
 }
 
@@ -65,6 +68,7 @@ export function cambiosDe(original: Producto, valores: ProductoFormulario): Camb
   if (nuevos.descripcion !== original.descripcion) cambios.descripcion = nuevos.descripcion ?? null;
   if (nuevos.etiqueta !== original.etiqueta) cambios.etiqueta = nuevos.etiqueta ?? null;
   if (nuevos.pesoGramos !== original.pesoGramos) cambios.pesoGramos = nuevos.pesoGramos ?? null;
+  if ((nuevos.tipo ?? null) !== (original.tipo?._id ?? null)) cambios.tipo = nuevos.tipo ?? null;
 
   return cambios;
 }
