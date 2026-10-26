@@ -40,7 +40,10 @@ Un día normal es así:
 
 Tocá la pestaña **Pedidos** (el ícono del portapapeles) en la barra de abajo.
 
-<img src="capturas/03-lista.png" width="260" alt="La pestaña Pedidos: el filtro Estado y las tarjetas de pedidos con su estado, el total y lo que falta cobrar">
+<p>
+<img src="capturas/claro/03-lista.webp" width="230" alt="La pestaña Pedidos: el filtro Estado y las tarjetas de pedidos con su estado, el total y lo que falta cobrar · modo claro">
+<img src="capturas/oscuro/03-lista.webp" width="230" alt="La pestaña Pedidos: el filtro Estado y las tarjetas de pedidos con su estado, el total y lo que falta cobrar · modo oscuro">
+</p>
 
 Los pedidos aparecen del más nuevo al más viejo. Cada tarjeta muestra:
 
@@ -60,7 +63,10 @@ Arriba de la lista está el campo **Estado**, que dice «Todos». Tocalo y eleg�
 pedidos querés ver: **Todos**, **Esperando la seña**, **Seña pagada**, **Entregado**
 o **Cancelado**.
 
-<img src="capturas/03-filtro-estado.png" width="260" alt="La hoja Estado con las opciones Todos, Esperando la seña, Seña pagada, Entregado y Cancelado">
+<p>
+<img src="capturas/claro/03-filtro-estado.webp" width="230" alt="La hoja Estado con las opciones Todos, Esperando la seña, Seña pagada, Entregado y Cancelado · modo claro">
+<img src="capturas/oscuro/03-filtro-estado.webp" width="230" alt="La hoja Estado con las opciones Todos, Esperando la seña, Seña pagada, Entregado y Cancelado · modo oscuro">
+</p>
 
 Debajo del filtro dice cuántos pedidos hay en ese estado, por ejemplo «12 pedidos».
 
@@ -91,7 +97,10 @@ solos. Si no, tocá **Ver más pedidos**.
 
 ## El detalle de un pedido
 
-<img src="capturas/03-detalle.png" width="260" alt="Un pedido Esperando la seña: el cliente, Escribirle por WhatsApp, los productos, el total, la nota, el bloque Seña y los botones de abajo">
+<p>
+<img src="capturas/claro/03-detalle.webp" width="230" alt="Un pedido Esperando la seña: el cliente, Escribirle por WhatsApp, los productos, el total, la nota, el bloque Seña y los botones de abajo · modo claro">
+<img src="capturas/oscuro/03-detalle.webp" width="230" alt="Un pedido Esperando la seña: el cliente, Escribirle por WhatsApp, los productos, el total, la nota, el bloque Seña y los botones de abajo · modo oscuro">
+</p>
 
 Al abrir un pedido ves, de arriba para abajo:
 
@@ -148,8 +157,13 @@ pregunta **¿Cuánto te transfirió?**.
 El pedido pasa a «Seña pagada» y en **Productos** aparece lo que falta cobrar.
 
 <p>
-<img src="capturas/03-confirmar-sena.png" width="260" alt="El campo ¿Cuánto te transfirió? con 8500 escrito y el botón Confirmar seña">
-<img src="capturas/03-sena-pagada.png" width="260" alt="El mismo pedido con Seña pagada: la seña descontada, lo que falta cobrar y los botones Corregir monto y Quitar seña">
+<img src="capturas/claro/03-confirmar-sena.webp" width="230" alt="El campo ¿Cuánto te transfirió? con 23000 escrito y el botón Confirmar seña · modo claro">
+<img src="capturas/oscuro/03-confirmar-sena.webp" width="230" alt="El campo ¿Cuánto te transfirió? con 23000 escrito y el botón Confirmar seña · modo oscuro">
+</p>
+
+<p>
+<img src="capturas/claro/03-sena-pagada.webp" width="230" alt="El mismo pedido con Seña pagada: la seña descontada, lo que falta cobrar y los botones Corregir monto y Quitar seña · modo claro">
+<img src="capturas/oscuro/03-sena-pagada.webp" width="230" alt="El mismo pedido con Seña pagada: la seña descontada, lo que falta cobrar y los botones Corregir monto y Quitar seña · modo oscuro">
 </p>
 
 Si algo está mal, la app te avisa debajo del campo:
@@ -203,7 +217,10 @@ seña.
 El pedido pasa a «Entregado» y abajo dice cuándo, por ejemplo «Entregado el viernes
 16 de octubre, 19:40».
 
-<img src="capturas/03-entregado.png" width="260" alt="Un pedido Entregado, con la fecha de entrega y el botón Deshacer entrega">
+<p>
+<img src="capturas/claro/03-entregado.webp" width="230" alt="Un pedido Entregado, con la fecha de entrega y el botón Deshacer entrega · modo claro">
+<img src="capturas/oscuro/03-entregado.webp" width="230" alt="Un pedido Entregado, con la fecha de entrega y el botón Deshacer entrega · modo oscuro">
+</p>
 
 Si lo marcaste por error, tocá **Deshacer entrega**: vuelve a «Seña pagada» si tenía
 seña, o a «Esperando la seña» si no.
@@ -221,8 +238,13 @@ El pedido pasa a «Cancelado» y abajo dice cuándo y, si la tenía, de cuánto 
 seña.
 
 <p>
-<img src="capturas/03-cancelar.png" width="260" alt="El aviso ¿Cancelar el pedido?, con los botones No y Cancelar pedido">
-<img src="capturas/03-cancelado.png" width="260" alt="Un pedido Cancelado, con la fecha y el botón Deshacer cancelación">
+<img src="capturas/claro/03-cancelar.webp" width="230" alt="El aviso ¿Cancelar el pedido?, con los botones No y Cancelar pedido · modo claro">
+<img src="capturas/oscuro/03-cancelar.webp" width="230" alt="El aviso ¿Cancelar el pedido?, con los botones No y Cancelar pedido · modo oscuro">
+</p>
+
+<p>
+<img src="capturas/claro/03-cancelado.webp" width="230" alt="Un pedido Cancelado, con la fecha y el botón Deshacer cancelación · modo claro">
+<img src="capturas/oscuro/03-cancelado.webp" width="230" alt="Un pedido Cancelado, con la fecha y el botón Deshacer cancelación · modo oscuro">
 </p>
 
 Si te equivocaste, tocá **Deshacer cancelación**: vuelve al estado que tenía.

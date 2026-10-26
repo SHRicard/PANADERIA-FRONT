@@ -13,7 +13,10 @@ Las promos son solo tuyas: no aparecen en la web.
 
 Tocá la pestaña **Más** y después **Promos**.
 
-<img src="capturas/06-lista.png" width="260" alt="Pantalla Promos: el botón Nueva promo y una promo con su foto, el título, el texto, cuántas veces se compartió y el botón verde Compartir en mi estado">
+<p>
+<img src="capturas/claro/06-lista.webp" width="230" alt="Pantalla Promos: el botón Nueva promo y la promo Tarta de frutilla del finde con su foto, el texto, cuántas veces se compartió y el botón verde Compartir en mi estado · modo claro">
+<img src="capturas/oscuro/06-lista.webp" width="230" alt="Pantalla Promos: el botón Nueva promo y la promo Tarta de frutilla del finde con su foto, el texto, cuántas veces se compartió y el botón verde Compartir en mi estado · modo oscuro">
+</p>
 
 Cada promo muestra su foto (los videos tienen un ▶ y cuánto duran), el título, el
 texto y cuántas veces la compartiste, por ejemplo «Compartida 3 veces · la última,
@@ -33,7 +36,10 @@ ayer».
    por ejemplo «Hoy 2x1 en medialunas. Hasta las 12». Hasta 500 caracteres.
 5. Tocá **Guardar promo**. Mientras sube, el botón dice «Subiendo…».
 
-<img src="capturas/06-nueva.png" width="260" alt="Pantalla Nueva promo: el botón Elegir foto o video, Título, Texto y Guardar promo">
+<p>
+<img src="capturas/claro/06-nueva.webp" width="230" alt="Pantalla Nueva promo con la foto elegida, Elegir otro, Título y Texto · modo claro">
+<img src="capturas/oscuro/06-nueva.webp" width="230" alt="Pantalla Nueva promo con la foto elegida, Elegir otro, Título y Texto · modo oscuro">
+</p>
 
 > ⚠️ Un video tarda un poco más en subir. **No cierres la app** hasta que vuelva a la
 > lista.
@@ -71,7 +77,10 @@ WhatsApp Business).
 Tocá la promo en la lista. Se abre **Editar promo**: cambiá el título o el texto y
 tocá **Guardar cambios**.
 
-<img src="capturas/06-editar.png" width="260" alt="Pantalla Editar promo con la foto, el título, el texto y los botones Guardar cambios y Borrar promo">
+<p>
+<img src="capturas/claro/06-editar.webp" width="230" alt="Pantalla Editar promo con la foto, el título, el texto y los botones Guardar cambios y Borrar promo · modo claro">
+<img src="capturas/oscuro/06-editar.webp" width="230" alt="Pantalla Editar promo con la foto, el título, el texto y los botones Guardar cambios y Borrar promo · modo oscuro">
+</p>
 
 La foto o el video no se cambian: para usar otro archivo, armá una promo nueva.
 
@@ -85,7 +94,10 @@ La foto o el video no se cambian: para usar otro archivo, armá una promo nueva.
    o el video. No se puede deshacer.».
 4. Tocá **Borrar** para confirmar, o **Cancelar**.
 
-<img src="capturas/06-borrar.png" width="260" alt="El aviso ¿Borrar «2x1 en medialunas»?, con los botones Cancelar y Borrar">
+<p>
+<img src="capturas/claro/06-borrar.webp" width="230" alt="El aviso ¿Borrar «Tarta de frutilla del finde»?, con los botones Cancelar y Borrar · modo claro">
+<img src="capturas/oscuro/06-borrar.webp" width="230" alt="El aviso ¿Borrar «Tarta de frutilla del finde»?, con los botones Cancelar y Borrar · modo oscuro">
+</p>
 
 > 💡 Borrar las promos viejas libera lugar en la [Memoria](09-memoria.md).
 

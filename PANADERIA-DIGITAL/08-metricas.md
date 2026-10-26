@@ -11,7 +11,10 @@ cuánto te quedó, qué se vende más, cómo llegan los pedidos y si tus cliente
 
 Tocá la pestaña **Más** y después **Métricas**. Se abre un menú con seis pantallas:
 
-<img src="capturas/08-menu.png" width="260" alt="El menú Métricas: Balance, Más vendidos, Gustos, Pedidos, Clientes y Gasto en insumos">
+<p>
+<img src="capturas/claro/08-menu.webp" width="230" alt="El menú Métricas: Balance, Más vendidos, Gustos, Pedidos, Clientes y Gasto en insumos · modo claro">
+<img src="capturas/oscuro/08-menu.webp" width="230" alt="El menú Métricas: Balance, Más vendidos, Gustos, Pedidos, Clientes y Gasto en insumos · modo oscuro">
+</p>
 
 | Pantalla | Qué muestra |
 | --- | --- |
@@ -63,8 +66,13 @@ web** no: tirá la pantalla para abajo para actualizarla.
 ## Balance
 
 <p>
-<img src="capturas/08-balance.png" width="260" alt="Balance: Te quedó, Entró, Salió y el aviso Te falta cobrar">
-<img src="capturas/08-balance-grafico.png" width="260" alt="El gráfico Día por día, con lo que entró hacia arriba y lo que salió hacia abajo">
+<img src="capturas/claro/08-balance.webp" width="230" alt="Balance: Te quedó, Entró, Salió y el aviso Te falta cobrar · modo claro">
+<img src="capturas/oscuro/08-balance.webp" width="230" alt="Balance: Te quedó, Entró, Salió y el aviso Te falta cobrar · modo oscuro">
+</p>
+
+<p>
+<img src="capturas/claro/08-balance-grafico.webp" width="230" alt="El gráfico Día por día, con lo que entró hacia arriba y lo que salió hacia abajo · modo claro">
+<img src="capturas/oscuro/08-balance-grafico.webp" width="230" alt="El gráfico Día por día, con lo que entró hacia arriba y lo que salió hacia abajo · modo oscuro">
 </p>
 
 - **Te quedó**: lo que entró menos lo que salió. Si es negativo, aparece en rojo.
@@ -86,7 +94,10 @@ $ 95.000».
 
 ## Más vendidos
 
-<img src="capturas/08-mas-vendidos.png" width="260" alt="Más vendidos: el total vendido y el ranking de productos con sus unidades, la barra y el porcentaje">
+<p>
+<img src="capturas/claro/08-mas-vendidos.webp" width="230" alt="Más vendidos: el total vendido y el ranking de productos con sus unidades, la barra y el porcentaje · modo claro">
+<img src="capturas/oscuro/08-mas-vendidos.webp" width="230" alt="Más vendidos: el total vendido y el ranking de productos con sus unidades, la barra y el porcentaje · modo oscuro">
+</p>
 
 Arriba, el total vendido en el período, con cuántos pedidos, unidades y productos.
 
@@ -106,7 +117,10 @@ para ver todos.
 
 ## Gustos
 
-<img src="capturas/08-gustos.png" width="260" alt="Gustos: el ranking de gustos con sus unidades y porcentajes">
+<p>
+<img src="capturas/claro/08-gustos.webp" width="230" alt="Gustos: el ranking de gustos con sus unidades y porcentajes · modo claro">
+<img src="capturas/oscuro/08-gustos.webp" width="230" alt="Gustos: el ranking de gustos con sus unidades y porcentajes · modo oscuro">
+</p>
 
 Lo mismo que **Más vendidos**, pero por gusto: Dulce, Salado, Picante… Abajo dice qué
 gustos no tuvieron ventas en el período.
@@ -116,8 +130,13 @@ gustos no tuvieron ventas en el período.
 ## Pedidos
 
 <p>
-<img src="capturas/08-pedidos.png" width="260" alt="Pedidos: cuántos pedidos, el ticket promedio y en qué estado están">
-<img src="capturas/08-pedidos-2.png" width="260" alt="Más abajo: de dónde llegan (web o cargado a mano) y qué días te piden más">
+<img src="capturas/claro/08-pedidos.webp" width="230" alt="Pedidos: cuántos pedidos, el ticket promedio y en qué estado están · modo claro">
+<img src="capturas/oscuro/08-pedidos.webp" width="230" alt="Pedidos: cuántos pedidos, el ticket promedio y en qué estado están · modo oscuro">
+</p>
+
+<p>
+<img src="capturas/claro/08-pedidos-2.webp" width="230" alt="Más abajo: de dónde llegan (web o cargado a mano) y qué días te piden más · modo claro">
+<img src="capturas/oscuro/08-pedidos-2.webp" width="230" alt="Más abajo: de dónde llegan (web o cargado a mano) y qué días te piden más · modo oscuro">
 </p>
 
 - **Cuántos pedidos** te hicieron en el período (contando los cancelados) y el
@@ -133,7 +152,10 @@ gustos no tuvieron ventas en el período.
 
 ## Clientes
 
-<img src="capturas/08-clientes.png" width="260" alt="Clientes: cuántos te compraron, Nuevos y los que vuelven, y Cuántas veces te compraron">
+<p>
+<img src="capturas/claro/08-clientes.webp" width="230" alt="Clientes: cuántos te compraron, Nuevos y los que vuelven, y Cuántas veces te compraron · modo claro">
+<img src="capturas/oscuro/08-clientes.webp" width="230" alt="Clientes: cuántos te compraron, Nuevos y los que vuelven, y Cuántas veces te compraron · modo oscuro">
+</p>
 
 - **Cuántos clientes** distintos te compraron en el período.
 - **Nuevos y los que vuelven**: **Primera compra** (nunca te habían comprado antes)
@@ -146,7 +168,10 @@ gustos no tuvieron ventas en el período.
 
 ## Gasto en insumos
 
-<img src="capturas/08-insumos.png" width="260" alt="Gasto en insumos: el total gastado, el aviso Subió 1 insumo y el ranking En qué gastaste más">
+<p>
+<img src="capturas/claro/08-insumos.webp" width="230" alt="Gasto en insumos: el total gastado, el aviso Subieron 5 insumos y el ranking En qué gastaste más · modo claro">
+<img src="capturas/oscuro/08-insumos.webp" width="230" alt="Gasto en insumos: el total gastado, el aviso Subieron 5 insumos y el ranking En qué gastaste más · modo oscuro">
+</p>
 
 - **Gastado**: el total de las compras de insumos del período.
 - **El aviso amarillo** («Subió 1 insumo», «Subieron 3 insumos»): qué insumos

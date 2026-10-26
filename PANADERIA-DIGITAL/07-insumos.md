@@ -24,7 +24,10 @@ Los insumos no se pueden borrar.
 
 Tocá la pestaña **Más** y después **Insumos**.
 
-<img src="capturas/07-lista.png" width="260" alt="Pantalla Insumos: el botón Nuevo insumo y la lista con el último precio, cuánto vino, el precio por kilo y la fecha de la última compra">
+<p>
+<img src="capturas/claro/07-lista.webp" width="230" alt="Pantalla Insumos: el botón Nuevo insumo y la lista con el último precio, cuánto vino, el precio por kilo y la fecha de la última compra · modo claro">
+<img src="capturas/oscuro/07-lista.webp" width="230" alt="Pantalla Insumos: el botón Nuevo insumo y la lista con el último precio, cuánto vino, el precio por kilo y la fecha de la última compra · modo oscuro">
+</p>
 
 Cada insumo muestra lo último que pagaste, cuánto vino y cuánto sale el kilo (o el
 litro, o la unidad), y la fecha de la última compra. Están ordenados por nombre.
@@ -46,7 +49,10 @@ litro, o la unidad), y la fecha de la última compra. Están ordenados por nombr
 
 3. Tocá **Guardar insumo**. Se abre el insumo nuevo.
 
-<img src="capturas/07-nuevo.png" width="260" alt="Pantalla Nuevo insumo completa: Harina 0000, 54000, 25, Kilos y la fecha 05/10/2026">
+<p>
+<img src="capturas/claro/07-nuevo.webp" width="230" alt="Pantalla Nuevo insumo completa: Manteca, 38000, 5, Kilos y la fecha de hoy · modo claro">
+<img src="capturas/oscuro/07-nuevo.webp" width="230" alt="Pantalla Nuevo insumo completa: Manteca, 38000, 5, Kilos y la fecha de hoy · modo oscuro">
+</p>
 
 > 💡 ¿Por qué el tamaño va aparte? Porque así la app compara el precio **por kilo**
 > aunque un mes compres la bolsa de 25 kg y otro mes la de 10 kg.
@@ -62,7 +68,10 @@ Tocá un insumo de la lista. Vas a ver lo último que pagaste, el precio por kil
 (o litro, o unidad), la fecha, los botones **Cargar compra nueva** y **Corregir
 datos**, y el **Historial**.
 
-<img src="capturas/07-detalle.png" width="260" alt="El insumo Harina 0000: $ 60.000, 25 kg a $ 2.400 el kg, los botones Cargar compra nueva y Corregir datos y el historial con +11% en rojo">
+<p>
+<img src="capturas/claro/07-detalle.webp" width="230" alt="El insumo Harina 0000: $ 60.000, 25 kg a $ 2.400 el kg, los botones Cargar compra nueva y Corregir datos y el historial con +11% en rojo · modo claro">
+<img src="capturas/oscuro/07-detalle.webp" width="230" alt="El insumo Harina 0000: $ 60.000, 25 kg a $ 2.400 el kg, los botones Cargar compra nueva y Corregir datos y el historial con +11% en rojo · modo oscuro">
+</p>
 
 En el **Historial** está cada alta, compra y corrección, la más nueva arriba. Al lado
 del precio dice cuánto cambió respecto de la anterior:
@@ -85,7 +94,10 @@ Cuando volvés a comprar lo mismo:
    última vez (cambialas si compraste otro tamaño) y la fecha es la de hoy.
 4. Tocá **Guardar compra**.
 
-<img src="capturas/07-compra.png" width="260" alt="Pantalla Actualizar insumo: «la última vez pagaste $ 54.000 por 25 kg», el precio nuevo 60000 y Guardar compra">
+<p>
+<img src="capturas/claro/07-compra.webp" width="230" alt="Pantalla Actualizar insumo: «la última vez pagaste $ 60.000 por 25 kg», el precio nuevo 63000 y Guardar compra · modo claro">
+<img src="capturas/oscuro/07-compra.webp" width="230" alt="Pantalla Actualizar insumo: «la última vez pagaste $ 60.000 por 25 kg», el precio nuevo 63000 y Guardar compra · modo oscuro">
+</p>
 
 ---
 
