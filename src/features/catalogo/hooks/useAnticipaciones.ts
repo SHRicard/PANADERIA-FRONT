@@ -7,8 +7,8 @@ export interface Anticipacion {
 }
 
 /**
- * Con cuántas horas se encarga cada producto activo, por id (el carrito solo guarda ids). Sale de la misma
- * consulta que la carta, que trae todo de una: si el cliente pasó por la carta, ya está en caché
+ * Con cuántas horas se encarga cada producto activo, por id (el carrito solo guarda ids). Trae todo el catálogo de
+ * una, sin filtros: la carta llega por secciones, así que esta consulta se pide aparte la primera vez
  */
 export function useAnticipaciones() {
   const consulta = useListarCatalogoInfiniteQuery({ limite: TODO_EL_CATALOGO });

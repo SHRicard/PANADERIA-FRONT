@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { productoSchema, recomendacionSchema } from '@/features/productos';
+import { productoSchema, recomendacionSchema, tipoDeProductoSchema } from '@/features/productos';
 
 /**
  * Cada producto de GET /api/catalogo: sin el array de fotos (con la portada en miniatura, o null si no tiene)
@@ -17,6 +17,24 @@ export const paginaCatalogoSchema = z.object({
   limite: z.number().int(),
   totalProductos: z.number().int(),
   totalPaginas: z.number().int(),
+});
+
+/** Una sección de la carta: los productos de un tipo. tipo null = los que no tienen tipo (siempre la última) */
+export const seccionCatalogoSchema = z.object({
+  tipo: tipoDeProductoSchema.nullable(),
+  productos: z.array(productoCatalogoSchema),
+});
+
+/** GET /api/catalogo/secciones: la carta, agrupada y ordenada por el back, sin paginar */
+export const seccionesCatalogoSchema = z.object({
+  secciones: z.array(seccionCatalogoSchema),
+  totalProductos: z.number().int(),
+});
+
+/** GET /api/catalogo/filtros: los tipos y los gustos con productos activos, con cuántos tiene cada uno */
+export const filtrosCatalogoSchema = z.object({
+  tipos: z.array(tipoDeProductoSchema.extend({ cantidad: z.number().int() })),
+  categorias: z.array(z.object({ nombre: z.string(), cantidad: z.number().int() })),
 });
 
 /** POST /api/catalogo/:id/recomendaciones: la recomendación guardada y el resumen del producto ya recalculado */

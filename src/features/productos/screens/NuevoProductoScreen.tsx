@@ -8,7 +8,7 @@ import { useNuevoProducto } from '../hooks/useNuevoProducto';
 // Formulario: no lleva el gesto de refrescar. El título lo pone el header del Stack
 export function NuevoProductoScreen() {
   const styles = useStyles(createStyles);
-  const { categorias, control, enfocar, enviar, enviando, error, fotos } = useNuevoProducto();
+  const { categorias, tipos, control, enfocar, enviar, enviando, error, fotos } = useNuevoProducto();
 
   return (
     <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
@@ -32,7 +32,7 @@ export function NuevoProductoScreen() {
           onTocar={fotos.hacerPortada}
         />
 
-        <CamposProducto control={control} enfocar={enfocar} categorias={categorias} />
+        <CamposProducto control={control} enfocar={enfocar} categorias={categorias} tipos={tipos} />
 
         <View style={styles.acciones}>
           <Button label="Guardar producto" onPress={enviar} loading={enviando} disabled={fotos.procesando} fullWidth />

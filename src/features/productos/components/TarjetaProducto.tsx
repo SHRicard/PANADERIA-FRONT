@@ -25,7 +25,9 @@ export function TarjetaProducto({ producto, enCola, onPress, onReintentar, onDes
 
   // Mientras la portada sube, se ve la foto local: el dueño no espera a que llegue la del servidor
   const portada = producto.imagenes[0]?.miniatura ?? enCola[0]?.uri;
-  const detalle = [producto.categoria, producto.pesoGramos && `${producto.pesoGramos} g`].filter(Boolean).join(' · ');
+  const detalle = [producto.tipo?.nombre, producto.categoria, producto.pesoGramos && `${producto.pesoGramos} g`]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <View style={styles.tarjeta}>

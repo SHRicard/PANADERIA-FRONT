@@ -1,83 +1,57 @@
-import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { BarraCarrito, useCarrito } from '@/features/carrito';
 import { useBreakpoint, useRefrescar } from '@/shared/hooks';
 import { ScreenContainer } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
-import { EstadoCatalogo, FinDeLista, PieCatalogo } from '../components/AvisosCatalogo';
+import { EstadoCatalogo, PieCatalogo } from '../components/AvisosCatalogo';
 import { CabeceraBienvenida } from '../components/CabeceraBienvenida';
 import { FiltrosCarta } from '../components/FiltrosCarta';
 import { SeccionCarta } from '../components/SeccionCarta';
-import { TODO_EL_CATALOGO } from '../api/catalogoApi';
-import { useCatalogo } from '../hooks/useCatalogo';
+import { useCarta } from '../hooks/useCarta';
+import { tituloSeccion } from '../textos';
 
 /**
- * El catálogo como carta: agrupado por gusto, con la descripción a la vista y el precio a la derecha.
- * Arriba, la bienvenida con el buscador y el gusto (filtra: el back trae solo ese gusto)
+ * El catálogo como carta: agrupado por tipo, con la descripción a la vista y el precio a la derecha. Las secciones
+ * llegan agrupadas, ordenadas y filtradas por el back: se dibujan como vienen. Arriba, la bienvenida con el
+ * buscador, el tipo y el gusto
  */
 export function CatalogoCartaScreen() {
   const styles = useStyles(createStyles);
   const enCompu = useBreakpoint() === 'compu';
-  // Todo de una: la carta se lee entera, agrupada por gusto
-  const catalogo = useCatalogo(TODO_EL_CATALOGO);
-  const { filtros } = catalogo;
-  const refresco = useRefrescar(catalogo.refrescar);
+  const carta = useCarta();
+  const { filtros } = carta;
+  const refresco = useRefrescar(carta.refrescar);
   const carrito = useCarrito();
-  const listo = !catalogo.cargando && !catalogo.error;
-
-  const grupos = useMemo(
-    () =>
-      filtros.gustos
-        .map(({ nombre }) => ({ gusto: nombre, productos: catalogo.productos.filter((p) => p.categoria === nombre) }))
-        .filter(({ productos }) => productos.length > 0),
-    [filtros.gustos, catalogo.productos],
-  );
+  const listo = !carta.cargando && !carta.error;
 
   return (
-    <ScreenContainer
-      width="completo"
-      refreshControl={refresco.control}
-      alLlegarAlFinal={catalogo.cargarMas}
-      pie={<BarraCarrito />}
-    >
+    <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />}>
       <View style={[styles.hoja, enCompu && styles.hojaCompu]}>
         <CabeceraBienvenida>
-          <FiltrosCarta
-            texto={filtros.texto}
-            setTexto={filtros.setTexto}
-            gustos={filtros.gustos}
-            gusto={filtros.gusto}
-            setGusto={filtros.setGusto}
-          />
+          <FiltrosCarta filtros={filtros} />
         </CabeceraBienvenida>
         <EstadoCatalogo
-          cargando={catalogo.cargando}
+          cargando={carta.cargando}
           refrescando={refresco.refrescando}
-          error={catalogo.error}
-          reintentar={catalogo.reintentar}
-          vacio={listo && catalogo.productos.length === 0}
+          error={carta.error}
+          reintentar={carta.reintentar}
+          vacio={listo && carta.secciones.length === 0}
           buscando={filtros.buscando}
           hayFiltros={filtros.hayFiltros}
           limpiar={filtros.limpiar}
         />
-        {grupos.map(({ gusto, productos }) => (
+        {carta.secciones.map(({ tipo, productos }) => (
           <SeccionCarta
-            key={gusto}
-            gusto={gusto}
+            key={tipo?._id ?? 'sin-tipo'}
+            titulo={tituloSeccion(tipo, carta.secciones.length === 1)}
             productos={productos}
-            alAbrir={catalogo.abrir}
+            alAbrir={carta.abrir}
             grande={enCompu}
             cantidadDe={carrito.cantidadDe}
             alCambiarCantidad={carrito.cambiarCantidad}
             maxUnidades={carrito.maxUnidades}
           />
         ))}
-        <FinDeLista
-          cargandoMas={catalogo.cargandoMas}
-          errorMas={catalogo.errorMas}
-          hayMas={catalogo.hayMas}
-          cargarMas={catalogo.cargarMas}
-        />
         <PieCatalogo />
       </View>
     </ScreenContainer>

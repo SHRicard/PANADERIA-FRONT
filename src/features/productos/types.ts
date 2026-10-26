@@ -24,6 +24,8 @@ export interface FiltrosProductos {
   buscar?: string;
   /** El gusto: Dulce, Salado… */
   categoria?: string;
+  /** El _id del tipo */
+  tipo?: string;
   estado?: EstadoProducto;
 }
 
@@ -32,7 +34,10 @@ export type DatosProducto = Pick<
   Producto,
   'nombre' | 'precio' | 'categoria' | 'anticipacionHoras' | 'ingredientes' | 'disponible'
 > &
-  Partial<Pick<Producto, 'descripcion' | 'etiqueta' | 'pesoGramos'>>;
+  Partial<Pick<Producto, 'descripcion' | 'etiqueta' | 'pesoGramos'>> & {
+    /** El _id de uno de los tipos. Si no tiene, no viaja */
+    tipo?: string;
+  };
 
 /** Lo que viaja a PUT /api/productos/:id: solo lo que cambió. Un opcional en null se borra del producto */
 export type CambiosProducto = Partial<
@@ -41,6 +46,8 @@ export type CambiosProducto = Partial<
   descripcion?: string | null;
   etiqueta?: string | null;
   pesoGramos?: number | null;
+  /** null lo saca */
+  tipo?: string | null;
 };
 
 /** Una foto elegida en el celular, ya achicada (JPEG en la caché de la app), todavía sin subir */

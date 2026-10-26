@@ -1,17 +1,12 @@
 // Cómo se leen los datos del producto en la web
 
-// Una línea para presentar cada gusto en la carta. Si el back suma un gusto nuevo, sale sin línea hasta que se escriba
-const LINEA_DEL_GUSTO: Record<string, string> = {
-  Dulce: 'Para la merienda, el postre o para festejar.',
-  Salado: 'Para acompañar el mate, el café o una picada.',
-  Agridulce: 'Lo dulce y lo ácido en el mismo bocado.',
-  Ácido: 'Frescos, con limón y fruta.',
-  Amargo: 'Para los que prefieren el cacao intenso.',
-  Picante: 'Con un toque de ají, para animarse.',
-};
-
-export function lineaDelGusto(gusto: string): string | undefined {
-  return LINEA_DEL_GUSTO[gusto];
+/**
+ * El título de una sección de la carta: el nombre del tipo. Los que no tienen tipo van al final, como «Otros»; si
+ * son los únicos (el dueño todavía no usa tipos), no son «otros» de nada
+ */
+export function tituloSeccion(tipo: { nombre: string } | null, unica: boolean): string {
+  if (tipo) return tipo.nombre;
+  return unica ? 'Nuestros productos' : 'Otros';
 }
 
 /** El saludo de la bienvenida según la hora del cliente */
