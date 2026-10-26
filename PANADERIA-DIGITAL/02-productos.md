@@ -11,13 +11,17 @@ en la web para tus clientes; lo que **pausás** queda guardado, pero no se ve.
 
 Tocá la pestaña **Productos** (el ícono de la medialuna) en la barra de abajo.
 
-<img src="capturas/02-lista.png" width="260" alt="La pestaña Productos: el botón Nuevo, el buscador, el botón de filtros y la lista de productos">
+<p>
+<img src="capturas/claro/02-lista.webp" width="230" alt="La pestaña Productos: el botón Nuevo, el buscador, el botón de filtros y la lista de productos · modo claro">
+<img src="capturas/oscuro/02-lista.webp" width="230" alt="La pestaña Productos: el botón Nuevo, el buscador, el botón de filtros y la lista de productos · modo oscuro">
+</p>
 
 Cada tarjeta muestra:
 
 - La **foto de portada** (si no tiene fotos, una medialuna dibujada).
 - El **nombre**, tal como lo escribiste, y el **precio** a la derecha.
-- El **gusto** y el **peso**, por ejemplo «Dulce · 540 g».
+- El **tipo**, el **gusto** y el **peso**, por ejemplo «Tartas · Dulce · 1500 g». Si
+  no tiene tipo, solo el gusto y el peso.
 - Abajo, la **etiqueta** dorada si tiene una, «Pausado» si está pausado y cuántas
   fotos tiene («Sin fotos», «1 foto», «4 fotos»).
 
@@ -44,11 +48,15 @@ desde abajo con:
 
 - **Estado**: **Todos**, **Activos** o **Pausados**.
 - **Gusto**: **Todos los gustos** o uno en particular.
+- **Tipo**: **Todos los tipos** o uno de los que armaste (ver [Los tipos](#los-tipos)).
 
 La lista cambia mientras elegís. Abajo de la hoja, el botón dice cuántos productos
-coinciden (por ejemplo **Ver 5 productos**): tocalo para cerrar la hoja.
+coinciden (por ejemplo **Ver 6 productos**): tocalo para cerrar la hoja.
 
-<img src="capturas/02-filtros.png" width="260" alt="La hoja Filtros, con Estado (Todos, Activos, Pausados) y la lista de gustos">
+<p>
+<img src="capturas/claro/02-filtros.webp" width="230" alt="La hoja Filtros con Activos y Dulce elegidos, la lista de gustos, Tipo y el botón Ver 6 productos · modo claro">
+<img src="capturas/oscuro/02-filtros.webp" width="230" alt="La hoja Filtros con Activos y Dulce elegidos, la lista de gustos, Tipo y el botón Ver 6 productos · modo oscuro">
+</p>
 
 Con un filtro puesto, el botón queda marcado con cuántos filtros hay, y debajo del
 buscador se lee qué estás viendo, por ejemplo «Filtrando: Dulce · Activos». Tocá
@@ -75,22 +83,28 @@ la web**, aunque las fotos todavía se estén subiendo.
 ### Los datos de un producto
 
 <p>
-<img src="capturas/02-nuevo-1.png" width="260" alt="Pantalla Nuevo producto: Fotos (Galería y Cámara), Nombre, Etiqueta y Precio">
-<img src="capturas/02-nuevo-2.png" width="260" alt="Más abajo: Estado, Gusto, Peso, Anticipación, Ingredientes, Descripción y el botón Guardar producto">
+<img src="capturas/claro/02-nuevo-1.webp" width="230" alt="Pantalla Nuevo producto: Fotos (Galería y Cámara), Nombre, Etiqueta, Precio, Estado, Gusto y Tipo · modo claro">
+<img src="capturas/oscuro/02-nuevo-1.webp" width="230" alt="Pantalla Nuevo producto: Fotos (Galería y Cámara), Nombre, Etiqueta, Precio, Estado, Gusto y Tipo · modo oscuro">
+</p>
+
+<p>
+<img src="capturas/claro/02-nuevo-2.webp" width="230" alt="Más abajo: Gusto, Tipo, Peso, Anticipación, Ingredientes, Descripción y el botón Guardar producto · modo claro">
+<img src="capturas/oscuro/02-nuevo-2.webp" width="230" alt="Más abajo: Gusto, Tipo, Peso, Anticipación, Ingredientes, Descripción y el botón Guardar producto · modo oscuro">
 </p>
 
 | Campo | ¿Obligatorio? | Cómo se completa |
 | --- | --- | --- |
 | **Fotos** | No | Hasta 10. Ver [Las fotos](#las-fotos). |
-| **Nombre** | Sí | Por ejemplo «Medialunas de manteca». No puede haber dos productos con el mismo nombre. |
-| **Etiqueta** | No | Un texto corto que se destaca en la web, como una estampilla dorada: «Promo lanzamiento», «Nuevo», «Solo sábados». Hasta 30 caracteres. |
-| **Precio** | Sí | En pesos, **sin puntos ni comas**: `4800`. |
+| **Nombre** | Sí | Por ejemplo «Alfajores de maicena». No puede haber dos productos con el mismo nombre. |
+| **Etiqueta** | No | Un texto corto que se destaca en la web, como una estampilla dorada: «Nuevo», «Promo lanzamiento», «Solo sábados». Hasta 30 caracteres. |
+| **Precio** | Sí | En pesos, **sin puntos ni comas**: `9500`. |
 | **Estado** | — | **Activo** (se ve en la web y se puede pedir) o **Pausado** (no se ve ni se puede pedir). Empieza en Activo. |
 | **Gusto** | Sí | Tocá el campo y elegí: Dulce, Salado, Agridulce, Ácido, Amargo o Picante. |
-| **Peso en gramos** | No | Solo el número: `540`. Se muestra como «540 g». |
+| **Tipo** | No | Tocá el campo y elegí uno de tus tipos (Tartas, Pizzas…) o **Sin tipo**. Los armás en **Más → Tipos** (ver [Los tipos](#los-tipos)). |
+| **Peso en gramos** | No | Solo el número: `500`. Se muestra como «500 g». |
 | **Anticipación en horas** | Sí | Con cuántas horas de anticipación hay que encargarlo. Escribí `0` si se puede pedir en el momento. |
-| **Ingredientes** | No | Separados por coma: «harina, manteca, azúcar». |
-| **Descripción** | No | Lo que quieras contar del producto: «Masa hojaldrada con manteca, horneada todas las mañanas.» |
+| **Ingredientes** | No | Separados por coma: «maicena, dulce de leche, coco rallado». |
+| **Descripción** | No | Lo que quieras contar del producto: «Una docena de alfajores rellenos de dulce de leche, con coco rallado en el borde.» |
 
 Al tocar la tecla de «siguiente» del teclado, pasás al campo que sigue.
 
@@ -186,7 +200,10 @@ con dos botones:
 
 Tocá un producto de la lista.
 
-<img src="capturas/02-detalle.png" width="260" alt="El detalle de un producto: las fotos, la etiqueta, Activo, el nombre, el precio, los datos y los botones Editar, Pausar y Eliminar producto">
+<p>
+<img src="capturas/claro/02-detalle.webp" width="230" alt="El detalle de Chips para rellenar: las fotos, la etiqueta, Activo, el nombre, el precio, los datos y los botones Compartir por WhatsApp, Editar y Pausar · modo claro">
+<img src="capturas/oscuro/02-detalle.webp" width="230" alt="El detalle de Chips para rellenar: las fotos, la etiqueta, Activo, el nombre, el precio, los datos y los botones Compartir por WhatsApp, Editar y Pausar · modo oscuro">
+</p>
 
 Vas a ver:
 
@@ -194,15 +211,49 @@ Vas a ver:
 - La etiqueta, si tiene.
 - Si está **Activo** (verde) o **Pausado** (gris).
 - El nombre y el precio.
-- El gusto, el peso y la anticipación, por ejemplo «Dulce · 540 g · Con 48 hs de
-  anticipación». Si la anticipación es 0, dice «Se pide en el momento».
+- El tipo, el gusto, el peso y la anticipación, por ejemplo «Tartas · Dulce · 2000 g
+  · Con 24 hs de anticipación». Si la anticipación es 0, dice «Se pide en el
+  momento».
 - La descripción y los ingredientes.
 
-Abajo están los botones **Editar**, **Pausar** (o **Activar**) y **Eliminar
-producto**.
+Abajo están los botones **Compartir por WhatsApp**, **Editar**, **Pausar** (o
+**Activar**) y **Eliminar producto**.
 
 > 💡 Las estrellas y comentarios que dejan tus clientes se ven solo en la web, no
 > en la app.
+
+---
+
+## Compartir un producto por WhatsApp
+
+Para mandarle un producto a alguien, o publicarlo en tu estado:
+
+1. Abrí el producto.
+2. Tocá el botón verde **Compartir por WhatsApp**.
+3. Se abre WhatsApp con la **foto de portada** y un texto ya escrito: el nombre, la
+   descripción, el precio, la anticipación y el link para pedirlo en la web.
+4. Elegí a quién mandarlo (un chat, un grupo o **Mi estado**) y tocá **Enviar**.
+
+Por ejemplo:
+
+> **Pastafrola de membrillo**
+> Masa frola con dulce de membrillo
+> $ 16.000 · Con 24 hs de anticipación
+>
+> Hacé tu pedido acá 👉 (el link del producto en tu web)
+
+El link abre ese producto en la web, con el botón para sumarlo al pedido. Si el
+producto no tiene fotos, se manda solo el texto.
+
+La primera vez tarda un poco, porque baja la foto al celular. Las siguientes es al
+instante.
+
+> 💡 Solo se pueden compartir los productos **activos**: el link de uno pausado diría
+> que no está disponible. Mientras está pausado, debajo del botón dice «Pausado: no se
+> ve en el catálogo ni se puede pedir. Para compartirlo, activalo.».
+
+Si dice «No encontramos WhatsApp en este celular.», instalá WhatsApp (el común, no
+WhatsApp Business).
 
 ---
 
@@ -212,7 +263,10 @@ producto**.
 2. Cambiá lo que necesites.
 3. Tocá **Guardar cambios**.
 
-<img src="capturas/02-editar.png" width="260" alt="Pantalla Editar producto: las fotos con la marca Portada y la estrella para elegirla, y los datos ya cargados">
+<p>
+<img src="capturas/claro/02-editar.webp" width="230" alt="Pantalla Editar producto: las fotos con la marca Portada y la estrella para elegirla, y los datos ya cargados · modo claro">
+<img src="capturas/oscuro/02-editar.webp" width="230" alt="Pantalla Editar producto: las fotos con la marca Portada y la estrella para elegirla, y los datos ya cargados · modo oscuro">
+</p>
 
 Las fotos funcionan distinto que al crear: **cada cambio en las fotos se aplica en
 el momento**, sin tocar Guardar.
@@ -225,6 +279,7 @@ el momento**, sin tocar Guardar.
   tiene un **!** rojo: tocala para reintentar.
 
 Si vaciás la **Etiqueta**, la **Descripción** o el **Peso**, se le sacan al producto.
+Para sacarle el tipo, elegí **Sin tipo**.
 
 > 💡 En [Métricas → Más vendidos](08-metricas.md), los productos se agrupan por
 > nombre. Si le cambiás el nombre a un producto, sus ventas viejas quedan con el
@@ -240,7 +295,8 @@ temporada: el producto queda guardado con sus fotos y datos, pero no se ve en la
 1. Abrí el producto.
 2. Tocá **Pausar**. Cambia al instante, sin preguntar.
 
-Debajo dice «Pausado: no se ve en el catálogo ni se puede pedir.».
+Debajo dice «Pausado: no se ve en el catálogo ni se puede pedir. Para compartirlo,
+activalo.».
 
 Para volver a mostrarlo, tocá **Activar**.
 
@@ -266,14 +322,78 @@ También podés cambiar el estado desde **Editar**.
 > que vas a volver a vender, mejor **pausalo**.
 
 1. Abrí el producto.
-2. Tocá **Eliminar producto** (en rojo).
+2. Tocá **Eliminar producto** (en rojo, al fondo).
 3. La app pregunta «¿Eliminar «nombre del producto»?» y avisa «Se borran también
    todas sus fotos. No se puede deshacer.».
 4. Tocá **Eliminar** para confirmar, o **Cancelar**.
 
-<img src="capturas/02-eliminar.png" width="260" alt="El aviso ¿Eliminar «PAN DULCE CON FRUTAS»?, con los botones Cancelar y Eliminar">
+<p>
+<img src="capturas/claro/02-eliminar.webp" width="230" alt="El aviso ¿Eliminar «Chips para rellenar»?, con los botones Cancelar y Eliminar · modo claro">
+<img src="capturas/oscuro/02-eliminar.webp" width="230" alt="El aviso ¿Eliminar «Chips para rellenar»?, con los botones Cancelar y Eliminar · modo oscuro">
+</p>
 
 Los pedidos que ya tenían ese producto no cambian: guardan su nombre y su precio.
+
+---
+
+## Los tipos
+
+Los **tipos** son las familias con las que ordenás lo que vendés: Tortas, Tartas,
+Pizzas, Alfajores… Los armás vos, con los nombres que quieras. Son aparte del gusto:
+una tarta puede ser **Tartas** y **Dulce**; una pizzeta, **Pizzas** y **Salado**.
+
+Para qué sirven:
+
+- En la web, la **Carta** muestra tus productos **agrupados por tipo** (primero un
+  tipo, después el otro), y los que no tienen tipo van al final, en **Otros** (ver
+  [La web de tus clientes](11-la-web.md)).
+- Tus clientes pueden filtrar el catálogo por tipo.
+- En la lista de **Productos** podés filtrar por tipo.
+
+El tipo es **opcional**: un producto sin tipo se vende igual.
+
+### Ver y armar tus tipos
+
+Tocá la pestaña **Más** y después **Tipos**. Cada tipo dice cuántos productos lo
+usan.
+
+<p>
+<img src="capturas/claro/02-tipos.webp" width="230" alt="Pantalla Tipos: el botón Nuevo tipo y los tipos Pizzas (3 productos) y Tartas (7 productos), cada uno con Borrar · modo claro">
+<img src="capturas/oscuro/02-tipos.webp" width="230" alt="Pantalla Tipos: el botón Nuevo tipo y los tipos Pizzas (3 productos) y Tartas (7 productos), cada uno con Borrar · modo oscuro">
+</p>
+
+Para crear uno:
+
+1. Tocá **Nuevo tipo**.
+2. Escribí el **Nombre**, por ejemplo «Pizzas».
+3. Tocá **Guardar tipo**.
+
+<p>
+<img src="capturas/claro/02-tipo-nuevo.webp" width="230" alt="Pantalla Nuevo tipo con el nombre Pizzas y el botón Guardar tipo · modo claro">
+<img src="capturas/oscuro/02-tipo-nuevo.webp" width="230" alt="Pantalla Nuevo tipo con el nombre Pizzas y el botón Guardar tipo · modo oscuro">
+</p>
+
+Después, a cada producto le elegís su tipo en **Editar** (o al cargarlo), en el
+campo **Tipo**.
+
+> 💡 Si después de cambiarle el tipo a varios productos la lista de **Tipos** sigue
+> diciendo «Ningún producto», tirala para abajo para actualizarla.
+
+### Cambiarle el nombre
+
+Tocá el tipo en la lista, cambiá el nombre y tocá **Guardar cambios**. Los productos
+que lo usan quedan con el nombre nuevo.
+
+Si ya existe otro con ese nombre, la app avisa: «Ya existe un tipo con ese nombre».
+
+### Borrar un tipo
+
+1. Tocá **Borrar** al lado del tipo.
+2. La app te dice qué pasa con los productos, por ejemplo «Los 3 productos que lo usan
+   van a quedar sin tipo. No se borra ningún producto.».
+3. Tocá **Borrar** para confirmar, o **Cancelar**.
+
+Los productos no se borran: quedan **sin tipo** y en la web pasan a **Otros**.
 
 ---
 

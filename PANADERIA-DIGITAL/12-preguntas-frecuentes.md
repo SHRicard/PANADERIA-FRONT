@@ -90,10 +90,24 @@ que ya no vendés y las promos viejas. Ver [Memoria](09-memoria.md).
 
 ---
 
-## «Compartir en mi estado» no abre WhatsApp
+## ¿Cómo le mando mi catálogo a un cliente?
 
-La app funciona con **WhatsApp** (el común). Si dice «No encontramos WhatsApp en este
-celular.», instalalo desde Play Store.
+En el **Dashboard**, la tarjeta **Tu catálogo** tiene el botón **Compartir por
+WhatsApp**: abre WhatsApp con un saludo y el link de tu web, y vos elegís a quién
+mandarlo. Para mandar un solo producto, abrilo en **Productos** y tocá **Compartir por
+WhatsApp**: va con su foto, el precio y el link para pedirlo. Ver
+[Empezar](01-empezar.md#el-dashboard) y [Productos](02-productos.md#compartir-un-producto-por-whatsapp).
+
+---
+
+## «Compartir» no abre WhatsApp
+
+Los botones para compartir (el catálogo, un producto o una promo) funcionan con
+**WhatsApp** (el común). Si dice «No encontramos WhatsApp en este celular.»,
+instalalo desde Play Store.
+
+Si dice «No se pudo preparar… Revisá tu internet y probá de nuevo.», la app no pudo
+bajar la foto o el video: revisá la conexión y volvé a tocar.
 
 ---
 

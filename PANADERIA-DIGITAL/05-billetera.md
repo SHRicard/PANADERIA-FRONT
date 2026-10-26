@@ -19,15 +19,18 @@ la web no muestra a dónde transferir la seña.»
 
 ## Cargar o cambiar tus datos
 
-<img src="capturas/05-billetera.png" width="260" alt="Pantalla Billetera con Titular de la cuenta, Alias, CBU o CVU, Billetera o banco y los botones Guardar y Sacar de la web">
+<p>
+<img src="capturas/claro/05-billetera.webp" width="230" alt="Pantalla Billetera con Titular de la cuenta, Alias, CBU o CVU, Billetera o banco y los botones Guardar y Sacar de la web · modo claro">
+<img src="capturas/oscuro/05-billetera.webp" width="230" alt="Pantalla Billetera con Titular de la cuenta, Alias, CBU o CVU, Billetera o banco y los botones Guardar y Sacar de la web · modo oscuro">
+</p>
 
 Completá los cuatro campos:
 
 | Campo | Qué va | Ejemplo |
 | --- | --- | --- |
 | **Titular de la cuenta** | El nombre de quien figura en la cuenta. | Marta Villa |
-| **Alias** | El alias de la cuenta: de 6 a 20 caracteres, letras sin acentos, números, puntos y guiones. | pan.dulce.mp |
-| **CBU o CVU** | Los 22 números. Lo podés pegar con espacios o guiones: se guardan solo los números. | 0000003100000000123456 |
+| **Alias** | El alias de la cuenta: de 6 a 20 caracteres, letras sin acentos, números, puntos y guiones. | dama.blanca.mp |
+| **CBU o CVU** | Los 22 números. Lo podés pegar con espacios o guiones: se guardan solo los números. | 0000003100000000123459 |
 | **Billetera o banco** | Dónde está la cuenta. | Mercado Pago, Ualá, Banco Nación… |
 
 Tocá **Guardar**. Arriba aparece en verde «Listo: la web ya muestra estos datos.».
@@ -54,7 +57,10 @@ Después de confirmar el pedido, la web le muestra al cliente el bloque **Pagá 
 seña**, con tu alias y tu CBU (cada uno con un botón para copiarlo), «A nombre de
 Marta Villa, en Mercado Pago.» y un botón para mandarte el comprobante por WhatsApp.
 
-<img src="capturas/11-pagar-transferencia.png" width="260" alt="En la web: el bloque Pagá la seña con la pestaña Transferencia, el alias, el CBU y el botón Mandar el comprobante por WhatsApp">
+<p>
+<img src="capturas/claro/11-pagar-transferencia.webp" width="230" alt="En la web: el bloque Pagá la seña con la pestaña Transferencia, el alias, el CBU y el botón Mandar el comprobante por WhatsApp · modo claro">
+<img src="capturas/oscuro/11-pagar-transferencia.webp" width="230" alt="En la web: el bloque Pagá la seña con la pestaña Transferencia, el alias, el CBU y el botón Mandar el comprobante por WhatsApp · modo oscuro">
+</p>
 
 Más detalles en [La web de tus clientes](11-la-web.md#pagar-la-seña).
 
@@ -69,7 +75,10 @@ Si cambiás de cuenta y todavía no tenés la nueva, o no querés que se vea nin
    volver a cargarlos cuando quieras.»
 3. Tocá **Sacar de la web** para confirmar, o **Cancelar**.
 
-<img src="capturas/05-sacar.png" width="260" alt="El aviso Sacar los datos de la web, con los botones Cancelar y Sacar de la web">
+<p>
+<img src="capturas/claro/05-sacar.webp" width="230" alt="El aviso Sacar los datos de la web, con los botones Cancelar y Sacar de la web · modo claro">
+<img src="capturas/oscuro/05-sacar.webp" width="230" alt="El aviso Sacar los datos de la web, con los botones Cancelar y Sacar de la web · modo oscuro">
+</p>
 
 Sin datos cargados, la web le ofrece al cliente escribirte por WhatsApp para
 coordinar cómo te paga la seña.

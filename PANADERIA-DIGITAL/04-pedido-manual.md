@@ -12,7 +12,10 @@ teléfono o en persona. Con **Pedido manual** los anotás en la app, así quedan
 
 Tocá la pestaña **Más** y después **Pedido manual** (es la primera opción).
 
-<img src="capturas/04-formulario.png" width="260" alt="Pantalla Pedido manual: el campo ¿Ya te hizo pedidos?, Nombre, Teléfono y la lista de productos">
+<p>
+<img src="capturas/claro/04-formulario.webp" width="230" alt="Pantalla Pedido manual: el campo ¿Ya te hizo pedidos?, Nombre, Teléfono y la lista de productos · modo claro">
+<img src="capturas/oscuro/04-formulario.webp" width="230" alt="Pantalla Pedido manual: el campo ¿Ya te hizo pedidos?, Nombre, Teléfono y la lista de productos · modo oscuro">
+</p>
 
 ---
 
@@ -25,6 +28,12 @@ Si el cliente ya te hizo pedidos antes (por la web o a mano), aparece el campo
 
 1. Tocalo. Se abre la lista **Elegí el cliente**, con los que te compraron más
    recientemente arriba. Al lado de cada nombre está su teléfono.
+
+   <p>
+   <img src="capturas/claro/04-clientes.webp" width="230" alt="La hoja Elegí el cliente, con cada cliente y su teléfono · modo claro">
+   <img src="capturas/oscuro/04-clientes.webp" width="230" alt="La hoja Elegí el cliente, con cada cliente y su teléfono · modo oscuro">
+   </p>
+
 2. Tocá el cliente. Se llenan solos el **Nombre** y el **Teléfono**.
 
 Si es un cliente nuevo, escribí:
@@ -55,7 +64,10 @@ En **Productos** está la lista de todo lo que vendés, también lo que tenés p
 Arriba vas viendo los productos elegidos con el precio por unidad, lo que suma cada
 uno y el **Total**, con los precios de hoy.
 
-<img src="capturas/04-productos.png" width="260" alt="Los productos elegidos arriba, con «− 2 +» y el tachito, el Total y el buscador">
+<p>
+<img src="capturas/claro/04-productos.webp" width="230" alt="Los productos elegidos arriba, con «− 2 +» y el tachito, el Total y el buscador · modo claro">
+<img src="capturas/oscuro/04-productos.webp" width="230" alt="Los productos elegidos arriba, con «− 2 +» y el tachito, el Total y el buscador · modo oscuro">
+</p>
 
 Si tenés más de 20 productos, abajo de todo aparece **Ver más productos**.
 
@@ -70,7 +82,10 @@ distintos por pedido.
 - **Nota** (opcional): lo que tengas que recordar, por ejemplo «Lo retira el sábado
   a la mañana» o «Sin nueces». Hasta 300 letras.
 
-<img src="capturas/04-sena-nota.png" width="260" alt="Los campos Seña y Nota completos y el botón Guardar pedido">
+<p>
+<img src="capturas/claro/04-sena-nota.webp" width="230" alt="Los campos Seña y Nota completos y el botón Guardar pedido · modo claro">
+<img src="capturas/oscuro/04-sena-nota.webp" width="230" alt="Los campos Seña y Nota completos y el botón Guardar pedido · modo oscuro">
+</p>
 
 ### 4. Guardar
 
@@ -80,7 +95,10 @@ marcás entregado (ver [Pedidos](03-pedidos.md)).
 
 En la lista de **Pedidos** aparece con la marca «Cargado a mano».
 
-<img src="capturas/04-guardado.png" width="260" alt="El pedido guardado: Seña pagada, «cargado a mano», los productos, la seña y lo que falta cobrar">
+<p>
+<img src="capturas/claro/04-guardado.webp" width="230" alt="El pedido guardado: Seña pagada, «cargado a mano», los productos, la seña y lo que falta cobrar · modo claro">
+<img src="capturas/oscuro/04-guardado.webp" width="230" alt="El pedido guardado: Seña pagada, «cargado a mano», los productos, la seña y lo que falta cobrar · modo oscuro">
+</p>
 
 > ⚠️ Si salís de la pantalla antes de tocar **Guardar pedido**, lo que escribiste
 > se pierde y no te avisa.

@@ -12,7 +12,10 @@ usaste y podés borrar lo que más ocupa.
 
 Tocá la pestaña **Más** y después **Memoria**.
 
-<img src="capturas/09-resumen.png" width="260" alt="Pantalla Memoria: el aviso Todo en orden, los créditos usados con su barra y el desglose Guardado, Entregado y Transformaciones">
+<p>
+<img src="capturas/claro/09-resumen.webp" width="230" alt="Pantalla Memoria: el aviso Todo en orden, los créditos usados con su barra y el desglose Guardado, Entregado y Transformaciones · modo claro">
+<img src="capturas/oscuro/09-resumen.webp" width="230" alt="Pantalla Memoria: el aviso Todo en orden, los créditos usados con su barra y el desglose Guardado, Entregado y Transformaciones · modo oscuro">
+</p>
 
 ---
 
@@ -48,7 +51,10 @@ Los créditos se gastan en tres cosas:
 Más abajo está la lista **Lo que más ocupa**: tus archivos, del más pesado al más
 liviano. Arriba podés elegir **Todo**, **Productos** o **Promos**.
 
-<img src="capturas/09-lo-que-mas-ocupa.png" width="260" alt="La lista Lo que más ocupa, con el selector Todo, Productos, Promos y cada archivo con su tamaño y el botón Borrar">
+<p>
+<img src="capturas/claro/09-lo-que-mas-ocupa.webp" width="230" alt="La lista Lo que más ocupa, con el selector Todo, Productos, Promos y cada archivo con su tamaño y el botón Borrar · modo claro">
+<img src="capturas/oscuro/09-lo-que-mas-ocupa.webp" width="230" alt="La lista Lo que más ocupa, con el selector Todo, Productos, Promos y cada archivo con su tamaño y el botón Borrar · modo oscuro">
+</p>
 
 Cada fila dice de qué es (el producto o la promo), qué es («Portada», «Foto»,
 «Promo · video») y cuánto pesa. Si el producto está pausado, también lo dice.
@@ -60,7 +66,10 @@ Cada fila dice de qué es (el producto o la promo), qué es («Portada», «Foto
    picante» y del catálogo.». Si es la portada, avisa que la siguiente pasa a serlo.
 3. Tocá **Borrar** para confirmar, o **Cancelar**.
 
-<img src="capturas/09-borrar.png" width="260" alt="El aviso ¿Borrar esta foto?, con los botones Cancelar y Borrar">
+<p>
+<img src="capturas/claro/09-borrar.webp" width="230" alt="El aviso ¿Borrar esta foto?, con los botones Cancelar y Borrar · modo claro">
+<img src="capturas/oscuro/09-borrar.webp" width="230" alt="El aviso ¿Borrar esta foto?, con los botones Cancelar y Borrar · modo oscuro">
+</p>
 
 > ⚠️ Borrar **no se puede deshacer**.
 > - Si es una **foto de un producto**, se saca solo esa foto: el producto queda.

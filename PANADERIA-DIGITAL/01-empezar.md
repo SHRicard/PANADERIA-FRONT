@@ -1,7 +1,7 @@
 # 1. Empezar
 
 Cómo instalar la app en tu celular, entrar con tu usuario, recuperar la contraseña
-si te la olvidás y moverte por las pantallas.
+si te la olvidás, qué te muestra el inicio y cómo moverte por las pantallas.
 
 [← Volver al índice](README.md)
 
@@ -10,7 +10,7 @@ si te la olvidás y moverte por las pantallas.
 ## Instalar la app
 
 La app no está en Play Store: te la pasa la persona que la desarrolló, como un
-archivo `.apk` (por ejemplo `panaderia-digital-1.0.0.apk`), o te la instala con el
+archivo `.apk` (por ejemplo `panaderia-digital-1.1.0.apk`), o te la instala con el
 celular conectado a la computadora.
 
 Si te mandan el archivo:
@@ -24,7 +24,9 @@ En tu pantalla de inicio aparece el ícono redondo de Dama Blanca, con el nombre
 «PANADERIA-DIGITAL».
 
 **Para actualizarla**, instalá la versión nueva encima de la que tenés, de la misma
-forma. No hace falta desinstalar: tu sesión y tus preferencias se mantienen.
+forma. No hace falta desinstalar: tu sesión y tus preferencias se mantienen. Para
+saber qué versión tenés, mirá al fondo de la pestaña **Más**: dice, por ejemplo,
+«Versión 1.1.0».
 
 > ⚠️ Si al actualizar Android dice que la app no se puede instalar porque ya existe
 > una distinta, avisale a quien te la pasó antes de desinstalar nada.
@@ -40,7 +42,10 @@ La primera vez que abrís la app aparece la pantalla **Ingresar**:
    ojito de la derecha.
 3. Tocá **Ingresar**.
 
-<img src="capturas/01-login.png" width="260" alt="Pantalla Ingresar, con los campos Usuario y Contraseña y el botón Ingresar">
+<p>
+<img src="capturas/claro/01-login.webp" width="230" alt="Pantalla Ingresar, con los campos Usuario y Contraseña y el botón Ingresar · modo claro">
+<img src="capturas/oscuro/01-login.webp" width="230" alt="Pantalla Ingresar, con los campos Usuario y Contraseña y el botón Ingresar · modo oscuro">
+</p>
 
 Si está todo bien, entrás directo a la app.
 
@@ -70,7 +75,10 @@ contraseña nueva.
 1. En la pantalla **Ingresar**, tocá **¿Olvidaste tu contraseña?**.
 2. Escribí el **email de tu cuenta** y tocá **Mandar código**.
 
-   <img src="capturas/01-recuperar.png" width="260" alt="Pantalla Recuperar contraseña, con el campo Email y el botón Mandar código">
+   <p>
+   <img src="capturas/claro/01-recuperar.webp" width="230" alt="Pantalla Recuperar contraseña, con el campo Email, el botón Mandar código y Volver al login · modo claro">
+   <img src="capturas/oscuro/01-recuperar.webp" width="230" alt="Pantalla Recuperar contraseña, con el campo Email, el botón Mandar código y Volver al login · modo oscuro">
+   </p>
 
 3. Abrí tu email. Te llega un mensaje con el asunto «123456 es tu código de
    Panadería Digital» (con tu código en lugar de 123456).
@@ -111,31 +119,95 @@ Abajo de todo está la **barra de pestañas**, con las cuatro partes principales
 
 | Pestaña | Para qué es |
 | --- | --- |
-| **Dashboard** | El resumen del día. Por ahora dice «Muy pronto vas a ver acá un resumen del día: los pedidos nuevos y los productos.» |
-| **Productos** | Lo que vendés: cargar, editar, pausar y borrar ([capítulo 2](02-productos.md)). |
+| **Dashboard** | El inicio: compartir tu catálogo y lo que pasó hoy (lo vemos abajo). |
+| **Productos** | Lo que vendés: cargar, editar, compartir, pausar y borrar ([capítulo 2](02-productos.md)). |
 | **Pedidos** | Lo que te encargan tus clientes ([capítulo 3](03-pedidos.md)). |
-| **Más** | Todo lo demás: pedido manual, métricas, insumos, promos, billetera, memoria, preferencias y cerrar sesión. |
+| **Más** | Todo lo demás: pedido manual, métricas, tipos, insumos, promos, billetera, memoria, preferencias y cerrar sesión. |
 
 Tocá una pestaña para ir a esa parte.
 
-<img src="capturas/01-dashboard.png" width="260" alt="El Dashboard, con la barra de pestañas abajo: Dashboard, Productos, Pedidos y Más">
+---
 
-### La pestaña Más
+## El Dashboard
+
+Es lo primero que ves al entrar. Tiene dos partes.
+
+<p>
+<img src="capturas/claro/01-dashboard.webp" width="230" alt="El Dashboard: la tarjeta Tu catálogo con Compartir por WhatsApp y Ver mi catálogo, y abajo Vendido hoy y Para atender · modo claro">
+<img src="capturas/oscuro/01-dashboard.webp" width="230" alt="El Dashboard: la tarjeta Tu catálogo con Compartir por WhatsApp y Ver mi catálogo, y abajo Vendido hoy y Para atender · modo oscuro">
+</p>
+
+### Tu catálogo
+
+Arriba está la tarjeta **Tu catálogo**, con el link de tu web. Es el atajo para lo
+que más hacés cuando un cliente te escribe:
+
+- **Compartir por WhatsApp** (verde): abre WhatsApp con un saludo y el link ya
+  escritos. Elegí a quién mandarlo (el chat del cliente que te preguntó, un grupo o
+  **Mi estado**) y tocá **Enviar**. Antes de mandarlo podés cambiar el texto.
+
+  > ¡Hola! 👋 Te paso el catálogo de Dama Blanca: ahí ves todos los productos con sus
+  > precios y podés hacer tu pedido.
+  >
+  > 👉 (el link de tu web)
+
+- **Ver mi catálogo**: abre tu web en el navegador del celular, para que veas lo
+  mismo que ven tus clientes.
+
+### Lo de hoy
+
+Debajo, el resumen del día:
+
+- **Vendido hoy**: la suma de los pedidos que te hicieron hoy, y cuántos son. No
+  cuenta los cancelados. Es la misma cuenta que [Métricas](08-metricas.md).
+- **Para atender**: cuántos pedidos están **Esperando la seña** y cuántos tienen la
+  **Seña pagada** y falta entregar. Estos son **de cualquier día**, no solo de hoy:
+  es lo que tenés pendiente.
+- **Pedidos de hoy**: los pedidos que entraron hoy, del más nuevo al más viejo (hasta
+  10). Tocá uno para abrirlo. Si hubo más, abajo aparece **Ver los demás en
+  Pedidos**.
+
+<p>
+<img src="capturas/claro/01-dashboard-2.webp" width="230" alt="Más abajo en el Dashboard: Vendido hoy, Para atender y la lista Pedidos de hoy · modo claro">
+<img src="capturas/oscuro/01-dashboard-2.webp" width="230" alt="Más abajo en el Dashboard: Vendido hoy, Para atender y la lista Pedidos de hoy · modo oscuro">
+</p>
+
+«Hoy» es el día de Argentina, aunque sean las 23:30.
+
+> 💡 Lo que hacés desde la app (confirmar una seña, entregar, cancelar, cargar un
+> pedido manual) se actualiza solo. Los pedidos nuevos de la **web** no: **tirá la
+> pantalla para abajo** para verlos.
+
+---
+
+## La pestaña Más
 
 **Más** es un menú. Arriba está tu usuario y, abajo, una opción por cada apartado:
 
-<img src="capturas/01-mas.png" width="260" alt="La pestaña Más: la tarjeta con el usuario y las opciones Pedido manual, Métricas, Insumos, Promos, Billetera, Memoria y Preferencias">
+<p>
+<img src="capturas/claro/01-mas.webp" width="230" alt="La pestaña Más: la tarjeta con el usuario y las opciones Pedido manual, Métricas, Tipos, Insumos, Promos y Billetera · modo claro">
+<img src="capturas/oscuro/01-mas.webp" width="230" alt="La pestaña Más: la tarjeta con el usuario y las opciones Pedido manual, Métricas, Tipos, Insumos, Promos y Billetera · modo oscuro">
+</p>
 
 | Opción | Qué hay adentro |
 | --- | --- |
 | **Pedido manual** | Cargá un pedido que te hicieron por WhatsApp o en persona ([capítulo 4](04-pedido-manual.md)). |
 | **Métricas** | Ventas, pedidos, clientes, gastos y lo que te queda ([capítulo 8](08-metricas.md)). |
+| **Tipos** | Tortas, tartas, alfajores: cómo ordenás tus productos ([capítulo 2](02-productos.md#los-tipos)). |
 | **Insumos** | Lo que comprás para producir y cuánto pagaste ([capítulo 7](07-insumos.md)). |
 | **Promos** | Fotos y videos para compartir en tu estado ([capítulo 6](06-promos.md)). |
 | **Billetera** | La cuenta a la que te transfieren la seña ([capítulo 5](05-billetera.md)). |
 | **Memoria** | Cuánto lugar usan tus fotos y videos ([capítulo 9](09-memoria.md)). |
 | **Preferencias** | Tema, letra, pestañas, encabezado y catálogo web ([capítulo 10](10-preferencias.md)). |
 | **Cerrar sesión** | En rojo, al fondo. |
+
+Al fondo de todo, debajo de **Cerrar sesión**, dice qué versión de la app tenés
+(por ejemplo «Versión 1.1.0»).
+
+<p>
+<img src="capturas/claro/01-mas-2.webp" width="230" alt="Más abajo en Más: Memoria, Preferencias, Cerrar sesión en rojo y Versión 1.1.0 · modo claro">
+<img src="capturas/oscuro/01-mas-2.webp" width="230" alt="Más abajo en Más: Memoria, Preferencias, Cerrar sesión en rojo y Versión 1.1.0 · modo oscuro">
+</p>
 
 ### Volver atrás
 
@@ -148,12 +220,13 @@ Desde **Productos**, **Pedidos** o **Más**, el botón de volver de Android te l
 
 ### Tirar para abajo para actualizar
 
-En las pantallas que muestran datos (la lista de productos, la de pedidos, un
-pedido, las métricas, los insumos, las promos y la memoria), **apoyá el dedo arriba
-de todo y deslizalo hacia abajo**. Aparece una ruedita que gira: cuando desaparece,
-ya tenés los datos al día.
+En las pantallas que muestran datos (el Dashboard, la lista de productos, la de
+pedidos, un pedido, las métricas, los insumos, las promos y la memoria), **apoyá el
+dedo arriba de todo y deslizalo hacia abajo**. Aparece una ruedita que gira: cuando
+desaparece, ya tenés los datos al día.
 
-Usalo sobre todo en **Pedidos**, para ver si entraron pedidos nuevos.
+Usalo sobre todo en el **Dashboard** y en **Pedidos**, para ver si entraron pedidos
+nuevos.
 
 En los formularios (cargar un producto, un pedido manual, la billetera…) no se usa:
 no hay nada que actualizar.
@@ -172,7 +245,10 @@ un botón **Reintentar**. Revisá tu internet y tocalo.
 3. La app te avisa: «Vas a tener que volver a entrar con tu usuario y contraseña.».
    Tocá **Cerrar sesión** para confirmar o **Cancelar** para quedarte.
 
-<img src="capturas/01-cerrar-sesion.png" width="260" alt="El aviso Cerrar sesión, con los botones Cancelar y Cerrar sesión">
+<p>
+<img src="capturas/claro/01-cerrar-sesion.webp" width="230" alt="El aviso Cerrar sesión, con los botones Cancelar y Cerrar sesión · modo claro">
+<img src="capturas/oscuro/01-cerrar-sesion.webp" width="230" alt="El aviso Cerrar sesión, con los botones Cancelar y Cerrar sesión · modo oscuro">
+</p>
 
 Tus preferencias (tema, letra, barra y encabezado) no se borran.
 

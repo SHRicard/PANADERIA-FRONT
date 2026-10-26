@@ -28,8 +28,8 @@ pestaña **Pedidos**.
 
 ## Índice
 
-1. [Empezar](01-empezar.md): instalar la app, entrar, recuperar la contraseña y moverte por las pantallas.
-2. [Productos](02-productos.md): cargar, editar, pausar y borrar lo que vendés, con sus fotos.
+1. [Empezar](01-empezar.md): instalar la app, entrar, recuperar la contraseña, el inicio y moverte por las pantallas.
+2. [Productos](02-productos.md): cargar, editar, compartir, pausar y borrar lo que vendés, con sus fotos y sus tipos.
 3. [Pedidos](03-pedidos.md): los pedidos de la web, la seña, avisar que está listo y entregar.
 4. [Pedido manual](04-pedido-manual.md): anotar un pedido que te hicieron por WhatsApp o en persona.
 5. [Billetera](05-billetera.md): la cuenta a la que te transfieren la seña.
@@ -58,8 +58,13 @@ pestaña **Pedidos**.
 > ⚠️ Los recuadros con este símbolo avisan de algo que no se puede deshacer o que
 > conviene revisar antes de seguir.
 
-Las capturas de pantalla son de una copia de prueba de la app: los productos,
-clientes, pedidos y montos son de ejemplo. En tu celular vas a ver los tuyos.
+Cada captura de pantalla aparece dos veces: a la izquierda con la app en **modo
+claro** y a la derecha en **modo oscuro**. Se ve igual en los dos: elegís el que
+te resulte más cómodo en **Más → Preferencias** ([Preferencias](10-preferencias.md)).
+
+Las capturas son de la versión 1.1.0, con tus productos y fotos reales. Los
+pedidos, los clientes, los insumos y los montos son de ejemplo: en tu celular vas a
+ver los tuyos.
 
 ---
 
@@ -70,8 +75,10 @@ Para tener todo listo antes de mandarle el link a tus clientes, seguí este orde
 1. Instalá la app y entrá con tu usuario ([Empezar](01-empezar.md)).
 2. Cargá tus datos de pago en **Más → Billetera**, así tus clientes saben a dónde
    transferirte la seña ([Billetera](05-billetera.md)).
-3. Cargá tus productos con sus fotos, precios y anticipación ([Productos](02-productos.md)).
+3. Armá los tipos con los que ordenás tus productos (Tortas, Tartas…) en **Más → Tipos**, y
+   cargá tus productos con sus fotos, precios y anticipación ([Productos](02-productos.md)).
 4. Elegí cómo se ve tu catálogo web en **Más → Preferencias**, en la parte **Web** ([Preferencias](10-preferencias.md)).
 5. Abrí la web vos primero, mirá cómo queda y hacé un pedido de prueba ([La web de tus clientes](11-la-web.md)).
    Después cancelalo desde **Pedidos**, así no cuenta como venta.
-6. Mandale el link a tus clientes por WhatsApp.
+6. Mandale el link a tus clientes por WhatsApp: en el **Dashboard**, la tarjeta **Tu catálogo**
+   tiene el botón **Compartir por WhatsApp** ([Empezar](01-empezar.md#el-dashboard)).

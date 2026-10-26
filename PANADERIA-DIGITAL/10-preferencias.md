@@ -16,7 +16,10 @@ Tocá la pestaña **Más** y después **Preferencias**. La pantalla tiene tres p
 
 ## Apariencia
 
-<img src="capturas/10-apariencia.png" width="260" alt="Preferencias, Apariencia: Tema (Sistema, Claro, Oscuro) y Tipografía (Clásica, Artesanal, Delicada)">
+<p>
+<img src="capturas/claro/10-apariencia.webp" width="230" alt="Preferencias, Apariencia: Tema (Sistema, Claro, Oscuro) y Tipografía (Clásica, Artesanal, Delicada) · modo claro">
+<img src="capturas/oscuro/10-apariencia.webp" width="230" alt="Preferencias, Apariencia: Tema (Sistema, Claro, Oscuro) y Tipografía (Clásica, Artesanal, Delicada) · modo oscuro">
+</p>
 
 ### Tema
 
@@ -26,7 +29,9 @@ Tocá la pestaña **Más** y después **Preferencias**. La pantalla tiene tres p
 | **Claro** | Siempre claro, aunque el celular esté en modo oscuro. |
 | **Oscuro** | Siempre oscuro: más cómodo de noche y en la cocina con poca luz. |
 
-<img src="capturas/10-tema-oscuro.png" width="260" alt="La pestaña Productos con el tema Oscuro">
+Todas las capturas de este manual están en los dos temas: a la izquierda el
+**Claro** y a la derecha el **Oscuro**. Así ves cómo queda cada pantalla antes de
+elegir.
 
 ### Tipografía
 
@@ -42,7 +47,10 @@ El estilo de letra de toda la app:
 
 ## Navegación
 
-<img src="capturas/10-navegacion.png" width="260" alt="Preferencias, Navegación: las opciones de Barra de pestañas y de Encabezado de las pestañas">
+<p>
+<img src="capturas/claro/10-navegacion.webp" width="230" alt="Preferencias, Navegación: las opciones de Barra de pestañas y de Encabezado de las pestañas · modo claro">
+<img src="capturas/oscuro/10-navegacion.webp" width="230" alt="Preferencias, Navegación: las opciones de Barra de pestañas y de Encabezado de las pestañas · modo oscuro">
+</p>
 
 ### Barra de pestañas
 
@@ -72,21 +80,27 @@ Cómo se ve el título arriba de cada pestaña:
 Por ejemplo, así se ve **Productos** con la barra **Cápsula** y el encabezado
 **Carta**:
 
-<img src="capturas/10-capsula-carta.png" width="260" alt="La pestaña Productos con la barra Cápsula y el encabezado Carta">
+<p>
+<img src="capturas/claro/10-capsula-carta.webp" width="230" alt="La pestaña Productos con la barra Cápsula y el encabezado Carta · modo claro">
+<img src="capturas/oscuro/10-capsula-carta.webp" width="230" alt="La pestaña Productos con la barra Cápsula y el encabezado Carta · modo oscuro">
+</p>
 
 ---
 
 ## Web
 
-<img src="capturas/10-web.png" width="260" alt="Preferencias, Web: Catálogo con las opciones Vidriera y Carta">
+<p>
+<img src="capturas/claro/10-web.webp" width="230" alt="Preferencias, Web: Catálogo con las opciones Vidriera y Carta · modo claro">
+<img src="capturas/oscuro/10-web.webp" width="230" alt="Preferencias, Web: Catálogo con las opciones Vidriera y Carta · modo oscuro">
+</p>
 
 En **Catálogo** elegís cómo ven tus productos los clientes que abren el link de la
 web:
 
 | Opción | Cómo es |
 | --- | --- |
-| **Carta** | Agrupada por gusto, con la descripción a la vista y el precio a la derecha. (Es la que viene.) |
-| **Vidriera** | Una grilla de fotos grandes, con buscador y filtro por gusto. Luce con buenas fotos. |
+| **Carta** | Agrupada por tipo (Pizzas, Tartas…), con la descripción a la vista y el precio a la derecha. Los productos sin tipo van al final, en **Otros**. (Es la que viene.) |
+| **Vidriera** | Una grilla de fotos grandes, con buscador y filtros por tipo y por gusto. Luce con buenas fotos. |
 
 En [La web de tus clientes](11-la-web.md) hay capturas de las dos.
 
