@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
+import type { Tipo } from '@/features/tipos';
 import {
   Button,
   HojaInferior,
@@ -18,8 +19,9 @@ export const ESTADOS_FILTRO: OpcionSegmentado<EstadoProducto | 'todos'>[] = [
   { valor: 'pausado', label: 'Pausados' },
 ];
 
-// Ningún gusto del back se llama así: es la opción de no filtrar
+// Ningún gusto del back se llama así ni ningún tipo tiene ese _id: es la opción de no filtrar
 const TODOS_LOS_GUSTOS = '';
+const TODOS_LOS_TIPOS = '';
 
 interface HojaFiltrosProps {
   visible: boolean;
@@ -30,13 +32,21 @@ interface HojaFiltrosProps {
   categorias: string[];
   categoria: string | null;
   alCambiarCategoria: (categoria: string | null) => void;
+  /** Los que arma el dueño en Más → Tipos. null mientras cargan */
+  tipos: Tipo[] | null;
+  /** El _id del tipo elegido */
+  tipo: string | null;
+  alCambiarTipo: (tipo: string | null) => void;
   /** Cuántos productos hay con los filtros puestos. null mientras cargan */
   total: number | null;
 }
 
 const cantidad = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
-/** El estado y el gusto. Se aplican en el momento: la lista de atrás ya cambia mientras se elige */
+/**
+ * El estado, el gusto y el tipo. Se aplican en el momento: la lista de atrás ya cambia mientras se elige. Si el dueño
+ * todavía no armó tipos, no se muestra ese grupo
+ */
 export function HojaFiltros({
   visible,
   alCerrar,
@@ -45,6 +55,9 @@ export function HojaFiltros({
   categorias,
   categoria,
   alCambiarCategoria,
+  tipos,
+  tipo,
+  alCambiarTipo,
   total,
 }: HojaFiltrosProps) {
   const styles = useStyles(createStyles);
@@ -54,6 +67,13 @@ export function HojaFiltros({
       ...categorias.map((gusto) => ({ valor: gusto, label: gusto })),
     ],
     [categorias],
+  );
+  const opcionesTipo = useMemo<OpcionHoja<string>[]>(
+    () => [
+      { valor: TODOS_LOS_TIPOS, label: 'Todos los tipos' },
+      ...(tipos ?? []).map(({ _id, nombre }) => ({ valor: _id, label: nombre })),
+    ],
+    [tipos],
   );
 
   return (
@@ -97,6 +117,25 @@ export function HojaFiltros({
           </Text>
         )}
       </View>
+      {tipos?.length !== 0 && (
+        <View style={styles.grupo}>
+          <Text variant="label" color="textMuted">
+            Tipo
+          </Text>
+          {tipos ? (
+            <ListaOpcionesHoja
+              opciones={opcionesTipo}
+              valor={tipo ?? TODOS_LOS_TIPOS}
+              alElegir={(elegido) => alCambiarTipo(elegido || null)}
+              accessibilityLabel="Tipo"
+            />
+          ) : (
+            <Text variant="caption" color="textMuted">
+              Cargando tipos…
+            </Text>
+          )}
+        </View>
+      )}
     </HojaInferior>
   );
 }

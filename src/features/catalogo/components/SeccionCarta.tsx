@@ -2,12 +2,13 @@ import { Pressable, StyleSheet, View, type LayoutChangeEvent } from 'react-nativ
 import { Adorno, ControlCantidad, Miniatura, Sello, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar, textoAnticipacion } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import { lineaDelGusto, textoPeso } from '../textos';
+import { textoPeso } from '../textos';
 import type { ProductoCatalogo } from '../types';
 import { PuntajeChico } from './PuntajeChico';
 
 interface SeccionCartaProps {
-  gusto: string;
+  /** El nombre del tipo (tituloSeccion) */
+  titulo: string;
   productos: ProductoCatalogo[];
   alAbrir: (id: string) => void;
   /** En la compu las fotos y las letras van más grandes */
@@ -21,9 +22,9 @@ interface SeccionCartaProps {
 
 const cantidad = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
-/** Un gusto de la carta: su título y sus productos, con la descripción a la vista y el precio con puntitos */
+/** Un tipo de la carta: su título y sus productos, con la descripción a la vista y el precio con puntitos */
 export function SeccionCarta({
-  gusto,
+  titulo,
   productos,
   alAbrir,
   grande,
@@ -34,24 +35,18 @@ export function SeccionCarta({
 }: SeccionCartaProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
-  const linea = lineaDelGusto(gusto);
 
   return (
     <View style={styles.seccion} onLayout={onLayout}>
       <View style={styles.titulo}>
         <Text variant="heading" accessibilityRole="header">
-          {gusto}
+          {titulo}
         </Text>
         <Text variant="caption" color="textMuted">
           {cantidad(productos.length)}
         </Text>
       </View>
       <Adorno forma="izquierda" />
-      {linea && (
-        <Text color="textMuted" style={styles.linea}>
-          {linea}
-        </Text>
-      )}
       {productos.map((producto, indice) => {
         const nombre = nombreParaMostrar(producto.nombre);
         const precio = formatearPrecio(producto.precio);
@@ -137,8 +132,6 @@ const createStyles = (theme: Theme) =>
     abrir: { gap: theme.spacing.xxs },
     // Un poco de aire entre el sello y el nombre
     etiqueta: { paddingBottom: theme.spacing.xxs },
-    // La presentación del gusto, en cursiva como una nota de la carta
-    linea: { fontStyle: 'italic', paddingTop: theme.spacing.xs },
     renglon: { flexDirection: 'row', alignItems: 'baseline', gap: theme.spacing.sm },
     nombre: { flexShrink: 1 },
     // Los puntitos de carta entre el nombre y el precio

@@ -6,6 +6,7 @@ import { productosApi, useListarProductosInfiniteQuery } from '../api/productosA
 import { quitarFoto, reintentarFoto, type FotoEnCola } from '../store/subidaFotosSlice';
 import type { EstadoProducto, Producto } from '../types';
 import { useCategorias } from './useCategorias';
+import { useTiposDeProducto } from './useTiposDeProducto';
 
 // Espera a que el dueño deje de escribir: no un pedido por letra
 const ESPERA_BUSQUEDA_MS = 350;
@@ -15,12 +16,16 @@ export function useProductos() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const categorias = useCategorias();
+  const tipos = useTiposDeProducto();
   const fotosEnCola = useAppSelector((s) => s.subidaFotos.fotos);
 
   const [texto, setTexto] = useState('');
   const [buscar, setBuscar] = useState('');
   const [estado, setEstado] = useState<EstadoProducto | null>(null);
   const [categoria, setCategoria] = useState<string | null>(null);
+  const [tipoElegido, setTipo] = useState<string | null>(null);
+  // Si lo borraron en Más → Tipos mientras estaba elegido, deja de filtrar: si no, la lista queda vacía sin explicación
+  const tipo = tipoElegido && tipos && !tipos.some(({ _id }) => _id === tipoElegido) ? null : tipoElegido;
 
   useEffect(() => {
     const espera = setTimeout(() => setBuscar(texto.trim()), ESPERA_BUSQUEDA_MS);
@@ -31,6 +36,7 @@ export function useProductos() {
   const consulta = useListarProductosInfiniteQuery({
     buscar: buscar || undefined,
     categoria: categoria ?? undefined,
+    tipo: tipo ?? undefined,
     estado: estado ?? undefined,
   });
   // currentData y no data: al cambiar de filtro no se ve la lista del filtro anterior mientras carga
@@ -43,9 +49,9 @@ export function useProductos() {
     return porProducto;
   }, [fotosEnCola]);
 
-  const hayFiltros = Boolean(buscar || estado || categoria);
+  const hayFiltros = Boolean(buscar || estado || categoria || tipo);
   // Los de la hoja de filtros: la búsqueda ya se ve en su campo
-  const filtrosPuestos = (estado ? 1 : 0) + (categoria ? 1 : 0);
+  const filtrosPuestos = (estado ? 1 : 0) + (categoria ? 1 : 0) + (tipo ? 1 : 0);
 
   return {
     productos,
@@ -74,18 +80,24 @@ export function useProductos() {
       categoria,
       setCategoria,
       categorias,
+      tipo,
+      setTipo,
+      /** Los que arma el dueño en Más → Tipos. null mientras cargan */
+      tipos,
       hayFiltros,
       filtrosPuestos,
-      /** Saca el estado y el gusto; la búsqueda queda */
+      /** Saca el estado, el gusto y el tipo; la búsqueda queda */
       limpiarHoja: () => {
         setEstado(null);
         setCategoria(null);
+        setTipo(null);
       },
       limpiar: () => {
         setTexto('');
         setBuscar('');
         setEstado(null);
         setCategoria(null);
+        setTipo(null);
       },
     },
 

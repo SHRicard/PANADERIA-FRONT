@@ -37,7 +37,7 @@ export function EstadoCatalogo({ cargando, refrescando, error, reintentar, vacio
     <View style={styles.vacio}>
       <Icon icon={Search} size="xl" color="textMuted" />
       <Text variant="subtitle" align="center">
-        {buscando ? `No encontramos «${buscando}»` : 'No hay productos de ese gusto'}
+        {buscando ? `No encontramos «${buscando}»` : 'No hay productos con esos filtros'}
       </Text>
       <Text color="textMuted" align="center">
         Probá con otra palabra o mirá todo el catálogo.

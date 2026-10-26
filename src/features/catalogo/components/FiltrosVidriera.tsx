@@ -1,41 +1,39 @@
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Search, SlidersHorizontal } from 'lucide-react-native';
-import { HojaInferior, Icon, Input, ListaOpcionesHoja, Text, type OpcionHoja } from '@/shared/ui/atoms';
-import type { Categoria } from '@/features/productos';
+import { Button, HojaInferior, Icon, Input, ListaOpcionesHoja, Text, type OpcionHoja } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
+import type { useFiltrosCatalogo } from '../hooks/useFiltrosCatalogo';
+import type { OpcionFiltro } from '../types';
 
-// Ningún gusto del back se llama así: es la opción de no filtrar
-const TODOS_LOS_GUSTOS = '';
+// Ningún tipo ni gusto del back tiene ese valor: es la opción de no filtrar
+const TODOS = '';
 
 interface FiltrosVidrieraProps {
-  texto: string;
-  setTexto: (texto: string) => void;
-  /** Los gustos con productos activos, con cuántos tiene cada uno */
-  gustos: Categoria[];
-  gusto: string | null;
-  setGusto: (gusto: string | null) => void;
+  filtros: ReturnType<typeof useFiltrosCatalogo>;
   /** Cuántos productos hay con estos filtros. null mientras cargan */
   total: number | null;
 }
 
 const cantidad = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
+const deLaHoja = (todos: string, opciones: OpcionFiltro[]): OpcionHoja<string>[] => [
+  { valor: TODOS, label: todos },
+  ...opciones.map(({ valor, label, cantidad: deEsa }) => ({ valor, label, detalle: String(deEsa) })),
+];
+
 /**
- * El buscador y, a su lado, el botón que abre la hoja de gustos (el mismo patrón que la lista del dueño).
- * Abajo, cuántos productos hay y, con un gusto elegido, «Ver todos»
+ * El buscador y, a su lado, el botón que abre la hoja con el tipo y el gusto (el mismo patrón que la lista del
+ * dueño). Abajo, cuántos productos hay y, con un filtro puesto, cuál y «Ver todos»
  */
-export function FiltrosVidriera({ texto, setTexto, gustos, gusto, setGusto, total }: FiltrosVidrieraProps) {
+export function FiltrosVidriera({ filtros, total }: FiltrosVidrieraProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const [abierta, setAbierta] = useState(false);
-  const opciones = useMemo<OpcionHoja<string>[]>(
-    () => [
-      { valor: TODOS_LOS_GUSTOS, label: 'Todos los gustos' },
-      ...gustos.map(({ nombre, cantidad }) => ({ valor: nombre, label: nombre, detalle: String(cantidad) })),
-    ],
-    [gustos],
-  );
+  const tipos = useMemo(() => deLaHoja('Todos los tipos', filtros.tipos), [filtros.tipos]);
+  const gustos = useMemo(() => deLaHoja('Todos los gustos', filtros.gustos), [filtros.gustos]);
+  const puestos = filtros.filtrosPuestos;
+  const resumen = [filtros.nombreTipo, filtros.gusto].filter(Boolean).join(' · ');
 
   return (
     <View style={styles.filtros}>
@@ -43,8 +41,8 @@ export function FiltrosVidriera({ texto, setTexto, gustos, gusto, setGusto, tota
         <View style={styles.buscar}>
           <Input
             icon={Search}
-            value={texto}
-            onChangeText={setTexto}
+            value={filtros.texto}
+            onChangeText={filtros.setTexto}
             placeholder="Buscar por nombre"
             accessibilityLabel="Buscar por nombre"
             autoCorrect={false}
@@ -54,15 +52,15 @@ export function FiltrosVidriera({ texto, setTexto, gustos, gusto, setGusto, tota
         <Pressable
           onPress={() => setAbierta(true)}
           accessibilityRole="button"
-          accessibilityLabel="Filtrar por gusto"
-          accessibilityValue={gusto ? { text: gusto } : undefined}
-          style={({ pressed }) => [styles.boton, gusto && styles.botonPuesto, pressed && styles.presionado]}
+          accessibilityLabel="Filtros"
+          accessibilityValue={resumen ? { text: resumen } : undefined}
+          style={({ pressed }) => [styles.boton, puestos > 0 && styles.botonPuesto, pressed && styles.presionado]}
         >
-          <Icon icon={SlidersHorizontal} color={gusto ? 'primary' : 'text'} />
-          {gusto && (
+          <Icon icon={SlidersHorizontal} color={puestos > 0 ? 'primary' : 'text'} />
+          {puestos > 0 && (
             <View style={styles.insignia}>
               <Text variant="caption" color="onPrimary" style={styles.negrita}>
-                1
+                {puestos}
               </Text>
             </View>
           )}
@@ -72,14 +70,14 @@ export function FiltrosVidriera({ texto, setTexto, gustos, gusto, setGusto, tota
       {total !== null && (
         <View style={styles.resumen}>
           <Text variant="caption" color="textMuted" style={styles.textoResumen}>
-            {gusto ? <Text variant="caption" style={styles.fuerte}>{`${gusto} · `}</Text> : null}
+            {resumen ? <Text variant="caption" style={styles.fuerte}>{`${resumen} · `}</Text> : null}
             {cantidad(total)}
           </Text>
-          {gusto && (
+          {puestos > 0 && (
             <Pressable
-              onPress={() => setGusto(null)}
+              onPress={filtros.limpiarHoja}
               accessibilityRole="button"
-              accessibilityLabel="Ver todos los gustos"
+              accessibilityLabel="Sacar los filtros"
               hitSlop={theme.spacing.md}
               style={({ pressed }) => pressed && styles.presionado}
             >
@@ -91,22 +89,55 @@ export function FiltrosVidriera({ texto, setTexto, gustos, gusto, setGusto, tota
         </View>
       )}
 
-      <HojaInferior visible={abierta} alCerrar={() => setAbierta(false)} titulo="Filtrar por gusto">
-        {gustos.length > 0 ? (
-          <ListaOpcionesHoja
-            opciones={opciones}
-            valor={gusto ?? TODOS_LOS_GUSTOS}
-            alElegir={(elegido) => {
-              setGusto(elegido || null);
-              setAbierta(false);
-            }}
-            accessibilityLabel="Gusto"
+      {/* Se aplican en el momento: la grilla de atrás ya cambia mientras se elige */}
+      <HojaInferior
+        visible={abierta}
+        alCerrar={() => setAbierta(false)}
+        titulo="Filtros"
+        pie={
+          <Button
+            label={total === null ? 'Ver productos' : total === 0 ? 'Ningún producto coincide' : `Ver ${cantidad(total)}`}
+            onPress={() => setAbierta(false)}
+            fullWidth
           />
-        ) : (
-          <Text variant="caption" color="textMuted">
-            Cargando gustos…
-          </Text>
+        }
+      >
+        {!filtros.sinTipos && (
+          <View style={styles.grupo}>
+            <Text variant="label" color="textMuted">
+              Tipo
+            </Text>
+            {filtros.tipos.length > 0 ? (
+              <ListaOpcionesHoja
+                opciones={tipos}
+                valor={filtros.tipo ?? TODOS}
+                alElegir={(elegido) => filtros.setTipo(elegido || null)}
+                accessibilityLabel="Tipo"
+              />
+            ) : (
+              <Text variant="caption" color="textMuted">
+                Cargando tipos…
+              </Text>
+            )}
+          </View>
         )}
+        <View style={styles.grupo}>
+          <Text variant="label" color="textMuted">
+            Gusto
+          </Text>
+          {filtros.gustos.length > 0 ? (
+            <ListaOpcionesHoja
+              opciones={gustos}
+              valor={filtros.gusto ?? TODOS}
+              alElegir={(elegido) => filtros.setGusto(elegido || null)}
+              accessibilityLabel="Gusto"
+            />
+          ) : (
+            <Text variant="caption" color="textMuted">
+              Cargando gustos…
+            </Text>
+          )}
+        </View>
       </HojaInferior>
     </View>
   );
@@ -147,4 +178,5 @@ const createStyles = (theme: Theme) =>
     resumen: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: theme.spacing.md },
     textoResumen: { flex: 1 },
     fuerte: { fontFamily: theme.fonts.textoNegrita, color: theme.colors.text },
+    grupo: { gap: theme.spacing.sm },
   });

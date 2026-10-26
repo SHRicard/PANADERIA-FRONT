@@ -13,6 +13,7 @@ export function useMas() {
     abrirPedidoManual: () => router.push('/pedido-manual'),
     abrirMetricas: () => router.push('/metricas'),
     abrirInsumos: () => router.push('/insumos'),
+    abrirTipos: () => router.push('/tipos'),
     abrirPromos: () => router.push('/promos'),
     abrirBilletera: () => router.push('/billetera'),
     abrirMemoria: () => router.push('/memoria'),

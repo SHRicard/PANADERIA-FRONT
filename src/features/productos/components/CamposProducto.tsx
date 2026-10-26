@@ -1,10 +1,14 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Controller, type Control, type UseFormSetFocus } from 'react-hook-form';
+import type { Tipo } from '@/features/tipos';
 import { CampoTexto, Segmentado, Select, Text, type OpcionSegmentado, type OpcionSelect } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import { ETIQUETA_MAX } from '../schemas';
 import type { EstadoProducto, ProductoFormulario } from '../types';
+
+// Ningún tipo tiene ese _id: es la opción de sacárselo
+const SIN_TIPO = '';
 
 const ESTADOS: OpcionSegmentado<EstadoProducto>[] = [
   { valor: 'activo', label: 'Activo' },
@@ -16,16 +20,26 @@ interface CamposProductoProps {
   enfocar: UseFormSetFocus<ProductoFormulario>;
   /** Los gustos de la lista fija del back (useCategorias) */
   categorias: string[];
+  /** Los que arma el dueño en Más → Tipos (useTiposDeProducto). null mientras cargan */
+  tipos: Tipo[] | null;
 }
 
 /** Los datos del producto: los mismos en el alta y en la edición */
-export function CamposProducto({ control, enfocar, categorias }: CamposProductoProps) {
+export function CamposProducto({ control, enfocar, categorias, tipos }: CamposProductoProps) {
   const styles = useStyles(createStyles);
   const gustos = useMemo<OpcionSelect<string>[]>(
     () => categorias.map((categoria) => ({ valor: categoria, label: categoria })),
     [categorias],
   );
   const cargandoGustos = gustos.length === 0;
+  const opcionesTipo = useMemo<OpcionSelect<string>[]>(
+    () => [
+      { valor: SIN_TIPO, label: 'Sin tipo' },
+      ...(tipos ?? []).map(({ _id, nombre }) => ({ valor: _id, label: nombre })),
+    ],
+    [tipos],
+  );
+  const sinTipos = tipos?.length === 0;
 
   return (
     <View style={styles.campos}>
@@ -97,6 +111,24 @@ export function CamposProducto({ control, enfocar, categorias }: CamposProductoP
             placeholder={cargandoGustos ? 'Cargando gustos…' : 'Dulce, salado, picante…'}
             disabled={cargandoGustos}
             error={error?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="tipo"
+        render={({ field: { value, onChange } }) => (
+          <Select
+            label="Tipo"
+            tituloHoja="¿Qué tipo de producto es?"
+            opciones={opcionesTipo}
+            // '' es «sin tipo»: se ve el placeholder
+            valor={value || null}
+            alCambiar={onChange}
+            placeholder={tipos === null ? 'Cargando tipos…' : sinTipos ? 'Todavía no armaste tipos' : 'Tortas, tartas, alfajores…'}
+            helper="Opcional. Los armás en Más → Tipos."
+            disabled={tipos === null || sinTipos}
           />
         )}
       />

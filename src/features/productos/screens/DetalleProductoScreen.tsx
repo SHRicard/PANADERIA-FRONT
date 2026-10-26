@@ -41,6 +41,7 @@ export function DetalleProductoScreen() {
 
   // El dueño ve también el 0, que en la web no se muestra
   const datos = [
+    producto.tipo?.nombre,
     producto.categoria,
     producto.pesoGramos && `${producto.pesoGramos} g`,
     textoAnticipacion(producto.anticipacionHoras) ?? 'Se pide en el momento',

@@ -1,5 +1,16 @@
 import { StyleSheet, View } from 'react-native';
-import { ChartColumn, ClipboardPlus, HardDrive, LogOut, Megaphone, Palette, Settings, Wallet, Wheat } from 'lucide-react-native';
+import {
+  ChartColumn,
+  ClipboardPlus,
+  HardDrive,
+  LogOut,
+  Megaphone,
+  Palette,
+  Settings,
+  Tags,
+  Wallet,
+  Wheat,
+} from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { OpcionMenu } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
@@ -36,6 +47,16 @@ export function MasScreen() {
               titulo="Métricas"
               descripcion="Ventas, pedidos, clientes, gastos y lo que te queda"
               onPress={mas.abrirMetricas}
+            />
+          </View>
+
+          {/* Cómo ordena sus productos: los tipos que les pone (Tortas, Tartas…) */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={Tags}
+              titulo="Tipos"
+              descripcion="Tortas, tartas, alfajores: cómo ordenás tus productos"
+              onPress={mas.abrirTipos}
             />
           </View>
 

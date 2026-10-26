@@ -1,69 +1,87 @@
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { ChevronDown, Cookie, X } from 'lucide-react-native';
-import type { Categoria } from '@/features/productos';
+import { ChevronDown, X, type LucideIcon } from 'lucide-react-native';
 import { HojaInferior, Icon, ListaOpcionesHoja, Text, type OpcionHoja } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
+import type { OpcionFiltro } from '../types';
 
-// Ningún gusto del back se llama así: es la opción de no filtrar
-const TODOS_LOS_GUSTOS = '';
+// Ningún tipo ni gusto del back tiene ese valor: es la opción de no filtrar
+const TODOS = '';
 
-interface SelectorGustoProps {
-  /** Los gustos con productos activos, con cuántos tiene cada uno */
-  gustos: Categoria[];
-  gusto: string | null;
-  alCambiar: (gusto: string | null) => void;
+interface SelectorFiltroProps {
+  /** Qué filtra («Tipo», «Gusto»): va chico arriba del valor */
+  etiqueta: string;
+  icono: LucideIcon;
+  /** La opción de no filtrar, en la hoja: «Todos los tipos» */
+  todos: string;
+  /** Cuántos productos activos hay en total, para la opción de no filtrar */
+  cantidadTodos: number;
+  tituloHoja: string;
+  /** Las opciones con productos activos, en el orden del back */
+  opciones: OpcionFiltro[];
+  /** El elegido; null = todos */
+  valor: string | null;
+  alCambiar: (valor: string | null) => void;
 }
 
 /**
- * Filtrar la carta por gusto. Se ve como un campo, al lado del buscador; al tocarlo sube la lista de gustos
- * con cuántos productos tiene cada uno. Con un gusto elegido se marca en dorado y la X lo saca
+ * Filtrar la carta por tipo o por gusto. Se ve como un campo, al lado del buscador; al tocarlo sube la lista con
+ * cuántos productos tiene cada opción. Con una elegida se marca en dorado y la X la saca
  */
-export function SelectorGusto({ gustos, gusto, alCambiar }: SelectorGustoProps) {
+export function SelectorFiltro({
+  etiqueta,
+  icono,
+  todos,
+  cantidadTodos,
+  tituloHoja,
+  opciones,
+  valor,
+  alCambiar,
+}: SelectorFiltroProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const [abierto, setAbierto] = useState(false);
-  const opciones = useMemo<OpcionHoja<string>[]>(
+  const deLaHoja = useMemo<OpcionHoja<string>[]>(
     () => [
-      {
-        valor: TODOS_LOS_GUSTOS,
-        label: 'Todos los gustos',
-        detalle: String(gustos.reduce((suma, { cantidad }) => suma + cantidad, 0)),
-      },
-      ...gustos.map(({ nombre, cantidad }) => ({ valor: nombre, label: nombre, detalle: String(cantidad) })),
+      { valor: TODOS, label: todos, detalle: String(cantidadTodos) },
+      ...opciones.map((opcion) => ({ valor: opcion.valor, label: opcion.label, detalle: String(opcion.cantidad) })),
     ],
-    [gustos],
+    [opciones, todos, cantidadTodos],
   );
+  const elegida = opciones.find((opcion) => opcion.valor === valor);
+  const puesto = Boolean(valor);
+  // En el campo alcanza con «Todos»: arriba ya dice qué filtra
+  const texto = elegida?.label ?? 'Todos';
 
   return (
     <>
       {/* La X va al lado del botón que abre la lista, no adentro: en la web un botón no puede ir dentro de otro */}
-      <View style={[styles.caja, gusto && styles.puesto]}>
+      <View style={[styles.caja, puesto && styles.puesto]}>
         <Pressable
           onPress={() => setAbierto(true)}
-          disabled={gustos.length === 0}
+          disabled={opciones.length === 0}
           accessibilityRole="combobox"
-          accessibilityLabel="Gusto"
-          accessibilityValue={{ text: gusto ?? 'Todos los gustos' }}
-          accessibilityState={{ expanded: abierto, disabled: gustos.length === 0 }}
+          accessibilityLabel={etiqueta}
+          accessibilityValue={{ text: elegida?.label ?? todos }}
+          accessibilityState={{ expanded: abierto, disabled: opciones.length === 0 }}
           style={({ pressed }) => [styles.abrir, pressed && styles.presionada]}
         >
-          <Icon icon={Cookie} color={gusto ? 'primary' : 'textMuted'} />
+          <Icon icon={icono} color={puesto ? 'primary' : 'textMuted'} />
           <View style={styles.textos}>
             <Text variant="caption" color="textMuted">
-              Gusto
+              {etiqueta}
             </Text>
             <Text variant="bodyStrong" numberOfLines={1}>
-              {gusto ?? 'Todos los gustos'}
+              {texto}
             </Text>
           </View>
-          <Icon icon={ChevronDown} color={gusto ? 'primary' : 'textMuted'} />
+          <Icon icon={ChevronDown} color={puesto ? 'primary' : 'textMuted'} />
         </Pressable>
-        {gusto ? (
+        {puesto ? (
           <Pressable
             onPress={() => alCambiar(null)}
             accessibilityRole="button"
-            accessibilityLabel="Ver todos los gustos"
+            accessibilityLabel={`Ver ${todos.toLocaleLowerCase('es-AR')}`}
             hitSlop={theme.spacing.xs}
             style={({ pressed }) => [styles.quitar, pressed && styles.presionada]}
           >
@@ -72,15 +90,15 @@ export function SelectorGusto({ gustos, gusto, alCambiar }: SelectorGustoProps) 
         ) : null}
       </View>
 
-      <HojaInferior visible={abierto} alCerrar={() => setAbierto(false)} titulo="¿Qué gusto buscás?">
+      <HojaInferior visible={abierto} alCerrar={() => setAbierto(false)} titulo={tituloHoja}>
         <ListaOpcionesHoja
-          opciones={opciones}
-          valor={gusto ?? TODOS_LOS_GUSTOS}
+          opciones={deLaHoja}
+          valor={valor ?? TODOS}
           alElegir={(elegido) => {
             alCambiar(elegido || null);
             setAbierto(false);
           }}
-          accessibilityLabel="Gusto"
+          accessibilityLabel={etiqueta}
         />
       </HojaInferior>
     </>
