@@ -1,10 +1,10 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft, Plus } from 'lucide-react-native';
 import { BarraCarrito, useCarrito } from '@/features/carrito';
 import LogoDamaBlanca from '@/shared/assets/logo-dama-blanca.svg';
 import { useBreakpoint, useRefrescar } from '@/shared/hooks';
-import { Adorno, Alert, Button, CarruselFotos, ControlCantidad, ScreenContainer, Sello, Text } from '@/shared/ui/atoms';
+import { Adorno, Alert, Button, Cargando, CarruselFotos, ControlCantidad, ScreenContainer, Sello, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar, textoAnticipacion } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { PieCatalogo } from '../components/AvisosCatalogo';
@@ -37,13 +37,13 @@ export function ProductoCatalogoScreen() {
   const anticipacion = producto ? textoAnticipacion(producto.anticipacionHoras) : null;
 
   return (
-    <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />}>
+    <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />} llenarAlto>
       <View style={[styles.contenido, tamano === 'compu' && styles.contenidoCompu]}>
         <View style={styles.volver}>
           <Button variant="ghost" size="sm" icon={ArrowLeft} label="Catálogo" onPress={detalle.volver} accessibilityLabel="Volver al catálogo" />
         </View>
 
-        {detalle.cargando && !refresco.refrescando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+        {detalle.cargando && !refresco.refrescando && <Cargando mensaje="Cargando el producto…" llenarAlto style={styles.cargando} />}
 
         {detalle.error && (
           <View style={styles.error}>
@@ -166,7 +166,7 @@ export function ProductoCatalogoScreen() {
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
     // El mismo ancho que la carta: una columna de hasta 780 en la tableta, el 80% de la ventana en la compu
-    contenido: { gap: theme.spacing.lg, width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
+    contenido: { flexGrow: 1, gap: theme.spacing.lg, width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
     contenidoCompu: { width: theme.sizes.cartaCompu, maxWidth: '100%' },
     volver: { alignItems: 'flex-start' },
     cargando: { paddingVertical: theme.spacing.xxl },

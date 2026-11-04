@@ -1,15 +1,14 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, Ban, BellRing, CircleCheck, MessageCircle, PackageCheck, Undo2 } from 'lucide-react-native';
+import { ArrowLeft, Ban, BellRing, CircleCheck, Eye, EyeOff, MessageCircle, PackageCheck, Undo2 } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Badge, Button, CampoTexto, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { Alert, Badge, Button, CampoTexto, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { useDetallePedido } from '../hooks/useDetallePedido';
-import { ESTADO, fechaYHora, MARCA_MANUAL } from '../textos';
+import { ESTADO, fechaYHora, MARCA_MANUAL, MARCA_NUEVO } from '../textos';
 
 export function DetallePedidoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const { id } = useLocalSearchParams<{ id: string }>();
   const detalle = useDetallePedido(id);
@@ -19,10 +18,10 @@ export function DetallePedidoScreen() {
 
   if (!pedido) {
     return (
-      <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+      <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
         <View style={styles.contenido}>
           {detalle.cargando && !refresco.refrescando ? (
-            <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+            <Cargando mensaje="Cargando el pedido…" llenarAlto style={styles.cargando} />
           ) : detalle.noExiste ? (
             <View style={styles.bloque}>
               <Text variant="subtitle">Este pedido no existe</Text>
@@ -44,10 +43,28 @@ export function DetallePedidoScreen() {
   const pedirMonto = pedido.estado === 'pendiente' || detalle.corrigiendoSena;
 
   return (
-    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
       <View style={styles.contenido}>
+        {/* Sin ver: arriba de todo, el aviso y el botón. Al marcarlo, la pantalla queda como la de cualquier pedido */}
+        {!pedido.visto && (
+          <View style={styles.nuevo}>
+            <Alert tone="info" title="Pedido nuevo" message="Todavía no lo marcaste como visto: sale resaltado en la lista y en el inicio." />
+            <Button
+              icon={Eye}
+              label="Marcar como visto"
+              onPress={detalle.marcarVisto}
+              loading={enCurso === 'visto'}
+              disabled={ocupado}
+              fullWidth
+            />
+          </View>
+        )}
+
         <View style={styles.bloque}>
-          <Badge tone={estado.tone} label={estado.label} />
+          <View style={styles.marcas}>
+            {!pedido.visto && <Badge tone="primary" label={MARCA_NUEVO} />}
+            <Badge tone={estado.tone} label={estado.label} />
+          </View>
           <Text variant="title">{pedido.clienteNombre}</Text>
           <Text color="textMuted">
             Pedido del {fechaYHora(pedido.createdAt)}
@@ -220,6 +237,18 @@ export function DetallePedidoScreen() {
               />
             </>
           )}
+          {/* Por si lo marcó sin querer: chico, al final */}
+          {pedido.visto && pedido.origen === 'web' && (
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={EyeOff}
+              label="Marcar como no visto"
+              onPress={detalle.marcarNoVisto}
+              loading={enCurso === 'quitarVisto'}
+              disabled={ocupado}
+            />
+          )}
         </View>
       </View>
     </ScreenContainer>
@@ -228,9 +257,11 @@ export function DetallePedidoScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.xl },
+    contenido: { flexGrow: 1, gap: theme.spacing.xl },
     cargando: { paddingVertical: theme.spacing.xxl },
     bloque: { gap: theme.spacing.sm, alignItems: 'flex-start' },
+    nuevo: { gap: theme.spacing.sm },
+    marcas: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.xs },
     seccion: { gap: theme.spacing.sm },
     fila: { flexDirection: 'row', justifyContent: 'space-between', gap: theme.spacing.md },
     nombre: { flex: 1 },

@@ -4,6 +4,7 @@ export * from './Badge';
 export * from './Button';
 export * from './HojaInferior';
 export * from './CampoTexto';
+export * from './Cargando';
 export * from './CarruselFotos';
 export * from './ControlCantidad';
 export * from './Icon';

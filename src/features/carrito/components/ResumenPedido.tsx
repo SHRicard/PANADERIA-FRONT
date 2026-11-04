@@ -1,8 +1,8 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Clock } from 'lucide-react-native';
-import { Icon, Text } from '@/shared/ui/atoms';
+import { Cargando, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { SENA_PORCENTAJE, type Cobro, type Entrega } from '../sena';
 
 interface ResumenPedidoProps {
@@ -18,7 +18,6 @@ const productos = (total: number) => (total === 1 ? '1 producto' : `${total} pro
 
 /** Las cuentas del pedido: el total, la seña para confirmarlo, el resto en la entrega y cuándo está listo */
 export function ResumenPedido({ unidades, total, cobro, entrega }: ResumenPedidoProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
 
   return (
@@ -31,7 +30,7 @@ export function ResumenPedido({ unidades, total, cobro, entrega }: ResumenPedido
           </Text>
         </View>
         {total === null ? (
-          <ActivityIndicator color={theme.colors.primary} />
+          <Cargando tamano="chico" />
         ) : (
           <Text variant="title" style={styles.cifra}>
             {formatearPrecio(total)}

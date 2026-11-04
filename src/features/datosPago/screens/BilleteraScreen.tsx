@@ -1,24 +1,23 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Trash2 } from 'lucide-react-native';
-import { Alert, Button, CampoTexto, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, CampoTexto, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { useBilletera } from '../hooks/useBilletera';
 
 // Formulario: no lleva el gesto de refrescar. El título lo pone el header del Stack
 export function BilleteraScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const billetera = useBilletera();
 
   return (
-    <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+    <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
       <View style={styles.contenido}>
         <Text color="textMuted">
           La cuenta a la que tus clientes te transfieren la seña. La web se la muestra apenas confirman el pedido.
         </Text>
 
         {billetera.cargando ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+          <Cargando mensaje="Cargando tus datos…" llenarAlto style={styles.cargando} />
         ) : billetera.errorCarga ? (
           <View style={styles.error}>
             <Alert tone="danger" message={billetera.errorCarga} />
@@ -95,7 +94,7 @@ export function BilleteraScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.xl },
+    contenido: { flexGrow: 1, gap: theme.spacing.xl },
     campos: { gap: theme.spacing.lg },
     cargando: { paddingVertical: theme.spacing.xxl },
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },

@@ -1,8 +1,8 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ArrowLeft, Plus, ShoppingBag } from 'lucide-react-native';
 import { useBreakpoint, useRefrescar } from '@/shared/hooks';
-import { Adorno, Alert, Button, CampoTexto, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Adorno, Alert, Button, CampoTexto, Cargando, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { ItemPedido } from '../components/ItemPedido';
 import { PedidoConfirmado } from '../components/PedidoConfirmado';
 import { ResumenPedido } from '../components/ResumenPedido';
@@ -18,7 +18,6 @@ const productos = (total: number) => (total === 1 ? '1 producto' : `${total} pro
  * lo guardó el back
  */
 export function PedidoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const pedido = usePedido();
   const refresco = useRefrescar(pedido.refrescar);
@@ -90,7 +89,7 @@ export function PedidoScreen() {
                   </View>
                 )}
                 {!cotizacion && !pedido.errorCotizacion && !refresco.refrescando ? (
-                  <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+                  <Cargando mensaje="Calculando tu pedido…" style={styles.cargando} />
                 ) : null}
 
                 {cotizacion && (

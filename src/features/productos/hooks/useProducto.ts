@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import { esSinReceta, useObtenerRecetaQuery } from '@/features/recetas';
 import { mensajeDeError } from '@/services/api';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { useBorrarProductoMutation, useEditarProductoMutation } from '../api/productosApi';
@@ -18,6 +19,10 @@ export function useProducto(id: string) {
   const [errorEliminar, setErrorEliminar] = useState<string | null>(null);
   const [editarProducto, { isLoading: cambiandoEstado }] = useEditarProductoMutation();
   const [errorEstado, setErrorEstado] = useState<string | null>(null);
+  const receta = useObtenerRecetaQuery(id);
+  // Solo un 404 confirmado ofrece «Agregar receta». Ante otro error (sin conexión), «Ver receta» abre la receta, que
+  // muestra el error: así nunca se arranca vacía una receta que ya existe y se la pisa al guardar
+  const sinReceta = esSinReceta(receta.error);
 
   const volver = () => (router.canGoBack() ? router.back() : router.replace('/productos'));
 
@@ -59,8 +64,12 @@ export function useProducto(id: string) {
     error,
     reintentar: () => void refrescar(),
     refrescar: async () => {
-      await refrescar();
+      await Promise.all([refrescar(), receta.refetch()]);
     },
+    sinReceta,
+    cargandoReceta: receta.isLoading,
+    abrirReceta: () =>
+      router.push({ pathname: sinReceta ? '/productos/[id]/receta/editar' : '/productos/[id]/receta', params: { id } }),
     editar: () => router.push({ pathname: '/productos/[id]/editar', params: { id } }),
     alternarEstado: () => void alternarEstado(),
     cambiandoEstado,

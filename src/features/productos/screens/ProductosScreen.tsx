@@ -1,9 +1,9 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Croissant, Plus, Search } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, Icon, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, Icon, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { FiltrosProductos } from '../components/FiltrosProductos';
 import { TarjetaProducto } from '../components/TarjetaProducto';
 import { useProductos } from '../hooks/useProductos';
@@ -11,7 +11,6 @@ import { useProductos } from '../hooks/useProductos';
 const cantidad = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
 export function ProductosScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const productos = useProductos();
   const { filtros } = productos;
@@ -24,6 +23,7 @@ export function ProductosScreen() {
       accion={{ label: 'Nuevo', icon: Plus, onPress: productos.nuevo, accessibilityLabel: 'Nuevo producto' }}
       refreshControl={refresco.control}
       alLlegarAlFinal={productos.cargarMas}
+      llenarAlto
     >
       <View style={styles.contenido}>
         <View style={styles.filtros}>
@@ -36,7 +36,7 @@ export function ProductosScreen() {
         </View>
 
         {productos.cargando && !refresco.refrescando && (
-          <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+          <Cargando mensaje="Cargando productos…" llenarAlto style={styles.cargando} />
         )}
 
         {productos.error && (
@@ -80,7 +80,7 @@ export function ProductosScreen() {
 
         {/* El final de la lista: cargando la página siguiente, su error, o el botón por si el scroll no alcanza */}
         {productos.cargandoMas ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.mas} />
+          <Cargando tamano="chico" mensaje="Cargando más productos" style={styles.mas} />
         ) : productos.errorMas ? (
           <View style={styles.error}>
             <Alert tone="danger" message={productos.errorMas} />
@@ -96,7 +96,7 @@ export function ProductosScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.md },
+    contenido: { flexGrow: 1, gap: theme.spacing.md },
     filtros: { gap: theme.spacing.sm, marginBottom: theme.spacing.sm },
     cargando: { paddingVertical: theme.spacing.xxl },
     mas: { paddingVertical: theme.spacing.lg },

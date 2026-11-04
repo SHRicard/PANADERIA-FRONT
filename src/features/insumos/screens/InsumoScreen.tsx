@@ -1,10 +1,10 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Pencil, ShoppingBasket } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { Alert, Button, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { EntradaHistorial } from '../components/EntradaHistorial';
 import { fechaLarga } from '../fechas';
 import { useInsumo } from '../hooks/useInsumo';
@@ -12,7 +12,6 @@ import { textoCantidad, textoPrecioPorUnidad } from '../textos';
 
 /** Un insumo: lo que pagó la última vez y cuánto vino, cargar una compra nueva o corregirlo, y todo el historial */
 export function InsumoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const { id } = useLocalSearchParams<{ id: string }>();
   const detalle = useInsumo(id);
@@ -21,10 +20,10 @@ export function InsumoScreen() {
 
   if (!insumo) {
     return (
-      <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+      <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
         <View style={styles.contenido}>
           {detalle.cargando && !refresco.refrescando ? (
-            <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+            <Cargando mensaje="Cargando el insumo…" llenarAlto style={styles.cargando} />
           ) : detalle.noExiste ? (
             <View style={styles.bloque}>
               <Text variant="subtitle">Este insumo no existe</Text>
@@ -42,7 +41,7 @@ export function InsumoScreen() {
   }
 
   return (
-    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
       <View style={styles.contenido}>
         <View style={styles.bloque}>
           <Text variant="title">{insumo.nombre}</Text>
@@ -88,7 +87,7 @@ export function InsumoScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.xl },
+    contenido: { flexGrow: 1, gap: theme.spacing.xl },
     cargando: { paddingVertical: theme.spacing.xxl },
     bloque: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     cifra: { fontVariant: ['tabular-nums'] },

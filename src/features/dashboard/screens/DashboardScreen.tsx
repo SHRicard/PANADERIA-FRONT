@@ -1,26 +1,25 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { TarjetaPedido } from '@/features/pedidos';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { TarjetaCatalogo } from '../components/TarjetaCatalogo';
 import { TarjetaHoy } from '../components/TarjetaHoy';
 import { useResumen } from '../hooks/useResumen';
 
 // Inicio del admin: el atajo para compartir el catálogo y lo de hoy
 export function DashboardScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const dia = useResumen();
   const refresco = useRefrescar(dia.refrescar);
   const { resumen } = dia;
 
   return (
-    <PantallaPestana pestana="dashboard" refreshControl={refresco.control}>
+    <PantallaPestana pestana="dashboard" refreshControl={refresco.control} llenarAlto>
       <TarjetaCatalogo />
 
-      {dia.cargando && !refresco.refrescando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+      {dia.cargando && !refresco.refrescando && <Cargando mensaje="Cargando lo de hoy…" llenarAlto style={styles.cargando} />}
 
       {dia.error && (
         <View style={styles.error}>

@@ -7,10 +7,12 @@ import { mensajeDeError, type ApiError } from '@/services/api';
 import { formatearPrecio } from '@/shared/utils';
 import {
   useCancelarPedidoMutation,
+  useMarcarVistoMutation,
   useObtenerPedidoQuery,
   useQuitarCancelacionMutation,
   useQuitarEntregaMutation,
   useQuitarSenaMutation,
+  useQuitarVistoMutation,
   useRegistrarEntregaMutation,
   useRegistrarSenaMutation,
 } from '../api/pedidosApi';
@@ -18,7 +20,7 @@ import { formularioSenaSchema } from '../schemas';
 import { linkWhatsApp, mensajeListo, mensajeSaludo } from '../textos';
 import type { FormularioSena } from '../types';
 
-type Accion = 'sena' | 'quitarSena' | 'entrega' | 'quitarEntrega' | 'cancelar' | 'quitarCancelacion';
+type Accion = 'sena' | 'quitarSena' | 'entrega' | 'quitarEntrega' | 'cancelar' | 'quitarCancelacion' | 'visto' | 'quitarVisto';
 
 /** El detalle de un pedido con sus pasos: confirmar la seña, entregar, cancelar y deshacer cada uno */
 export function useDetallePedido(id: string) {
@@ -32,6 +34,8 @@ export function useDetallePedido(id: string) {
   const [quitarEntrega] = useQuitarEntregaMutation();
   const [cancelarPedido] = useCancelarPedidoMutation();
   const [quitarCancelacion] = useQuitarCancelacionMutation();
+  const [marcarVisto] = useMarcarVistoMutation();
+  const [quitarVisto] = useQuitarVistoMutation();
 
   /** La acción que está esperando respuesta: su botón muestra el spinner y los demás no se pueden tocar */
   const [enCurso, setEnCurso] = useState<Accion | null>(null);
@@ -103,6 +107,10 @@ export function useDetallePedido(id: string) {
         { text: 'Cancelar pedido', style: 'destructive', onPress: () => void ejecutar('cancelar', () => cancelarPedido(id).unwrap()) },
       ]),
     deshacerCancelacion: () => void ejecutar('quitarCancelacion', () => quitarCancelacion(id).unwrap()),
+    /** Ya lo vio: deja de salir como nuevo en la lista y en el inicio */
+    marcarVisto: () => void ejecutar('visto', () => marcarVisto(id).unwrap()),
+    /** Por si lo marcó sin querer: vuelve a salir como nuevo */
+    marcarNoVisto: () => void ejecutar('quitarVisto', () => quitarVisto(id).unwrap()),
 
     /** Abre el chat del cliente con un saludo escrito («¡Hola María! ¿Cómo estás?…»), para charlar */
     escribirAlCliente: () => {

@@ -57,6 +57,10 @@ export const sizes = {
   grafico: 160,
   graficoChico: 96,
   graficoMini: 28,
+  // El ancho de la vidriera del loader (es tres veces más ancha que alta): la que ocupa el lugar de lo que carga, y la
+  // que va en una línea (adentro de un botón, «Cargando más pedidos»)
+  vidriera: 180,
+  vidrieraChico: 54,
 } as const;
 
 export const iconSize = {

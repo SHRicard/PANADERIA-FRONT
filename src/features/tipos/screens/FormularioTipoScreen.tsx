@@ -1,24 +1,23 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
-import { Alert, Button, CampoTexto, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, CampoTexto, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { useFormularioTipo } from '../hooks/useFormularioTipo';
 import { NOMBRE_TIPO_MAX } from '../schemas';
 import { textoRenombre } from '../textos';
 
 // Formulario: no lleva el gesto de refrescar. El título lo pone el header del Stack
 function FormularioTipo({ id }: { id?: string }) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const formulario = useFormularioTipo(id);
   const { form, tipo } = formulario;
 
   if (id && !tipo) {
     return (
-      <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+      <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
         {formulario.cargando ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+          <Cargando mensaje="Cargando el tipo…" llenarAlto style={styles.cargando} />
         ) : formulario.noExiste ? (
           <View style={styles.bloque}>
             <Text variant="subtitle">Este tipo ya no existe</Text>
@@ -35,7 +34,7 @@ function FormularioTipo({ id }: { id?: string }) {
   }
 
   return (
-    <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+    <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
       <View style={styles.contenido}>
         <Text color="textMuted">
           {tipo ? textoRenombre(tipo) : 'Por ejemplo: Tortas, Tartas, Alfajores. Después se lo elegís a cada producto.'}
