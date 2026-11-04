@@ -1,11 +1,12 @@
 import { memo } from 'react';
-import { ActivityIndicator, Pressable, Text } from 'react-native';
-import { useStyles, useTheme, type ColorToken } from '@/theme';
+import { Pressable, Text } from 'react-native';
+import { useStyles, type ColorToken } from '@/theme';
+import { Cargando } from '../Cargando';
 import { Icon } from '../Icon';
 import { createStyles } from './Button.styles';
 import type { ButtonProps, ButtonVariant } from './Button.types';
 
-/** El color del ícono y del spinner: el mismo que el del texto */
+/** El color del ícono y de la vidriera de la carga: el mismo que el del texto */
 const COLOR_CONTENIDO: Record<ButtonVariant, ColorToken> = {
   primary: 'onPrimary',
   secondary: 'primary',
@@ -26,7 +27,6 @@ function ButtonComponent({
   accessibilityLabel,
   accessibilityHint,
 }: ButtonProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const bloqueado = disabled || loading;
   const colorContenido = COLOR_CONTENIDO[variant];
@@ -49,7 +49,7 @@ function ButtonComponent({
       ]}
     >
       {loading ? (
-        <ActivityIndicator size="small" color={theme.colors[colorContenido]} />
+        <Cargando tamano="chico" color={colorContenido} />
       ) : (
         icon && <Icon icon={icon} size={size === 'sm' ? 'sm' : 'md'} color={colorContenido} />
       )}

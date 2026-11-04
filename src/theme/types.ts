@@ -29,6 +29,12 @@ export type ColorToken =
   // Las dos series de un gráfico (lo que entró y lo que salió, web y a mano). Se distinguen también sin color
   | 'grafico1'
   | 'grafico2'
+  // La vidriera del loader (atom Cargando): la miga dorada, los cortes y contornos, el brillo del pan y la galletita
+  // del alfajor
+  | 'pan'
+  | 'panCorte'
+  | 'panBrillo'
+  | 'panGalleta'
   | 'shadow'
   | 'overlay';
 

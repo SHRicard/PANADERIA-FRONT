@@ -1,9 +1,9 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ClipboardList } from 'lucide-react-native';
 import { PantallaPestana } from '@/features/navegacion';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, Icon, Select, Text, type OpcionSelect } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, Icon, Select, Text, type OpcionSelect } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { TarjetaPedido } from '../components/TarjetaPedido';
 import { usePedidos } from '../hooks/usePedidos';
 import { ESTADO } from '../textos';
@@ -21,14 +21,13 @@ const FILTROS: OpcionSelect<EstadoPedido | typeof TODOS>[] = [
 const cantidad = (total: number) => (total === 1 ? '1 pedido' : `${total} pedidos`);
 
 export function PedidosScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const lista = usePedidos();
   const refresco = useRefrescar(lista.refrescar);
   const vacio = !lista.cargando && !lista.error && lista.pedidos.length === 0;
 
   return (
-    <PantallaPestana pestana="pedidos" refreshControl={refresco.control} alLlegarAlFinal={lista.cargarMas}>
+    <PantallaPestana pestana="pedidos" refreshControl={refresco.control} alLlegarAlFinal={lista.cargarMas} llenarAlto>
       <View style={styles.contenido}>
         <View style={styles.filtros}>
           <Select
@@ -44,7 +43,7 @@ export function PedidosScreen() {
           )}
         </View>
 
-        {lista.cargando && !refresco.refrescando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+        {lista.cargando && !refresco.refrescando && <Cargando mensaje="Cargando pedidos…" llenarAlto style={styles.cargando} />}
 
         {lista.error && (
           <View style={styles.error}>
@@ -72,7 +71,7 @@ export function PedidosScreen() {
         ))}
 
         {lista.cargandoMas ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.mas} />
+          <Cargando tamano="chico" mensaje="Cargando más pedidos" style={styles.mas} />
         ) : lista.errorMas ? (
           <View style={styles.error}>
             <Alert tone="danger" message={lista.errorMas} />
@@ -88,7 +87,7 @@ export function PedidosScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.md },
+    contenido: { flexGrow: 1, gap: theme.spacing.md },
     filtros: { gap: theme.spacing.sm, marginBottom: theme.spacing.sm },
     cargando: { paddingVertical: theme.spacing.xxl },
     mas: { paddingVertical: theme.spacing.lg },

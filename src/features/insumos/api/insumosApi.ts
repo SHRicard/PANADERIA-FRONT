@@ -5,7 +5,8 @@ import type { DatosInsumo, Insumo, InsumoConHistorial } from '../types';
 /** La lista. Cada detalle tiene su propio tag: { type: 'Insumo', id } */
 const LISTA = { type: 'Insumo', id: 'LISTA' } as const;
 
-export const insumosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Insumo'] }).injectEndpoints({
+// Una compra nueva o una corrección cambia el costo (o el nombre) en las recetas que usan el insumo: invalida 'Receta'
+export const insumosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Insumo', 'Receta'] }).injectEndpoints({
   endpoints: (build) => ({
     /** Todos, por nombre, sin el historial */
     listarInsumos: build.query<Insumo[], void>({
@@ -40,7 +41,7 @@ export const insumosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Insumo'] }).
     actualizarInsumo: build.mutation<InsumoConHistorial, { id: string; cambios: Partial<DatosInsumo> }>({
       query: ({ id, cambios }) => ({ url: `/insumos/${id}`, method: 'PUT', body: cambios }),
       rawResponseSchema: insumoConHistorialSchema,
-      invalidatesTags: [LISTA],
+      invalidatesTags: [LISTA, 'Receta'],
       async onQueryStarted({ id }, { dispatch, queryFulfilled }): Promise<void> {
         try {
           const { data } = await queryFulfilled;

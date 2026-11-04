@@ -17,6 +17,10 @@ export const palette = {
   manteca300: '#F0C063',
   manteca400: '#E2A93B',
 
+  // La galletita del alfajor que pasa por la vidriera del loader: más clara que la miga en claro, más apagada en oscuro
+  galleta200: '#EED3A1',
+  galleta400: '#C99A62',
+
   // Las dos series de los gráficos en el modo oscuro: más apagadas que corteza y manteca, que ahí no se distinguen
   teja600: '#9F5226',
   miel600: '#BB8C2A',
@@ -54,4 +58,7 @@ export const palette = {
   // Velos: oscurecen la pantalla detrás de una hoja que sube desde abajo (el select)
   veloTostado: 'rgba(43, 29, 18, 0.45)',
   veloNegro: 'rgba(0, 0, 0, 0.6)',
+  // El brillo de arriba del pan de la vidriera (el loader): en oscuro, más tenue para que no encandile
+  brilloBlanco: 'rgba(255, 255, 255, 0.55)',
+  brilloTenue: 'rgba(255, 255, 255, 0.35)',
 } as const;

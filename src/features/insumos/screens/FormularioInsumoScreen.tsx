@@ -1,8 +1,8 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { Alert, Button, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { Alert, Button, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { CamposInsumo } from '../components/CamposInsumo';
 import { fechaLarga } from '../fechas';
 import { textoCantidad } from '../textos';
@@ -16,16 +16,15 @@ const BOTON: Record<ModoFormularioInsumo, string> = {
 };
 
 function FormularioInsumo({ modo, id }: { modo: ModoFormularioInsumo; id?: string }) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const formulario = useFormularioInsumo(modo, id);
   const { form, insumo } = formulario;
 
   return (
-    <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+    <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
       <View style={styles.contenido}>
         {formulario.cargando ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+          <Cargando mensaje="Cargando el insumo…" llenarAlto style={styles.cargando} />
         ) : formulario.errorCarga ? (
           <Alert tone="danger" message={formulario.errorCarga} />
         ) : (
@@ -78,6 +77,6 @@ export function ActualizarInsumoScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.lg },
+    contenido: { flexGrow: 1, gap: theme.spacing.lg },
     cargando: { paddingVertical: theme.spacing.xxl },
   });

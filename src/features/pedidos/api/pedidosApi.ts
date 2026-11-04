@@ -11,7 +11,7 @@ export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido', 'Cl
   endpoints: (build) => {
     // Cada acción responde el detalle actualizado: se guarda en la caché del detalle (sin otro pedido)
     // y se recargan las listas, porque el pedido cambió de estado
-    const accion = (paso: 'sena' | 'entrega' | 'cancelacion', method: 'PUT' | 'DELETE') =>
+    const accion = (paso: 'sena' | 'entrega' | 'cancelacion' | 'visto', method: 'PUT' | 'DELETE') =>
       build.mutation<DetallePedido, string>({
         query: (id) => ({ url: `/pedidos/${id}/${paso}`, method }),
         rawResponseSchema: detallePedidoSchema,
@@ -72,6 +72,10 @@ export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido', 'Cl
       cancelarPedido: accion('cancelacion', 'PUT'),
       /** Vuelve a confirmado si tiene seña, si no a pendiente */
       quitarCancelacion: accion('cancelacion', 'DELETE'),
+      /** El dueño ya lo vio: deja de salir como nuevo. No cambia el estado. Recarga las listas (la tarjeta cambia) */
+      marcarVisto: accion('visto', 'PUT'),
+      /** Vuelve a salir como nuevo (por si lo marcó sin querer) */
+      quitarVisto: accion('visto', 'DELETE'),
 
       /**
        * Un pedido que le hicieron al dueño por fuera de la web (WhatsApp, en persona). Responde el detalle: se guarda
@@ -110,6 +114,8 @@ export const {
   useQuitarEntregaMutation,
   useCancelarPedidoMutation,
   useQuitarCancelacionMutation,
+  useMarcarVistoMutation,
+  useQuitarVistoMutation,
   useCrearPedidoManualMutation,
   useListarClientesQuery,
 } = pedidosApi;

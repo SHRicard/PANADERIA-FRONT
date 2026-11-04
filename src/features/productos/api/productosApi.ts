@@ -21,7 +21,7 @@ const POR_PAGINA = 20;
 /** Las listas (con cualquier filtro). Cada detalle tiene su propio tag: { type: 'Producto', id } */
 const LISTA = { type: 'Producto', id: 'LISTA' } as const;
 
-export const productosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Producto'] }).injectEndpoints({
+export const productosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Producto', 'Receta'] }).injectEndpoints({
   endpoints: (build) => ({
     /**
      * La lista del admin, de a páginas, también los pausados, con sus fotos.
@@ -67,6 +67,8 @@ export const productosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Producto']
     editarProducto: build.mutation<Producto, { id: string; datos: CambiosProducto }>({
       query: ({ id, datos }) => ({ url: `/productos/${id}`, method: 'PUT', body: datos }),
       rawResponseSchema: productoSchema,
+      // La receta trae el nombre y el precio del producto: si está en caché, se vuelve a pedir
+      invalidatesTags: (_resultado, error, { id }) => (error ? [] : [{ type: 'Receta', id }]),
       // Se reemplaza en las cachés en vez de recargar: así no pisa las fotos que se están subiendo.
       // Si cambió el estado o el gusto, queda donde estaba en la lista hasta que se refresque: no salta
       async onQueryStarted({ id }, { dispatch, queryFulfilled }) {

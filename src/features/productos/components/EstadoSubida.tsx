@@ -1,7 +1,7 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RotateCcw } from 'lucide-react-native';
-import { Alert, Button, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import type { FotoEnCola } from '../store/subidaFotosSlice';
 
 interface EstadoSubidaProps {
@@ -13,7 +13,6 @@ interface EstadoSubidaProps {
 
 /** "Subiendo 2 fotos…" o, si alguna falló, el error con Reintentar / Descartar. Sin fotos en la cola, nada */
 export function EstadoSubida({ enCola, onReintentar, onDescartar }: EstadoSubidaProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const subiendo = enCola.filter((foto) => foto.estado !== 'error');
   const conError = enCola.filter((foto) => foto.estado === 'error');
@@ -25,7 +24,7 @@ export function EstadoSubida({ enCola, onReintentar, onDescartar }: EstadoSubida
     <View style={styles.estado}>
       {subiendo.length > 0 && (
         <View style={styles.subiendo} accessibilityLiveRegion="polite">
-          <ActivityIndicator size="small" color={theme.colors.primary} />
+          <Cargando tamano="chico" />
           <Text variant="caption" color="textMuted">
             {subiendo.length === 1 ? 'Subiendo 1 foto…' : `Subiendo ${subiendo.length} fotos…`}
           </Text>

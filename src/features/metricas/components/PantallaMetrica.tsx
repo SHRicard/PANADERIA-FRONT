@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import type { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, Icon, ScreenContainer, Segmentado, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, Icon, ScreenContainer, Segmentado, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import type { Periodo } from '../rangos';
 import { OPCIONES_PERIODO } from '../textos';
 
@@ -47,7 +47,6 @@ export function PantallaMetrica({
   detalleVacio,
   children,
 }: PantallaMetricaProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   // Mientras se tira para abajo, la única rueda es la del gesto
   const actualizando = metrica.actualizando && !refresco.refrescando;
@@ -55,12 +54,12 @@ export function PantallaMetrica({
   const listo = !metrica.cargando && !metrica.error;
 
   return (
-    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
-      <View style={styles.contenido}>
+    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
+      <View style={[styles.contenido, styles.llenar]}>
         <Text color="textMuted">{descripcion}</Text>
         <Segmentado opciones={OPCIONES_PERIODO} valor={periodo} alCambiar={alCambiarPeriodo} accessibilityLabel="Período" />
 
-        {esperando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+        {esperando && <Cargando mensaje="Cargando los números…" llenarAlto style={styles.cargando} />}
 
         {metrica.error && (
           <View style={styles.error}>
@@ -86,7 +85,7 @@ export function PantallaMetrica({
             <View style={[styles.contenido, actualizando && styles.apagado]}>{children}</View>
             {actualizando && (
               <View style={styles.sobre} pointerEvents="none">
-                <ActivityIndicator color={theme.colors.primary} />
+                <Cargando />
               </View>
             )}
           </View>
@@ -99,6 +98,8 @@ export function PantallaMetrica({
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
     contenido: { gap: theme.spacing.xl },
+    // Hasta el fondo: así la carga se centra en lo que queda debajo del período
+    llenar: { flexGrow: 1 },
     cargando: { paddingVertical: theme.spacing.xxl },
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     vacio: { alignItems: 'center', gap: theme.spacing.sm, paddingVertical: theme.spacing.xxl },

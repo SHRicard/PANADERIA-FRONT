@@ -1,8 +1,8 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
-import { Alert, Button, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { CamposPromo } from '../components/CamposPromo';
 import { VistaPromo } from '../components/VistaPromo';
 import { useFormularioPromo } from '../hooks/useFormularioPromo';
@@ -10,7 +10,6 @@ import { textoPublicaciones } from '../textos';
 
 // Desde la biblioteca: el título y el texto, y borrarla. Formulario: no lleva el gesto de refrescar
 export function EditarPromoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const { id } = useLocalSearchParams<{ id: string }>();
   const formulario = useFormularioPromo(id);
@@ -18,9 +17,9 @@ export function EditarPromoScreen() {
 
   if (!promo) {
     return (
-      <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+      <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
         {formulario.cargando ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+          <Cargando mensaje="Cargando la promo…" llenarAlto style={styles.cargando} />
         ) : formulario.noExiste ? (
           <View style={styles.bloque}>
             <Text variant="subtitle">Esta promo ya no existe</Text>
@@ -37,7 +36,7 @@ export function EditarPromoScreen() {
   }
 
   return (
-    <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+    <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
       <View style={styles.contenido}>
         <View style={styles.archivo}>
           <VistaPromo tipo={promo.tipo} uri={promo.miniatura} duracionSegundos={promo.duracionSegundos} />

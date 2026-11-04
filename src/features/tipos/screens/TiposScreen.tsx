@@ -1,21 +1,20 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Plus, Tags } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { TarjetaTipo } from '../components/TarjetaTipo';
 import { useTipos } from '../hooks/useTipos';
 
 // Más → Tipos. El título lo pone el header del Stack
 export function TiposScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const lista = useTipos();
   const refresco = useRefrescar(lista.refrescar);
   const vacio = !lista.cargando && !lista.error && lista.tipos.length === 0;
 
   return (
-    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
       <View style={styles.contenido}>
         <Text color="textMuted">
           Para ordenar tus productos: tortas, tartas, alfajores… A cada producto le elegís uno al cargarlo o editarlo. Es
@@ -23,7 +22,7 @@ export function TiposScreen() {
         </Text>
         <Button icon={Plus} label="Nuevo tipo" onPress={lista.nuevo} fullWidth />
 
-        {lista.cargando && !refresco.refrescando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+        {lista.cargando && !refresco.refrescando && <Cargando mensaje="Cargando tipos…" llenarAlto style={styles.cargando} />}
 
         {lista.error && (
           <View style={styles.error}>
@@ -54,7 +53,7 @@ export function TiposScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.md },
+    contenido: { flexGrow: 1, gap: theme.spacing.md },
     cargando: { paddingVertical: theme.spacing.xxl },
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     vacio: { alignItems: 'center', gap: theme.spacing.sm, paddingVertical: theme.spacing.xxl },

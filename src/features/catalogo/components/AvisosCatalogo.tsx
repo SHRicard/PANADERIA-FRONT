@@ -1,8 +1,8 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Croissant, Palette, Search } from 'lucide-react-native';
-import { Adorno, Alert, Button, Icon, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Adorno, Alert, Button, Cargando, Icon, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 
 interface EstadoCatalogoProps {
   cargando: boolean;
@@ -20,10 +20,9 @@ interface EstadoCatalogoProps {
 
 /** Cargando, el error o «no encontramos» de la lista. Si hay productos para mostrar, no muestra nada */
 export function EstadoCatalogo({ cargando, refrescando, error, reintentar, vacio, buscando, hayFiltros, limpiar }: EstadoCatalogoProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
 
-  if (cargando && !refrescando) return <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />;
+  if (cargando && !refrescando) return <Cargando mensaje="Cargando el catálogo…" llenarAlto style={styles.cargando} />;
   if (error) {
     return (
       <View style={styles.error}>
@@ -66,10 +65,9 @@ interface FinDeListaProps {
 
 /** El final de la lista: la página siguiente cargando, su error, o el botón por si el scroll no alcanza */
 export function FinDeLista({ cargandoMas, errorMas, hayMas, cargarMas }: FinDeListaProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
 
-  if (cargandoMas) return <ActivityIndicator color={theme.colors.primary} style={styles.mas} />;
+  if (cargandoMas) return <Cargando tamano="chico" mensaje="Cargando más productos" style={styles.mas} />;
   if (errorMas) {
     return (
       <View style={styles.error}>
