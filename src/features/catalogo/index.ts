@@ -4,3 +4,5 @@ export { useEstiloCatalogo } from './hooks/useEstiloCatalogo';
 // Lo que usa el pedido: con cuántas horas se encarga cada producto
 export { useAnticipaciones, type Anticipacion } from './hooks/useAnticipaciones';
 export type { EstiloCatalogo } from './types';
+// Lo que usa el layout de la web: la vista previa del link al compartirlo (logo, título y descripción)
+export { VistaPreviaLink } from './components/VistaPreviaLink';

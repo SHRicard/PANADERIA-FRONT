@@ -20,8 +20,3 @@ export function mensajeWhatsapp(pedido: PedidoCreado, sena: number, motivo: Moti
   }[motivo];
   return ['¡Hola! Acabo de hacer un pedido en la web:', ...productos, `Total: ${formatearPrecio(pedido.total)}. ${pedidoQue}`].join('\n');
 }
-
-/** El link del dueño con el mensaje ya escrito (wa.me lo recibe en `text`) */
-export function enlaceWhatsapp(base: string, mensaje: string): string {
-  return `${base}${base.includes('?') ? '&' : '?'}text=${encodeURIComponent(mensaje)}`;
-}

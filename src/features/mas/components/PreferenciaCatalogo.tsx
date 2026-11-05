@@ -1,33 +1,41 @@
 import { StyleSheet, View } from 'react-native';
-import { ESTILOS_CATALOGO, type EstiloCatalogo } from '@/features/catalogo';
+import { ESTILOS_CATALOGO } from '@/features/catalogo';
+import { EditorMensajeCierre, type MensajeCierre } from '@/features/cierre';
 import { Alert, Button, Text } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
+import type { OpcionWeb } from '../hooks/usePreferenciaWeb';
 import { ListaRadio, type OpcionRadio } from './ListaRadio';
 
-const OPCIONES: OpcionRadio<EstiloCatalogo>[] = Object.values(ESTILOS_CATALOGO).map(({ estilo, nombre, descripcion }) => ({
-  valor: estilo,
-  nombre,
-  descripcion,
-}));
+// Los estilos del catálogo y, al final, la web cerrada
+const OPCIONES: OpcionRadio<OpcionWeb>[] = [
+  ...Object.values(ESTILOS_CATALOGO).map(({ estilo, nombre, descripcion }) => ({ valor: estilo, nombre, descripcion })),
+  {
+    valor: 'cerrado',
+    nombre: 'Cerrado',
+    descripcion: 'Por un tiempo no tomás pedidos: los clientes ven un cartel con tu mensaje en lugar del catálogo',
+  },
+];
 
 interface PreferenciaCatalogoProps {
-  estilo: EstiloCatalogo;
+  opcion: OpcionWeb;
   cargando: boolean;
   error: string | null;
   reintentar: () => void;
   errorAlCambiar: string | null;
-  cambiar: (estilo: EstiloCatalogo) => void;
+  elegir: (opcion: OpcionWeb) => void;
+  /** El mensaje del cartel: se escribe acá mismo cuando está elegido «Cerrado» */
+  mensaje: MensajeCierre;
 }
 
 // No se guarda en el celular sino en el back: es lo que ven los clientes en la web
-export function PreferenciaCatalogo({ estilo, cargando, error, reintentar, errorAlCambiar, cambiar }: PreferenciaCatalogoProps) {
+export function PreferenciaCatalogo({ opcion, cargando, error, reintentar, errorAlCambiar, elegir, mensaje }: PreferenciaCatalogoProps) {
   const styles = useStyles(createStyles);
 
   return (
     <View style={styles.campo}>
       <Text variant="label">Catálogo</Text>
       <Text variant="caption" color="textMuted">
-        Cómo ven tus productos los clientes que abren el link de la web.
+        Cómo ven la web los clientes que abren el link. Si por un tiempo no podés tomar pedidos, elegí «Cerrado».
       </Text>
       {error ? (
         <View style={styles.error}>
@@ -39,7 +47,10 @@ export function PreferenciaCatalogo({ estilo, cargando, error, reintentar, error
           Cargando…
         </Text>
       ) : (
-        <ListaRadio opciones={OPCIONES} valor={estilo} alCambiar={cambiar} accessibilityLabel="Catálogo" />
+        <>
+          <ListaRadio opciones={OPCIONES} valor={opcion} alCambiar={elegir} accessibilityLabel="Catálogo" />
+          {opcion === 'cerrado' && <EditorMensajeCierre mensaje={mensaje} />}
+        </>
       )}
       {errorAlCambiar && <Alert tone="danger" message={`No se guardó el cambio. ${errorAlCambiar}`} />}
     </View>

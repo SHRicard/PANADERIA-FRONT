@@ -1,6 +1,22 @@
 // Cómo se leen los datos del producto en la web
 
 /**
+ * La vista previa del link (lo que muestra WhatsApp al compartir la web: la imagen, el título y la descripción). Es la
+ * misma para todas las URLs: los productos se cargan en el navegador, así que el HTML no sabe cuál es
+ */
+export const VISTA_PREVIA = {
+  titulo: 'Dama Blanca · Horneados',
+  descripcion: 'El catálogo de Dama Blanca: mirá todo lo que horneamos, con sus precios, y hacé tu pedido online.',
+  marca: 'Dama Blanca',
+  // En public/: la web la sirve en la raíz. 1200 × 630, la medida que WhatsApp muestra grande; el logo va centrado
+  // para que se vea entero también cuando la recorta en cuadrado
+  imagen: '/vista-previa.png',
+  imagenAncho: 1200,
+  imagenAlto: 630,
+  imagenTexto: 'El logo de Dama Blanca Horneados',
+} as const;
+
+/**
  * El título de una sección de la carta: el nombre del tipo. Los que no tienen tipo van al final, como «Otros»; si
  * son los únicos (el dueño todavía no usa tipos), no son «otros» de nada
  */

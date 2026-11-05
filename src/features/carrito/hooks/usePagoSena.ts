@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { config } from '@/config';
 import { useObtenerDatosPagoQuery } from '@/features/datosPago';
-import { enlaceWhatsapp, mensajeWhatsapp, type MotivoWhatsapp } from '../pago';
+import { enlaceWhatsapp } from '@/shared/utils';
+import { mensajeWhatsapp, type MotivoWhatsapp } from '../pago';
 import type { PedidoCreado } from '../types';
 
 // Cuánto se ve «Copiado» después de tocar «Copiar»

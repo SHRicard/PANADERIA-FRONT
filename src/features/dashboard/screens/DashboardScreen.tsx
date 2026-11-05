@@ -1,4 +1,5 @@
 import { StyleSheet, View } from 'react-native';
+import { AvisoWebCerrada, useEstadoNegocio } from '@/features/cierre';
 import { PantallaPestana } from '@/features/navegacion';
 import { TarjetaPedido } from '@/features/pedidos';
 import { useRefrescar } from '@/shared/hooks';
@@ -8,15 +9,18 @@ import { TarjetaCatalogo } from '../components/TarjetaCatalogo';
 import { TarjetaHoy } from '../components/TarjetaHoy';
 import { useResumen } from '../hooks/useResumen';
 
-// Inicio del admin: el atajo para compartir el catálogo y lo de hoy
+// Inicio del admin: si la web está cerrada (para que no se olvide de abrirla), el atajo para compartir el catálogo
+// y lo de hoy. Al tirar para abajo se recargan las dos cosas: el otro admin pudo haber abierto o cerrado la web
 export function DashboardScreen() {
   const styles = useStyles(createStyles);
   const dia = useResumen();
-  const refresco = useRefrescar(dia.refrescar);
+  const negocio = useEstadoNegocio();
+  const refresco = useRefrescar(() => Promise.all([dia.refrescar(), negocio.refrescar()]));
   const { resumen } = dia;
 
   return (
     <PantallaPestana pestana="dashboard" refreshControl={refresco.control} llenarAlto>
+      <AvisoWebCerrada />
       <TarjetaCatalogo />
 
       {dia.cargando && !refresco.refrescando && <Cargando mensaje="Cargando lo de hoy…" llenarAlto style={styles.cargando} />}
