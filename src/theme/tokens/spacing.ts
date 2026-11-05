@@ -61,6 +61,8 @@ export const sizes = {
   // que va en una línea (adentro de un botón, «Cargando más pedidos»)
   vidriera: 180,
   vidrieraChico: 54,
+  // El dibujo del cartel de negocio cerrado (el frente del local): hasta acá crece, también en la compu
+  cartelCerrado: 340,
 } as const;
 
 export const iconSize = {
@@ -86,4 +88,6 @@ export const opacity = {
   disabled: 0.5,
   // El relleno de un ícono: translúcido, así no tapa el dibujo de adentro (el croissant, las rayitas de Pedidos)
   relleno: 0.3,
+  // Los panes de la vidriera en el cartel de negocio cerrado: con la luz apagada
+  apagado: 0.4,
 } as const;

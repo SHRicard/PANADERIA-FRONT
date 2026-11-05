@@ -104,7 +104,7 @@ export function MasScreen() {
             <OpcionMenu
               icono={Settings}
               titulo="Preferencias"
-              descripcion="Tema, letra, pestañas, encabezado y catálogo web"
+              descripcion="Tema, letra, pestañas, encabezado y la web: catálogo o cerrado"
               onPress={mas.abrirPreferencias}
             />
           </View>

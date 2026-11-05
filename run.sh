@@ -229,7 +229,9 @@ cmd_apk() {
   prebuild_android
 
   paso "Compilando el APK de release (puede tardar varios minutos)…"
-  (cd android && ./gradlew assembleRelease)
+  # --rerun en el bundle de JS: Gradle no mira los .env, y después de cambiar una EXPO_PUBLIC_* (la URL del back o
+  # de la web) reusaba el bundle viejo y la APK salía con las URLs de antes
+  (cd android && ./gradlew :app:createBundleReleaseJsAndAssets --rerun assembleRelease)
 
   local origen="android/app/build/outputs/apk/release/app-release.apk"
   [[ -f "$origen" ]] || error "Gradle terminó pero no encuentro $origen."
@@ -257,6 +259,8 @@ cmd_apk() {
 cmd_web_build() {
   verificar_node
   dependencias
+  # La imagen de la vista previa del link (la que muestra WhatsApp) va con la URL entera de la web
+  exigir_web_url production
   paso "Exportando la web estática…"
   npx expo export --platform web
   ok "Web lista en dist/ — para probarla local: npx expo serve"

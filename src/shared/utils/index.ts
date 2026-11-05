@@ -1,3 +1,4 @@
+export { enlaceWhatsapp } from './enlaceWhatsapp';
 export { formatearFecha } from './formatearFecha';
 export { formatearPrecio } from './formatearPrecio';
 export { nombreParaMostrar } from './nombreParaMostrar';

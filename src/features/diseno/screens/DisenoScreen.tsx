@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { Croissant, LogOut, MessageCircle, Plus, Search, ShoppingBag, Star, Trash2, Trophy, Wheat } from 'lucide-react-native';
+import { CartelPuerta, MENSAJE_CERRADO_POR_DEFECTO } from '@/features/cierre';
 import {
   ESTILO_BARRA_POR_DEFECTO,
   ESTILO_ENCABEZADO_POR_DEFECTO,
@@ -395,6 +396,15 @@ export function DisenoScreen() {
         </Seccion>
 
         <Seccion
+          titulo="Cartel de negocio cerrado"
+          descripcion="Lo que ve la web en lugar del catálogo mientras el negocio está cerrado (Más → Preferencias → Web → Cerrado). El cartelito se mece. Acá, con el mensaje por defecto."
+        >
+          <View style={styles.marcoCartel}>
+            <CartelPuerta mensaje={MENSAJE_CERRADO_POR_DEFECTO} />
+          </View>
+        </Seccion>
+
+        <Seccion
           titulo="Logo"
           descripcion="src/shared/assets/logo-dama-blanca.svg, importado como componente. Es multicolor: no sigue el tema."
         >
@@ -426,6 +436,16 @@ const createStyles = (theme: Theme) =>
     barra: { height: theme.spacing.lg, borderRadius: theme.radius.sm, backgroundColor: theme.colors.primary },
     filaLibre: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: theme.spacing.md },
     item: { alignItems: 'center', gap: theme.spacing.xs },
+    // El cartel de cerrado sobre el fondo de la página, como en la web
+    marcoCartel: {
+      paddingVertical: theme.spacing.xl,
+      paddingHorizontal: theme.spacing.lg,
+      borderRadius: theme.radius.lg,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.background,
+      overflow: 'hidden',
+    },
     cuadro: {
       width: theme.sizes.control,
       height: theme.sizes.control,

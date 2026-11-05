@@ -1,12 +1,16 @@
+import { config } from '@/config';
 import { baseApi } from '@/services/api';
 import { ajustesSchema } from '../schemas';
 import type { Ajustes, CambiosAjustes } from '../types';
 
 export const ajustesApi = baseApi.enhanceEndpoints({ addTagTypes: ['Ajustes'] }).injectEndpoints({
   endpoints: (build) => ({
-    /** Público: lo lee la web para saber cómo mostrarse, y la app del dueño para mostrar qué eligió */
+    /**
+     * Público: lo lee la web para saber cómo mostrarse (o si muestra el cartel de cerrado), y la app del dueño para
+     * mostrar qué eligió. Con su propio tiempo de espera, más corto que el del resto (`config.ajustesTimeoutMs`)
+     */
     obtenerAjustes: build.query<Ajustes, void>({
-      query: () => '/ajustes',
+      query: () => ({ url: '/ajustes', timeout: config.ajustesTimeoutMs }),
       rawResponseSchema: ajustesSchema,
       providesTags: ['Ajustes'],
     }),

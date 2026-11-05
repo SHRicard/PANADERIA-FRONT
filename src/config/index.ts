@@ -4,11 +4,16 @@ export const config = {
   apiUrl: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000',
   // Render gratis se duerme: el primer pedido después de un rato puede tardar casi un minuto
   apiTimeoutMs: 60_000,
+  // Los ajustes (GET /api/ajustes) esperan menos: es lo primero que pide la web y, si no llega, muestra el cartel de
+  // cerrado; un minuto de carga era mucho. Anda porque el ping a /health del back lo mantiene despierto: si ese ping se
+  // corta y Render se duerme, el primero que entre ve el cartel (al recargar, ya anda)
+  ajustesTimeoutMs: 10_000,
   // El link directo al WhatsApp del dueño (https://wa.me/549…): el botón para coordinar la seña en efectivo.
   // Vacío, la web no muestra el botón
   whatsappUrl: process.env.EXPO_PUBLIC_WHATSAPP_URL || '',
   // La web pública (https://…): el link que va en todo lo que se comparte por WhatsApp (promos y productos). Obligatoria:
-  // ./run.sh no compila la app sin ella. La web no la usa. Sin la "/" del final, aunque la tenga en el .env
+  // ./run.sh no compila la app sin ella. La web la usa para la imagen de la vista previa del link (por eso también va
+  // en las variables de Vercel). Sin la "/" del final, aunque la tenga en el .env
   webUrl: (process.env.EXPO_PUBLIC_WEB_URL || '').replace(/\/+$/, ''),
 } as const;
 

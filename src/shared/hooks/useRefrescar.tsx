@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
-import { RefreshControl, type RefreshControlProps } from 'react-native';
+import type { RefreshControlProps } from 'react-native';
 import { useTheme } from '@/theme';
+// El RefreshControl de React Native en el celular; en la web, uno propio (el de react-native-web no hace nada)
+import { ControlRefresco } from './ControlRefresco';
 
 // Si la respuesta llega enseguida, la rueda igual se ve un momento: si no, parece que el gesto no hizo nada
 const MINIMO_VISIBLE_MS = 600;
@@ -40,7 +42,7 @@ export function useRefrescar(refrescar: () => Promise<unknown>): {
   };
 
   const control = (
-    <RefreshControl
+    <ControlRefresco
       refreshing={refrescando}
       onRefresh={alRefrescar}
       colors={[theme.colors.primary]}
