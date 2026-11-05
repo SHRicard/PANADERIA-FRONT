@@ -1,8 +1,8 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ClipboardCheck, Search } from 'lucide-react-native';
-import { Alert, Button, CampoTexto, Input, ScreenContainer, Select, Text } from '@/shared/ui/atoms';
+import { Alert, Button, CampoTexto, Cargando, Input, ScreenContainer, Select, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { FilaProductoManual } from '../components/FilaProductoManual';
 import { usePedidoManual } from '../hooks/usePedidoManual';
 
@@ -11,7 +11,6 @@ import { usePedidoManual } from '../hooks/usePedidoManual';
  * Queda como cualquier pedido, con la marca de cargado a mano, y sigue los mismos pasos en la pestaña Pedidos
  */
 export function PedidoManualScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const manual = usePedidoManual();
   const { form } = manual;
@@ -90,7 +89,7 @@ export function PedidoManualScreen() {
             autoCapitalize="none"
             returnKeyType="search"
           />
-          {manual.cargandoProductos && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+          {manual.cargandoProductos && <Cargando mensaje="Cargando productos…" style={styles.cargando} />}
           {manual.errorCargaProductos && (
             <View style={styles.error}>
               <Alert tone="danger" message={manual.errorCargaProductos} />
@@ -115,7 +114,7 @@ export function PedidoManualScreen() {
               ))}
           </View>
           {manual.cargandoMasProductos ? (
-            <ActivityIndicator color={theme.colors.primary} />
+            <Cargando tamano="chico" mensaje="Cargando más productos" />
           ) : manual.hayMasProductos ? (
             <Button variant="ghost" label="Ver más productos" onPress={manual.cargarMasProductos} fullWidth />
           ) : null}

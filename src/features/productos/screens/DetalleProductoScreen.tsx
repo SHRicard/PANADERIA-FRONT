@@ -1,16 +1,15 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, Pause, Pencil, Play, Share2, Trash2 } from 'lucide-react-native';
+import { ArrowLeft, ChefHat, Pause, Pencil, Play, Plus, Share2, Trash2 } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Badge, Button, CarruselFotos, ScreenContainer, Sello, Text } from '@/shared/ui/atoms';
+import { Alert, Badge, Button, Cargando, CarruselFotos, ScreenContainer, Sello, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, textoAnticipacion } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { EstadoSubida } from '../components/EstadoSubida';
 import { useCompartirProducto } from '../hooks/useCompartirProducto';
 import { useProducto } from '../hooks/useProducto';
 
 export function DetalleProductoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const { id } = useLocalSearchParams<{ id: string }>();
   const detalle = useProducto(id);
@@ -20,10 +19,10 @@ export function DetalleProductoScreen() {
 
   if (!producto) {
     return (
-      <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+      <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
         <View style={styles.contenido}>
           {detalle.cargando && !refresco.refrescando ? (
-            <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+            <Cargando mensaje="Cargando el producto…" llenarAlto style={styles.cargando} />
           ) : detalle.error ? (
             <View style={styles.bloque}>
               <Alert tone="danger" message={detalle.error} />
@@ -52,7 +51,7 @@ export function DetalleProductoScreen() {
     .join(' · ');
 
   return (
-    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
+    <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
       <View style={styles.contenido}>
         <CarruselFotos fotos={producto.imagenes} nombre={producto.nombre} />
         {/* La etiqueta que se ve en el catálogo, justo debajo de las fotos */}
@@ -100,6 +99,15 @@ export function DetalleProductoScreen() {
           <Button icon={Pencil} label="Editar" onPress={detalle.editar} fullWidth />
           <Button
             variant="secondary"
+            icon={detalle.sinReceta ? Plus : ChefHat}
+            label={detalle.sinReceta ? 'Agregar receta' : 'Ver receta'}
+            onPress={detalle.abrirReceta}
+            loading={detalle.cargandoReceta}
+            accessibilityHint="Con qué insumos se hace y cuánto cuesta hacer cada unidad"
+            fullWidth
+          />
+          <Button
+            variant="secondary"
             icon={producto.disponible ? Pause : Play}
             label={producto.disponible ? 'Pausar' : 'Activar'}
             onPress={detalle.alternarEstado}
@@ -127,7 +135,7 @@ export function DetalleProductoScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.xl },
+    contenido: { flexGrow: 1, gap: theme.spacing.xl },
     cargando: { paddingVertical: theme.spacing.xxl },
     bloque: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     precio: { fontVariant: ['tabular-nums'] },

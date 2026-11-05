@@ -22,7 +22,7 @@ export function CatalogoVidrieraScreen() {
   const listo = !catalogo.cargando && !catalogo.error;
 
   return (
-    <ScreenContainer refreshControl={refresco.control} alLlegarAlFinal={catalogo.cargarMas} pie={<BarraCarrito />}>
+    <ScreenContainer refreshControl={refresco.control} alLlegarAlFinal={catalogo.cargarMas} pie={<BarraCarrito />} llenarAlto>
       <View style={styles.contenido}>
         <CabeceraVidriera />
         <FiltrosVidriera filtros={filtros} total={listo ? catalogo.total : null} />
@@ -57,5 +57,5 @@ export function CatalogoVidrieraScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    contenido: { gap: theme.spacing.xl },
+    contenido: { flexGrow: 1, gap: theme.spacing.xl },
   });

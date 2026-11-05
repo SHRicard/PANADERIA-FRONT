@@ -1,7 +1,7 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Button, ScreenContainer, Segmentado, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, ScreenContainer, Segmentado, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { FilaArchivo } from '../components/FilaArchivo';
 import { ResumenUso } from '../components/ResumenUso';
 import { useAlmacenamiento } from '../hooks/useAlmacenamiento';
@@ -10,7 +10,6 @@ import { claveArchivo, FILTROS_ARCHIVOS, textoTotalArchivos } from '../textos';
 
 // Más → Memoria: cuánto del plan de Cloudinary está usado y lo que más ocupa, para borrar. El título lo pone el header del Stack
 export function AlmacenamientoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const resumen = useAlmacenamiento();
   const lista = useArchivos();
@@ -25,7 +24,7 @@ export function AlmacenamientoScreen() {
           Tus fotos y videos están en Cloudinary, en el plan gratis. Si se pasa del límite, el catálogo se puede quedar sin fotos.
         </Text>
 
-        {resumen.cargando && !refresco.refrescando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+        {resumen.cargando && !refresco.refrescando && <Cargando mensaje="Cargando la memoria…" style={styles.cargando} />}
         {resumen.error && (
           <View style={styles.error}>
             <Alert tone="danger" message={resumen.error} />
@@ -38,7 +37,7 @@ export function AlmacenamientoScreen() {
           <Text variant="subtitle">Lo que más ocupa</Text>
           <Segmentado opciones={FILTROS_ARCHIVOS} valor={lista.filtro} alCambiar={lista.setFiltro} accessibilityLabel="Qué archivos ver" />
 
-          {lista.cargando && !refresco.refrescando && <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />}
+          {lista.cargando && !refresco.refrescando && <Cargando mensaje="Cargando lo que más ocupa…" style={styles.cargando} />}
           {lista.error && (
             <View style={styles.error}>
               <Alert tone="danger" message={lista.error} />
@@ -61,7 +60,7 @@ export function AlmacenamientoScreen() {
               onBorrar={() => lista.pedirBorrar(archivo)}
             />
           ))}
-          {lista.cargandoMas && <ActivityIndicator color={theme.colors.primary} />}
+          {lista.cargandoMas && <Cargando tamano="chico" mensaje="Cargando más archivos" />}
         </View>
       </View>
     </ScreenContainer>

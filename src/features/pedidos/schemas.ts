@@ -39,6 +39,11 @@ export const pedidoSchema = z.object({
   sena: senaSchema.optional(),
   entregadoEn: z.string().optional(),
   canceladoEn: z.string().optional(),
+  /**
+   * Si el dueño ya lo vio: los de la web llegan en false (se marcan como nuevos) hasta que toca «Marcar como visto»;
+   * los manuales, en true. Los de antes salen en true. El default, por si el back todavía no lo manda
+   */
+  visto: z.boolean().default(true),
   /** Lo que falta cobrar al entregar: el total menos la seña */
   saldo: z.number(),
   createdAt: z.string(),

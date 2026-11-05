@@ -1,7 +1,7 @@
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Camera, CircleAlert, ImagePlus, Star, X, type LucideIcon } from 'lucide-react-native';
-import { Icon, Text } from '@/shared/ui/atoms';
+import { Cargando, Icon, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { FOTOS_MAX } from '../schemas';
 
@@ -106,7 +106,7 @@ export function SelectorFotos({
               {(estado || ocupada) && (
                 <View style={styles.centro} pointerEvents="none">
                   {estado !== 'error' ? (
-                    <ActivityIndicator color={theme.colors.primary} />
+                    <Cargando tamano="chico" />
                   ) : (
                     <View style={styles.marcaError}>
                       <Icon icon={CircleAlert} size="lg" color="danger" />
@@ -154,7 +154,7 @@ export function SelectorFotos({
 
         {procesando && (
           <View style={[styles.casilla, styles.agregar]} accessibilityLabel="Preparando las fotos">
-            <ActivityIndicator color={theme.colors.primary} />
+            <Cargando tamano="chico" />
           </View>
         )}
 

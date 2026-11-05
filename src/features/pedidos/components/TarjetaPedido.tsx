@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { Badge, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
-import { ESTADO, fechaYHora, MARCA_MANUAL, textoUnidades } from '../textos';
+import { ESTADO, fechaYHora, MARCA_MANUAL, MARCA_NUEVO, textoUnidades } from '../textos';
 import type { Pedido } from '../types';
 
 interface TarjetaPedidoProps {
@@ -11,7 +11,7 @@ interface TarjetaPedidoProps {
   onPress: () => void;
 }
 
-/** Un pedido en la lista: quién, cuándo, cuánto y en qué estado está */
+/** Un pedido en la lista: quién, cuándo, cuánto y en qué estado está. Si el dueño todavía no lo vio, resaltado y con «Nuevo» */
 export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
   const styles = useStyles(createStyles);
   const unidades = pedido.items.reduce((suma, item) => suma + item.cantidad, 0);
@@ -21,9 +21,9 @@ export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`Pedido de ${pedido.clienteNombre}, ${formatearPrecio(pedido.total)}, ${estado.label}`}
+      accessibilityLabel={`${pedido.visto ? '' : `${MARCA_NUEVO}: `}Pedido de ${pedido.clienteNombre}, ${formatearPrecio(pedido.total)}, ${estado.label}`}
       accessibilityHint="Ver el detalle"
-      style={({ pressed }) => [styles.tarjeta, pressed && styles.presionada]}
+      style={({ pressed }) => [styles.tarjeta, !pedido.visto && styles.nueva, pressed && styles.presionada]}
     >
       <View style={styles.datos}>
         <View style={styles.fila}>
@@ -39,6 +39,7 @@ export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
         </Text>
         <View style={styles.fila}>
           <View style={styles.marcas}>
+            {!pedido.visto && <Badge tone="primary" label={MARCA_NUEVO} />}
             <Badge tone={estado.tone} label={estado.label} />
             {pedido.origen === 'manual' && <Badge tone="neutral" label={MARCA_MANUAL} />}
           </View>
@@ -68,6 +69,8 @@ const createStyles = (theme: Theme) =>
       borderColor: theme.colors.border,
       backgroundColor: theme.colors.surface,
     },
+    // Sin ver: el borde y el fondo del color principal, así se distingue de un vistazo en la lista y en el inicio
+    nueva: { borderColor: theme.colors.primary, backgroundColor: theme.colors.primarySoft },
     presionada: { opacity: theme.opacity.pressed },
     datos: { flex: 1, gap: theme.spacing.xs },
     fila: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: theme.spacing.sm },

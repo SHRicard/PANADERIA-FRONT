@@ -25,7 +25,7 @@ export function CatalogoCartaScreen() {
   const listo = !carta.cargando && !carta.error;
 
   return (
-    <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />}>
+    <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />} llenarAlto>
       <View style={[styles.hoja, enCompu && styles.hojaCompu]}>
         <CabeceraBienvenida>
           <FiltrosCarta filtros={filtros} />
@@ -61,7 +61,7 @@ export function CatalogoCartaScreen() {
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
     // Una sola columna, centrada: en la compu cambian los números (el ancho), no el orden
-    hoja: { width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
+    hoja: { flexGrow: 1, width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
     // En la compu ocupa el 80% de la ventana (en una columna angosta quedaba perdida), directo sobre el
     // fondo de la página: sin tarjeta, que se veía como una caja adentro de otra
     hojaCompu: { width: theme.sizes.cartaCompu, maxWidth: '100%' },

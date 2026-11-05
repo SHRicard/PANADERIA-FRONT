@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Banknote, Check, Copy, MessageCircle, Wallet } from 'lucide-react-native';
-import { Button, Icon, Segmentado, Text, type OpcionSegmentado } from '@/shared/ui/atoms';
+import { Button, Cargando, Icon, Segmentado, Text, type OpcionSegmentado } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { useStyles, type Theme } from '@/theme';
 import { usePagoSena } from '../hooks/usePagoSena';
 import { cbuParaLeer } from '../pago';
 import type { PedidoCreado } from '../types';
@@ -26,12 +26,11 @@ interface PagoSenaProps {
  * escribirle al dueño por WhatsApp. Sin datos de pago, solo el WhatsApp; sin ninguno de los dos, nada
  */
 export function PagoSena({ pedido, sena }: PagoSenaProps) {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const pago = usePagoSena(pedido, sena);
   const [forma, setForma] = useState<FormaPago>('transferencia');
 
-  if (pago.cargando) return <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />;
+  if (pago.cargando) return <Cargando mensaje="Cargando cómo pagar…" style={styles.cargando} />;
   if (!pago.datos && !pago.whatsapp) return null;
 
   // Una baldosa por dato: lo que se copia, grande, con el botón cuadrado a la derecha

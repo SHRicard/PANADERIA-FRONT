@@ -1,14 +1,13 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { Alert, Button, ScreenContainer, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { Alert, Button, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { CamposProducto } from '../components/CamposProducto';
 import { SelectorFotos } from '../components/SelectorFotos';
 import { useEditarProducto } from '../hooks/useEditarProducto';
 
 // Formulario: no lleva el gesto de refrescar. El título lo pone el header del Stack
 export function EditarProductoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const { id } = useLocalSearchParams<{ id: string }>();
   const { producto, cargando, categorias, tipos, control, enfocar, enviar, enviando, error, fotos } =
@@ -16,9 +15,9 @@ export function EditarProductoScreen() {
 
   if (!producto) {
     return (
-      <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+      <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
         {cargando ? (
-          <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+          <Cargando mensaje="Cargando el producto…" llenarAlto style={styles.cargando} />
         ) : (
           <Text color="textMuted">Este producto ya no existe.</Text>
         )}
@@ -27,7 +26,7 @@ export function EditarProductoScreen() {
   }
 
   return (
-    <ScreenContainer width="form" edges={['bottom', 'left', 'right']}>
+    <ScreenContainer width="form" edges={['bottom', 'left', 'right']} llenarAlto>
       <View style={styles.contenido}>
         {error && <Alert tone="danger" message={error} />}
 

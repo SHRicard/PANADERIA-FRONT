@@ -1,6 +1,6 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import { ScreenContainer } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { StyleSheet } from 'react-native';
+import { Cargando, ScreenContainer } from '@/shared/ui/atoms';
+import { useStyles, type Theme } from '@/theme';
 import { useEstiloCatalogo } from '../hooks/useEstiloCatalogo';
 import { CatalogoCartaScreen } from './CatalogoCartaScreen';
 import { CatalogoVidrieraScreen } from './CatalogoVidrieraScreen';
@@ -10,14 +10,13 @@ import { CatalogoVidrieraScreen } from './CatalogoVidrieraScreen';
  * el back). Espera a saberlo para no mostrar uno y saltar al otro; si el back no responde, va el de por defecto
  */
 export function CatalogoScreen() {
-  const theme = useTheme();
   const styles = useStyles(createStyles);
   const { estilo, cargando } = useEstiloCatalogo();
 
   if (cargando) {
     return (
       <ScreenContainer centered>
-        <ActivityIndicator color={theme.colors.primary} style={styles.cargando} />
+        <Cargando mensaje="Cargando el catálogo…" style={styles.cargando} />
       </ScreenContainer>
     );
   }

@@ -12,6 +12,7 @@ import {
   Alert,
   Badge,
   Button,
+  Cargando,
   CarruselFotos,
   Icon,
   InputField,
@@ -56,6 +57,7 @@ const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
     tokens: ['success', 'successSoft', 'successStrong', 'successStrongPressed', 'onSuccess', 'warning', 'warningSoft', 'danger', 'dangerSoft'],
   },
   { titulo: 'Gráficos', tokens: ['grafico1', 'grafico2'] },
+  { titulo: 'Vidriera (Cargando)', tokens: ['pan', 'panCorte', 'panBrillo', 'panGalleta'] },
 ];
 
 const EJEMPLOS_TEXTO: { variante: TextVariant; ejemplo: string }[] = [
@@ -225,6 +227,14 @@ export function DisenoScreen() {
               size="sm": la píldora al lado de un título
             </Text>
           </View>
+        </Seccion>
+
+        <Seccion
+          titulo="Cargando"
+          descripcion="La vidriera: un pan, una medialuna y un alfajor que pasan por una cinta. El normal ocupa el lugar de lo que carga, solo con el dibujo (el mensaje lo lee el lector de pantalla); el chico va en una línea, con su texto. Adentro de un botón van del color del texto: tocá «Guardar»."
+        >
+          <Cargando mensaje="Cargando pedidos…" />
+          <Cargando tamano="chico" mensaje="Cargando más pedidos" />
         </Seccion>
 
         <Seccion titulo="Campos" descripcion="InputField: label, ícono, ayuda y error.">

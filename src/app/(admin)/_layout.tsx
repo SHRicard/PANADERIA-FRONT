@@ -15,6 +15,10 @@ export default function AdminLayout() {
         <Stack.Screen name="productos/nuevo" options={{ headerShown: true, title: 'Nuevo producto' }} />
         <Stack.Screen name="productos/[id]/index" options={{ headerShown: true, title: 'Producto' }} />
         <Stack.Screen name="productos/[id]/editar" options={{ headerShown: true, title: 'Editar producto' }} />
+        <Stack.Screen name="productos/[id]/receta/index" options={{ headerShown: true, title: 'Receta' }} />
+        <Stack.Screen name="productos/[id]/receta/editar" options={{ headerShown: true, title: 'Cargar receta' }} />
+        <Stack.Screen name="productos/[id]/receta/precio" options={{ headerShown: true, title: 'Actualizar precio' }} />
+        <Stack.Screen name="productos/[id]/receta/hacer" options={{ headerShown: true, title: 'Realizar receta' }} />
         <Stack.Screen name="pedidos/[id]" options={{ headerShown: true, title: 'Pedido' }} />
         <Stack.Screen name="preferencias" options={{ headerShown: true, title: 'Preferencias' }} />
         <Stack.Screen name="billetera" options={{ headerShown: true, title: 'Billetera' }} />
