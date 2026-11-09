@@ -2,7 +2,7 @@
   "expo": {
     "name": "PANADERIA-DIGITAL",
     "slug": "PANADERIA-DIGITAL",
-    "version": "1.2.0",
+    "version": "1.4.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "panaderiadigital",
@@ -14,7 +14,7 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.rricardodev.PANADERIADIGITAL",
-      "versionCode": 3
+      "versionCode": 5
     },
     "web": {
       "output": "static",

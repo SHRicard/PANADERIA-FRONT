@@ -1,7 +1,19 @@
 import { StyleSheet, View } from 'react-native';
-import { ArrowLeft, Plus, ShoppingBag } from 'lucide-react-native';
+import { Controller } from 'react-hook-form';
+import { ArrowLeft, Car, Plus, ShoppingBag, Store } from 'lucide-react-native';
 import { useBreakpoint, useRefrescar } from '@/shared/hooks';
-import { Adorno, Alert, Button, CampoTexto, Cargando, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
+import {
+  Adorno,
+  Alert,
+  Button,
+  CampoTexto,
+  Cargando,
+  Icon,
+  ScreenContainer,
+  Segmentado,
+  Text,
+  type OpcionSegmentado,
+} from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import { ItemPedido } from '../components/ItemPedido';
 import { PedidoConfirmado } from '../components/PedidoConfirmado';
@@ -10,6 +22,13 @@ import { TituloPaso } from '../components/TituloPaso';
 import { usePedido } from '../hooks/usePedido';
 
 const productos = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
+
+type Entrega = 'retiro' | 'envio';
+/** Cómo lo recibe: el form guarda `conEnvio` (boolean), el Segmentado elige entre estas dos */
+const OPCIONES_ENTREGA: OpcionSegmentado<Entrega>[] = [
+  { valor: 'retiro', label: 'Lo paso a retirar', icono: Store },
+  { valor: 'envio', label: 'Con envío', icono: Car },
+];
 
 /**
  * «Tu pedido» (/pedido), en tres pasos, en el orden en que se hace: 1 lo que eligió, 2 el resumen (total,
@@ -161,6 +180,26 @@ export function PedidoScreen() {
                     autoCapitalize="sentences"
                     multiline
                   />
+                  <Controller
+                    control={pedido.form.control}
+                    name="conEnvio"
+                    render={({ field }) => (
+                      <View style={styles.campo}>
+                        <Text variant="label">¿Cómo lo recibís?</Text>
+                        <Segmentado
+                          opciones={OPCIONES_ENTREGA}
+                          valor={field.value ? 'envio' : 'retiro'}
+                          alCambiar={(valor) => field.onChange(valor === 'envio')}
+                          accessibilityLabel="Cómo recibís el pedido"
+                        />
+                        {field.value && (
+                          <Text variant="caption" color="textMuted">
+                            La dirección la coordinamos por WhatsApp.
+                          </Text>
+                        )}
+                      </View>
+                    )}
+                  />
                   {pedido.error && <Alert tone="danger" message={pedido.error} />}
                   <Button
                     label="Confirmar pedido"
@@ -197,6 +236,7 @@ const createStyles = (theme: Theme) =>
     columnaCuentas: { gap: theme.spacing.xxl },
     columnaCuentasCompu: { flex: 2, minWidth: 0 },
     paso: { gap: theme.spacing.md },
+    campo: { gap: theme.spacing.sm },
     cargando: { paddingVertical: theme.spacing.xl },
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     vacio: { alignItems: 'center', gap: theme.spacing.sm, paddingVertical: theme.spacing.xxl },

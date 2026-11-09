@@ -38,7 +38,8 @@ Si no te acordás de la contraseña, mirá
 ## Un cliente dice que hizo un pedido y no lo veo
 
 En la pestaña **Pedidos**, **tirá la lista para abajo** para actualizarla: los
-pedidos nuevos no aparecen solos mientras la pantalla está abierta.
+pedidos nuevos no aparecen solos mientras la pantalla está abierta. Los que todavía
+no miraste salen resaltados, con la marca «Nuevo».
 
 Fijate también que el filtro **Estado** diga **Todos**.
 
@@ -48,7 +49,41 @@ Fijate también que el filtro **Estado** diga **Todos**.
 
 - Fijate que esté **Activo**: los pausados no se ven. En **Productos**, abrilo y, si
   dice «Pausado», tocá **Activar**.
-- Si el cliente tiene la web abierta desde antes, que la recargue.
+- Si el cliente tiene la web abierta desde antes, que la recargue (o que tire la
+  página para abajo).
+
+---
+
+## Un cliente dice que la web está cerrada y no la cerré
+
+1. Entrá a **Más → Preferencias** y mirá **Catálogo**, en la parte **Web**. Si está
+   elegido **Cerrado**, elegí **Carta** o **Vidriera** para abrirla
+   ([Cerrar la web por un tiempo](10-preferencias.md#cerrar-la-web-por-un-tiempo)).
+2. Si está en **Carta** o **Vidriera**, el servidor no estaba respondiendo cuando el
+   cliente entró, y en ese caso la web muestra el cartel. Abrí la web vos desde
+   **Ver mi catálogo**, en el Dashboard: si ves el catálogo, pedile al cliente que
+   recargue la página. Si vos también ves el cartel, esperá unos minutos y probá de
+   nuevo.
+
+---
+
+## Me voy unos días y no puedo tomar pedidos
+
+**Cerrá la web** en **Más → Preferencias**, eligiendo **Cerrado** en **Catálogo**, y
+escribí un mensaje para tus clientes, por ejemplo cuándo volvés. Tus productos no se
+tocan. Cuando vuelvas, elegí **Carta** o **Vidriera**. Ver
+[Cerrar la web por un tiempo](10-preferencias.md#cerrar-la-web-por-un-tiempo).
+
+No hace falta pausar los productos uno por uno.
+
+---
+
+## ¿Cuánto me cuesta hacer un producto?
+
+Cargale **la receta**: abrí el producto, tocá **Agregar receta** y anotá con qué
+insumos se hace y cuántas unidades salen. La app te dice cuánto te cuesta cada
+unidad en ingredientes, con lo último que pagaste. Ver
+[Las recetas](07-insumos.md#las-recetas).
 
 ---
 
@@ -64,6 +99,10 @@ Todo se puede deshacer desde el mismo pedido: **Quitar seña**, **Deshacer entre
 Abrí el producto, tocá **Editar**, cambiá el **Precio** y tocá **Guardar cambios**.
 La web muestra el precio nuevo enseguida. Los pedidos que ya estaban hechos guardan el
 precio de cuando se hicieron.
+
+Si el producto tiene receta, también podés calcularlo a partir de lo que te cuesta:
+en la receta, tocá **Actualizar precio**
+([Ponerle el precio desde la receta](07-insumos.md#ponerle-el-precio-desde-la-receta)).
 
 ---
 

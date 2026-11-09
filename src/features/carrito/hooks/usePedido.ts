@@ -28,13 +28,18 @@ export function usePedido() {
 
   const form = useForm<FormularioPedido>({
     resolver: zodResolver(formularioPedidoSchema),
-    defaultValues: { nombre: '', telefono: '', nota: '' },
+    defaultValues: { nombre: '', telefono: '', nota: '', conEnvio: false },
   });
 
-  const confirmar = form.handleSubmit(async ({ nombre, telefono, nota }) => {
+  const confirmar = form.handleSubmit(async ({ nombre, telefono, nota, conEnvio }) => {
     setError(null);
     try {
-      const pedido = await crearPedido({ cliente: { nombre, telefono }, items: carrito.items, nota: nota || undefined }).unwrap();
+      const pedido = await crearPedido({
+        cliente: { nombre, telefono },
+        items: carrito.items,
+        nota: nota || undefined,
+        conEnvio,
+      }).unwrap();
       dispatch(pedidoConfirmado(pedido));
       form.reset();
     } catch (e) {
