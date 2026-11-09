@@ -33,9 +33,17 @@ export interface NuevoPedidoManual {
   nota?: string;
   /** Si el cliente ya transfirió la seña: el pedido entra confirmado */
   sena?: { monto: number };
+  /** true: hay que mandárselo · false: lo pasa a retirar */
+  conEnvio: boolean;
 }
 
 /** Los filtros de GET /api/pedidos. Sin estado, vienen todos */
 export interface FiltrosPedidos {
   estado?: EstadoPedido;
+}
+
+/** Lo que viaja a PUT /api/pedidos/:id/items: la lista completa, como tiene que quedar */
+export interface ItemsPedidoEditados {
+  id: string;
+  items: { productoId: string; cantidad: number }[];
 }

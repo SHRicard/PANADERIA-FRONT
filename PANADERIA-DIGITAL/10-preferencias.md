@@ -94,19 +94,50 @@ Por ejemplo, así se ve **Productos** con la barra **Cápsula** y el encabezado
 <img src="capturas/oscuro/10-web.webp" width="230" alt="Preferencias, Web: Catálogo con las opciones Vidriera y Carta · modo oscuro">
 </p>
 
-En **Catálogo** elegís cómo ven tus productos los clientes que abren el link de la
-web:
+En **Catálogo** elegís cómo ven la web los clientes que abren el link:
 
 | Opción | Cómo es |
 | --- | --- |
 | **Carta** | Agrupada por tipo (Pizzas, Tartas…), con la descripción a la vista y el precio a la derecha. Los productos sin tipo van al final, en **Otros**. (Es la que viene.) |
 | **Vidriera** | Una grilla de fotos grandes, con buscador y filtros por tipo y por gusto. Luce con buenas fotos. |
+| **Cerrado** | Por un tiempo no tomás pedidos: los clientes ven un cartel con tu mensaje en lugar del catálogo. |
 
-En [La web de tus clientes](11-la-web.md) hay capturas de las dos.
+En [La web de tus clientes](11-la-web.md) hay capturas de las tres.
 
 > 💡 El catálogo se guarda **en internet**: lo cambiás una vez y lo ven todos tus
 > clientes. Si no hay conexión, la app dice «No se guardó el cambio.» y vuelve a la
 > opción anterior.
+
+### Cerrar la web por un tiempo
+
+Si te vas de vacaciones, te enfermaste o por lo que sea no podés tomar pedidos por
+unos días, cerrá la web en lugar de pausar todos los productos:
+
+1. En **Catálogo**, tocá **Cerrado**.
+2. La app pregunta «Cerrar la web»: «Los clientes van a ver el cartel de cerrado en
+   lugar del catálogo y no van a poder hacer pedidos hasta que elijas Vidriera o
+   Carta. Tus productos no se tocan.» Tocá **Cerrar la web**.
+3. Debajo de las opciones aparece **Qué les decís a tus clientes**. Escribí el
+   mensaje del cartel (hasta 280 letras), por ejemplo «Me fui de vacaciones, vuelvo
+   el lunes 10. ¡Gracias por esperarme!», y tocá **Guardar el mensaje**. Cuando
+   dice «Listo: los clientes ya ven el mensaje nuevo.», ya está.
+
+Debajo, en **Así lo ven tus clientes**, ves el cartel tal cual con lo que estás
+escribiendo. Si dejás el mensaje vacío, el cartel dice que cerraste por un motivo de
+fuerza mayor y que muy pronto volvés a hornear.
+
+Mientras está cerrada:
+
+- **Cualquier link** de tu web muestra el cartel: el catálogo, un producto que
+  compartiste, el pedido. El cartel tiene el botón **Escribinos por WhatsApp**, por
+  si un cliente te quiere consultar.
+- Nadie puede hacer un pedido por la web. Vos sí podés cargar un
+  [Pedido manual](04-pedido-manual.md).
+- En el **Dashboard** aparece el aviso «Tu web está cerrada», para que no te olvides.
+
+Para **abrirla**, elegí **Carta** o **Vidriera** en **Catálogo**: la web vuelve en
+el momento, con ese estilo. Tus productos, precios y fotos quedan como estaban. El
+mensaje queda guardado para la próxima vez que cierres.
 
 ---
 
@@ -114,7 +145,8 @@ En [La web de tus clientes](11-la-web.md) hay capturas de las dos.
 
 - **Tema, tipografía, barra y encabezado** se guardan **en tu celular**. No cambian
   la web, y si instalás la app en otro celular, empiezan como vienen de fábrica.
-- **El catálogo** se guarda **en internet** y cambia lo que ven tus clientes.
+- **El catálogo** (Carta, Vidriera o Cerrado) y el mensaje del cartel se guardan **en
+  internet** y cambian lo que ven tus clientes.
 
 Tus clientes siempre ven la web con la letra **Clásica**, y en claro u oscuro según
 cómo tengan configurado su celular.

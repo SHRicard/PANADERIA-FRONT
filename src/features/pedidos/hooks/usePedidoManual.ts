@@ -1,18 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { useListarProductosInfiniteQuery, type Producto } from '@/features/productos';
+import type { Producto } from '@/features/productos';
 import { mensajeDeError } from '@/services/api';
 import { formatearPrecio } from '@/shared/utils';
 import { useCrearPedidoManualMutation, useListarClientesQuery } from '../api/pedidosApi';
 import { formularioPedidoManualSchema, MAX_PRODUCTOS_PEDIDO, MAX_UNIDADES_PRODUCTO } from '../schemas';
 import type { FormularioPedidoManual } from '../types';
+import { useBuscadorProductos } from './useBuscadorProductos';
 
-// Espera a que el dueño deje de escribir: no un pedido por letra
-const ESPERA_BUSQUEDA_MS = 350;
-
-const VACIO: FormularioPedidoManual = { nombre: '', telefono: '', nota: '', sena: '' };
+const VACIO: FormularioPedidoManual = { nombre: '', telefono: '', nota: '', sena: '', conEnvio: false };
 
 /** Un producto elegido: se guarda entero para mostrarlo aunque la búsqueda cambie y ya no aparezca */
 interface Elegido {
@@ -38,16 +36,7 @@ export function usePedidoManual() {
   });
 
   // ── Productos: la lista del dueño (con los pausados), con búsqueda ──
-  const [texto, setTexto] = useState('');
-  const [buscar, setBuscar] = useState('');
-  useEffect(() => {
-    const espera = setTimeout(() => setBuscar(texto.trim()), ESPERA_BUSQUEDA_MS);
-    return () => clearTimeout(espera);
-  }, [texto]);
-
-  const consulta = useListarProductosInfiniteQuery({ buscar: buscar || undefined });
-  const paginas = consulta.currentData?.pages;
-  const productos = useMemo(() => paginas?.flatMap((pagina) => pagina.productos) ?? [], [paginas]);
+  const buscador = useBuscadorProductos();
 
   const [elegidos, setElegidos] = useState<Record<string, Elegido>>({});
   const lista = Object.values(elegidos);
@@ -66,7 +55,7 @@ export function usePedidoManual() {
     });
   };
 
-  const guardar = form.handleSubmit(async ({ nombre, telefono, nota, sena }) => {
+  const guardar = form.handleSubmit(async ({ nombre, telefono, nota, sena, conEnvio }) => {
     setError(null);
     if (lista.length === 0) {
       setErrorProductos('Elegí al menos un producto');
@@ -79,6 +68,7 @@ export function usePedidoManual() {
     try {
       const pedido = await crearPedidoManual({
         cliente: { nombre, telefono },
+        conEnvio,
         items: lista.map(({ producto, cantidad }) => ({ productoId: producto._id, cantidad })),
         ...(nota && { nota }),
         ...(sena && { sena: { monto: Number(sena) } }),
@@ -107,17 +97,7 @@ export function usePedidoManual() {
       form.setValue('telefono', cliente.telefono, { shouldValidate: true });
     },
 
-    texto,
-    setTexto,
-    productos,
-    cargandoProductos: !paginas && consulta.isFetching,
-    errorCargaProductos: consulta.isError && !paginas ? mensajeDeError(consulta.error) : null,
-    reintentarProductos: () => void consulta.refetch(),
-    hayMasProductos: consulta.hasNextPage,
-    cargandoMasProductos: consulta.isFetchingNextPage,
-    cargarMasProductos: () => {
-      if (consulta.hasNextPage && !consulta.isFetching) void consulta.fetchNextPage();
-    },
+    buscador,
 
     elegidos: lista,
     cantidadDe: (id: string) => elegidos[id]?.cantidad ?? 0,

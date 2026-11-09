@@ -26,6 +26,25 @@ pestaña **Pedidos**.
 
 ---
 
+## Qué hay de nuevo en la versión 1.3.0
+
+- **Recetas**: cada producto puede tener su receta, con los insumos que lleva y
+  cuántas unidades salen. La app te dice cuánto te cuesta hacer cada unidad, cuánto
+  necesitás para un pedido grande y te ayuda a ponerle el precio
+  ([Las recetas](07-insumos.md#las-recetas)).
+- **Cerrar la web por un tiempo**: si no podés tomar pedidos por unos días, tus
+  clientes ven un cartel con tu mensaje en lugar del catálogo
+  ([Cerrar la web por un tiempo](10-preferencias.md#cerrar-la-web-por-un-tiempo)).
+- **Pedidos nuevos resaltados**: los pedidos de la web que todavía no miraste salen
+  con la marca «Nuevo» hasta que tocás **Marcar como visto**
+  ([Los pedidos nuevos](03-pedidos.md#los-pedidos-nuevos)).
+- **El link con tu logo**: al mandar el link de la web por WhatsApp, aparece la vista
+  previa con el logo de Dama Blanca ([El link en WhatsApp](11-la-web.md#el-link-en-whatsapp)).
+- **En la web también se tira para abajo** para actualizar
+  ([Actualizar la web](11-la-web.md#actualizar-la-web)).
+
+---
+
 ## Índice
 
 1. [Empezar](01-empezar.md): instalar la app, entrar, recuperar la contraseña, el inicio y moverte por las pantallas.
@@ -34,10 +53,10 @@ pestaña **Pedidos**.
 4. [Pedido manual](04-pedido-manual.md): anotar un pedido que te hicieron por WhatsApp o en persona.
 5. [Billetera](05-billetera.md): la cuenta a la que te transfieren la seña.
 6. [Promos](06-promos.md): fotos y videos para compartir en tu estado de WhatsApp.
-7. [Insumos](07-insumos.md): lo que comprás para producir y cuánto pagaste.
+7. [Insumos y recetas](07-insumos.md): lo que comprás para producir, cuánto pagaste y cuánto te cuesta hacer cada producto.
 8. [Métricas](08-metricas.md): cuánto vendiste, cuánto gastaste y cuánto te quedó.
 9. [Memoria](09-memoria.md): cuánto lugar ocupan tus fotos y videos.
-10. [Preferencias](10-preferencias.md): cómo se ve la app y cómo se ve tu catálogo web.
+10. [Preferencias](10-preferencias.md): cómo se ve la app, cómo se ve tu catálogo web y cómo cerrarla por un tiempo.
 11. [La web de tus clientes](11-la-web.md): qué ven y qué hacen tus clientes cuando abren el link.
 12. [Problemas y preguntas frecuentes](12-preguntas-frecuentes.md): qué hacer cuando algo no anda.
 
@@ -62,7 +81,7 @@ Cada captura de pantalla aparece dos veces: a la izquierda con la app en **modo
 claro** y a la derecha en **modo oscuro**. Se ve igual en los dos: elegís el que
 te resulte más cómodo en **Más → Preferencias** ([Preferencias](10-preferencias.md)).
 
-Las capturas son de la versión 1.1.0, con tus productos y fotos reales. Los
+Las capturas son de la versión 1.3.0, con tus productos y fotos reales. Los
 pedidos, los clientes, los insumos y los montos son de ejemplo: en tu celular vas a
 ver los tuyos.
 

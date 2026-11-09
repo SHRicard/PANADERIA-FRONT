@@ -24,4 +24,6 @@ export interface NuevoPedido {
   items: ItemCarrito[];
   /** Hasta 300 caracteres */
   nota?: string;
+  /** true: quiere que se lo manden · false: lo pasa a retirar */
+  conEnvio: boolean;
 }

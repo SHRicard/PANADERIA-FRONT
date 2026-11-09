@@ -73,7 +73,20 @@ Debajo del filtro dice cuántos pedidos hay en ese estado, por ejemplo «12 pedi
 > 💡 Para ver lo que tenés que preparar, elegí **Seña pagada**. Para ver a quién le
 > tenés que reclamar la seña, elegí **Esperando la seña**.
 
-### Ver los pedidos nuevos
+### Los pedidos nuevos
+
+Un pedido de la web que **todavía no abriste para mirarlo** sale **resaltado**: con el
+borde y el fondo del color de la app y la marca **«Nuevo»** al lado del estado. Así
+lo ves de un vistazo, en esta lista y en el [Dashboard](01-empezar.md#el-dashboard).
+
+Al abrirlo, arriba de todo aparece el aviso «Pedido nuevo» con el botón **Marcar
+como visto**. Tocalo cuando ya lo leíste: deja de salir resaltado. No cambia el
+estado del pedido ni le avisa nada al cliente.
+
+Si lo marcaste sin querer, al fondo del pedido está **Marcar como no visto**: vuelve
+a salir como nuevo.
+
+Los pedidos que cargás vos ([Pedido manual](04-pedido-manual.md)) ya salen vistos.
 
 > ⚠️ Los pedidos nuevos de la web **no aparecen solos** mientras tenés la pantalla
 > abierta. Para ver si entró alguno, **tirá la lista para abajo** con el dedo y

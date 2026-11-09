@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { CircleCheck } from 'lucide-react-native';
+import { Car, CircleCheck, Store } from 'lucide-react-native';
 import { Adorno, Button, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
@@ -49,6 +49,16 @@ export function PedidoConfirmado({ pedido, cobro, entrega, alVolver }: PedidoCon
             entrega={entrega}
           />
         </View>
+        {/* Cómo lo recibe: lo eligió al confirmar */}
+        <View style={styles.envio}>
+          <Icon icon={pedido.conEnvio ? Car : Store} color="primary" />
+          <View style={styles.textos}>
+            <Text variant="bodyStrong">{pedido.conEnvio ? 'Te lo llevamos' : 'Lo pasás a retirar'}</Text>
+            <Text variant="caption" color="textMuted">
+              {pedido.conEnvio ? 'La dirección la coordinamos por WhatsApp.' : 'Te avisamos por WhatsApp cuando esté listo.'}
+            </Text>
+          </View>
+        </View>
       </View>
       {/* Cómo pagar la seña: transferencia o, en efectivo, por WhatsApp */}
       {cobro && <PagoSena pedido={pedido} sena={cobro.sena} />}
@@ -66,4 +76,6 @@ const createStyles = (theme: Theme) =>
     nombre: { flex: 1 },
     cuentas: { paddingTop: theme.spacing.md, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.colors.border },
     cifra: { fontVariant: ['tabular-nums'] },
+    envio: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.sm, paddingTop: theme.spacing.sm },
+    textos: { flex: 1, gap: theme.spacing.xxs },
   });

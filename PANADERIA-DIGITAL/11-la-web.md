@@ -16,7 +16,8 @@ computadora también se ve bien, más ancha.
 
 Lo primero que aparece es tu catálogo, con el estilo que elegiste en
 [Preferencias](10-preferencias.md#web). Hay dos: **Carta** (la que viene) y
-**Vidriera**.
+**Vidriera**. Si cerraste la web por un tiempo, en su lugar aparece un cartel
+([Cuando cerraste la web](#cuando-cerraste-la-web)).
 
 ### Carta
 
@@ -211,6 +212,55 @@ escribirte por WhatsApp para coordinar cómo pagar.
 
 > 💡 Si el cliente se va a la app del banco y después vuelve a la web, sigue viendo
 > cómo pagar: la web lo recuerda en ese celular.
+
+---
+
+## Cuando cerraste la web
+
+Si elegiste **Cerrado** en [Preferencias](10-preferencias.md#cerrar-la-web-por-un-tiempo),
+cualquier link de tu web (el catálogo, un producto, el pedido) muestra un cartel en
+lugar del catálogo: el frente del local con un cartelito de «Cerrado» que se mece,
+«Cerramos por unos días» y tu mensaje.
+
+<p>
+<img src="capturas/claro/11-cerrado.webp" width="230" alt="La web cerrada: el frente del local con el cartel Cerrado, Volvemos pronto, Cerramos por unos días, el mensaje Me fui de vacaciones, vuelvo el lunes 10 y el botón Escribinos por WhatsApp · modo claro">
+<img src="capturas/oscuro/11-cerrado.webp" width="230" alt="La web cerrada: el frente del local con el cartel Cerrado, Volvemos pronto, Cerramos por unos días, el mensaje Me fui de vacaciones, vuelvo el lunes 10 y el botón Escribinos por WhatsApp · modo oscuro">
+</p>
+
+Abajo está el botón **Escribinos por WhatsApp**, que abre tu chat con el comienzo ya
+escrito: «¡Hola! Vi en la web que por ahora están cerrados. Te quería consultar:». El
+cliente termina la pregunta y la manda.
+
+Mientras está cerrada, nadie puede hacer un pedido por la web. Cuando la abrís, el
+cliente ve el catálogo de nuevo al recargar la página.
+
+> ⚠️ Si el servidor de la app no responde (por ejemplo, porque está caído), la web
+> también muestra el cartel, con el mensaje de «motivo de fuerza mayor». Así el
+> cliente no se queda mirando una página que no anda. Si un cliente te dice que la
+> web está cerrada y vos no la cerraste, mirá
+> [Problemas y preguntas frecuentes](12-preguntas-frecuentes.md#un-cliente-dice-que-la-web-está-cerrada-y-no-la-cerré).
+
+---
+
+## Actualizar la web
+
+Los clientes también pueden **tirar para abajo** para actualizar, como en la app: con
+la página arriba de todo, deslizan el dedo hacia abajo, aparece «Tirá para
+actualizar» y, cuando dice «Soltá para actualizar», sueltan. Sirve, por ejemplo,
+para ver un producto que acabás de cargar.
+
+---
+
+## El link en WhatsApp
+
+Cuando mandás el link de tu web por WhatsApp, debajo del mensaje aparece una vista
+previa con **el logo de Dama Blanca**, el título «Dama Blanca · Horneados» y «El
+catálogo de Dama Blanca: mirá todo lo que horneamos, con sus precios, y hacé tu
+pedido online.» Es la misma para todos los links: el del catálogo y el de un
+producto.
+
+> 💡 WhatsApp guarda la vista previa la primera vez que alguien manda un link. Un
+> link que ya se había mandado antes puede seguir apareciendo sin el logo.
 
 ---
 

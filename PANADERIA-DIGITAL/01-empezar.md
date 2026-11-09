@@ -10,7 +10,7 @@ si te la olvidás, qué te muestra el inicio y cómo moverte por las pantallas.
 ## Instalar la app
 
 La app no está en Play Store: te la pasa la persona que la desarrolló, como un
-archivo `.apk` (por ejemplo `panaderia-digital-1.1.0.apk`), o te la instala con el
+archivo `.apk` (por ejemplo `panaderia-digital-1.3.0.apk`), o te la instala con el
 celular conectado a la computadora.
 
 Si te mandan el archivo:
@@ -26,7 +26,7 @@ En tu pantalla de inicio aparece el ícono redondo de Dama Blanca, con el nombre
 **Para actualizarla**, instalá la versión nueva encima de la que tenés, de la misma
 forma. No hace falta desinstalar: tu sesión y tus preferencias se mantienen. Para
 saber qué versión tenés, mirá al fondo de la pestaña **Más**: dice, por ejemplo,
-«Versión 1.1.0».
+«Versión 1.3.0».
 
 > ⚠️ Si al actualizar Android dice que la app no se puede instalar porque ya existe
 > una distinta, avisale a quien te la pasó antes de desinstalar nada.
@@ -132,6 +132,11 @@ Tocá una pestaña para ir a esa parte.
 
 Es lo primero que ves al entrar. Tiene dos partes.
 
+Si cerraste la web ([Preferencias](10-preferencias.md#cerrar-la-web-por-un-tiempo)),
+arriba de todo aparece el aviso «Tu web está cerrada»: «Los clientes ven el cartel y
+no pueden hacer pedidos.» Está para que no te olvides de abrirla. El botón **Abrirla
+en Preferencias** te lleva a donde se abre.
+
 <p>
 <img src="capturas/claro/01-dashboard.webp" width="230" alt="El Dashboard: la tarjeta Tu catálogo con Compartir por WhatsApp y Ver mi catálogo, y abajo Vendido hoy y Para atender · modo claro">
 <img src="capturas/oscuro/01-dashboard.webp" width="230" alt="El Dashboard: la tarjeta Tu catálogo con Compartir por WhatsApp y Ver mi catálogo, y abajo Vendido hoy y Para atender · modo oscuro">
@@ -165,7 +170,8 @@ Debajo, el resumen del día:
   es lo que tenés pendiente.
 - **Pedidos de hoy**: los pedidos que entraron hoy, del más nuevo al más viejo (hasta
   10). Tocá uno para abrirlo. Si hubo más, abajo aparece **Ver los demás en
-  Pedidos**.
+  Pedidos**. Los que todavía no miraste salen resaltados, con la marca «Nuevo»
+  ([Los pedidos nuevos](03-pedidos.md#los-pedidos-nuevos)).
 
 <p>
 <img src="capturas/claro/01-dashboard-2.webp" width="230" alt="Más abajo en el Dashboard: Vendido hoy, Para atender y la lista Pedidos de hoy · modo claro">
@@ -194,15 +200,15 @@ Debajo, el resumen del día:
 | **Pedido manual** | Cargá un pedido que te hicieron por WhatsApp o en persona ([capítulo 4](04-pedido-manual.md)). |
 | **Métricas** | Ventas, pedidos, clientes, gastos y lo que te queda ([capítulo 8](08-metricas.md)). |
 | **Tipos** | Tortas, tartas, alfajores: cómo ordenás tus productos ([capítulo 2](02-productos.md#los-tipos)). |
-| **Insumos** | Lo que comprás para producir y cuánto pagaste ([capítulo 7](07-insumos.md)). |
+| **Insumos** | Lo que comprás para producir y cuánto pagaste. Con ellos armás las recetas ([capítulo 7](07-insumos.md)). |
 | **Promos** | Fotos y videos para compartir en tu estado ([capítulo 6](06-promos.md)). |
 | **Billetera** | La cuenta a la que te transfieren la seña ([capítulo 5](05-billetera.md)). |
 | **Memoria** | Cuánto lugar usan tus fotos y videos ([capítulo 9](09-memoria.md)). |
-| **Preferencias** | Tema, letra, pestañas, encabezado y catálogo web ([capítulo 10](10-preferencias.md)). |
+| **Preferencias** | Tema, letra, pestañas, encabezado y la web: catálogo o cerrado ([capítulo 10](10-preferencias.md)). |
 | **Cerrar sesión** | En rojo, al fondo. |
 
 Al fondo de todo, debajo de **Cerrar sesión**, dice qué versión de la app tenés
-(por ejemplo «Versión 1.1.0»).
+(por ejemplo «Versión 1.3.0»).
 
 <p>
 <img src="capturas/claro/01-mas-2.webp" width="230" alt="Más abajo en Más: Memoria, Preferencias, Cerrar sesión en rojo y Versión 1.1.0 · modo claro">
@@ -230,6 +236,12 @@ nuevos.
 
 En los formularios (cargar un producto, un pedido manual, la billetera…) no se usa:
 no hay nada que actualizar.
+
+### Mientras carga
+
+Cuando una pantalla está trayendo los datos, en su lugar pasan por una cinta un pan,
+una medialuna y un alfajor. Si es un pedacito de la pantalla (más pedidos al final
+de la lista, por ejemplo), la cinta es chica y al lado dice qué está cargando.
 
 ### Cuando algo no carga
 

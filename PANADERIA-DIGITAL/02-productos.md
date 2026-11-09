@@ -216,8 +216,11 @@ Vas a ver:
   momento».
 - La descripción y los ingredientes.
 
-Abajo están los botones **Compartir por WhatsApp**, **Editar**, **Pausar** (o
-**Activar**) y **Eliminar producto**.
+Abajo están los botones **Compartir por WhatsApp**, **Editar**, **Agregar receta**
+(o **Ver receta**, si ya tiene), **Pausar** (o **Activar**) y **Eliminar producto**.
+
+Con la receta, la app te dice cuánto te cuesta hacer cada unidad y te ayuda a
+ponerle el precio: está explicado en [Las recetas](07-insumos.md#las-recetas).
 
 > 💡 Las estrellas y comentarios que dejan tus clientes se ven solo en la web, no
 > en la app.
