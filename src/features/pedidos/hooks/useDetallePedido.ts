@@ -20,7 +20,16 @@ import { formularioSenaSchema } from '../schemas';
 import { linkWhatsApp, mensajeListo, mensajeSaludo } from '../textos';
 import type { FormularioSena } from '../types';
 
-type Accion = 'sena' | 'quitarSena' | 'entrega' | 'quitarEntrega' | 'cancelar' | 'quitarCancelacion' | 'visto' | 'quitarVisto';
+type Accion =
+  | 'sena'
+  | 'sinSena'
+  | 'quitarSena'
+  | 'entrega'
+  | 'quitarEntrega'
+  | 'cancelar'
+  | 'quitarCancelacion'
+  | 'visto'
+  | 'quitarVisto';
 
 /** El detalle de un pedido con sus pasos: confirmar la seña, entregar, cancelar y deshacer cada uno */
 export function useDetallePedido(id: string) {
@@ -77,6 +86,14 @@ export function useDetallePedido(id: string) {
     }
   });
 
+  /** Lo confirma sin seña: el mismo PUT …/sena, con monto 0 */
+  const confirmarSinSena = async () => {
+    if (await ejecutar('sinSena', () => registrarSena({ id, monto: 0 }).unwrap())) {
+      setCorrigiendoSena(false);
+      form.reset({ monto: '' });
+    }
+  };
+
   return {
     pedido,
     cargando: consulta.isLoading,
@@ -92,9 +109,11 @@ export function useDetallePedido(id: string) {
     error,
     form,
     confirmarSena,
+    confirmarSinSena: () => void confirmarSinSena(),
     corrigiendoSena,
     corregirSena: () => {
-      form.reset({ monto: pedido?.sena ? String(pedido.sena.monto) : '' });
+      // Sin seña (0), el campo arranca vacío: el formulario no acepta 0
+      form.reset({ monto: pedido?.sena?.monto ? String(pedido.sena.monto) : '' });
       setCorrigiendoSena(true);
     },
     dejarDeCorregir: () => setCorrigiendoSena(false),
@@ -102,7 +121,7 @@ export function useDetallePedido(id: string) {
     entregar: () => void ejecutar('entrega', () => registrarEntrega(id).unwrap()),
     deshacerEntrega: () => void ejecutar('quitarEntrega', () => quitarEntrega(id).unwrap()),
     cancelar: () =>
-      Alert.alert('¿Cancelar el pedido?', pedido?.sena ? 'La seña queda registrada, por si hay que devolverla.' : undefined, [
+      Alert.alert('¿Cancelar el pedido?', pedido?.sena?.monto ? 'La seña queda registrada, por si hay que devolverla.' : undefined, [
         { text: 'No', style: 'cancel' },
         { text: 'Cancelar pedido', style: 'destructive', onPress: () => void ejecutar('cancelar', () => cancelarPedido(id).unwrap()) },
       ]),
@@ -111,12 +130,14 @@ export function useDetallePedido(id: string) {
     marcarVisto: () => void ejecutar('visto', () => marcarVisto(id).unwrap()),
     /** Por si lo marcó sin querer: vuelve a salir como nuevo */
     marcarNoVisto: () => void ejecutar('quitarVisto', () => quitarVisto(id).unwrap()),
+    /** Sumar, sacar o cambiar productos. Solo con el pedido abierto. Al guardar vuelve acá, ya actualizado */
+    editarProductos: () => router.push({ pathname: '/editar-pedido/[id]', params: { id } }),
 
     /** Abre el chat del cliente con un saludo escrito («¡Hola María! ¿Cómo estás?…»), para charlar */
     escribirAlCliente: () => {
       if (pedido) void Linking.openURL(linkWhatsApp(pedido.clienteTelefono, mensajeSaludo(pedido)));
     },
-    /** Abre el chat del cliente con «Tu pedido ya está listo para retirar» escrito: el dueño solo lo manda */
+    /** Abre el chat del cliente con «Tu pedido ya está listo» escrito (para retirar o que se lo llevan): el dueño solo lo manda */
     avisarListo: () => {
       if (pedido) void Linking.openURL(linkWhatsApp(pedido.clienteTelefono, mensajeListo(pedido)));
     },

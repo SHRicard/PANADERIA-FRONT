@@ -103,4 +103,4 @@ La foto o el video no se cambian: para usar otro archivo, armá una promo nueva.
 
 ---
 
-Siguiente: [7. Insumos →](07-insumos.md)
+Siguiente: [7. Insumos y recetas →](07-insumos.md)

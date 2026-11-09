@@ -35,6 +35,11 @@ export const pedidoCreadoSchema = z.object({
   total: z.number(),
   estado: z.enum(['pendiente', 'confirmado', 'entregado', 'cancelado']),
   createdAt: z.string(),
+  /**
+   * Si va con envío. El default: el pedido confirmado queda guardado en el navegador, y uno guardado antes de este
+   * campo no lo tiene (además, por si el back todavía no lo manda)
+   */
+  conEnvio: z.boolean().default(false),
 });
 
 /** Lo que guarda el navegador. Si se rompió o es de otra versión, el carrito arranca vacío */
@@ -53,4 +58,6 @@ export const formularioPedidoSchema = z.object({
     .min(1, 'Escribí tu teléfono')
     .refine((valor) => /^[+\d\s().-]+$/.test(valor) && valor.replace(/\D/g, '').length >= 8, 'Revisá el teléfono: por ejemplo, 11 5555-1234'),
   nota: z.string().trim().max(300, 'La nota puede tener hasta 300 letras'),
+  /** true: quiere que se lo manden · false: lo pasa a retirar */
+  conEnvio: z.boolean(),
 });

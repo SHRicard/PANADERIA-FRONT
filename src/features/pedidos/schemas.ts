@@ -16,7 +16,8 @@ export const itemPedidoSchema = z.object({
 
 /** La seña que confirmó el dueño */
 export const senaSchema = z.object({
-  monto: z.number().positive(),
+  /** 0 = el dueño lo confirmó sin seña */
+  monto: z.number().nonnegative(),
   /** Cuándo la confirmó. Si después corrige el monto, no cambia */
   pagadaEn: z.string(),
 });
@@ -44,6 +45,11 @@ export const pedidoSchema = z.object({
    * los manuales, en true. Los de antes salen en true. El default, por si el back todavía no lo manda
    */
   visto: z.boolean().default(true),
+  /**
+   * true: hay que mandárselo · false: lo pasa a retirar. Los de antes salen en false. El default, por si el back
+   * todavía no lo manda
+   */
+  conEnvio: z.boolean().default(false),
   /** Lo que falta cobrar al entregar: el total menos la seña */
   saldo: z.number(),
   createdAt: z.string(),
@@ -59,7 +65,7 @@ export const paginaPedidosSchema = z.object({
   totalPaginas: z.number().int(),
 });
 
-/** GET /api/pedidos/:id y todas las acciones (seña, entrega, cancelación): el pedido con los datos del cliente */
+/** GET /api/pedidos/:id y todas las acciones (seña, entrega, cancelación, envío, productos): el pedido con los datos del cliente */
 export const detallePedidoSchema = pedidoSchema.extend({
   cliente: z
     .object({
@@ -123,4 +129,6 @@ export const formularioPedidoManualSchema = z.object({
     .refine((valor) => /^[+\d\s().-]+$/.test(valor) && valor.replace(/\D/g, '').length >= 8, 'Revisá el teléfono: por ejemplo, 11 5555-1234'),
   nota: z.string().trim().max(300, 'La nota puede tener hasta 300 letras'),
   sena: senaOpcional,
+  /** true: hay que mandárselo · false: lo pasa a retirar */
+  conEnvio: z.boolean(),
 });

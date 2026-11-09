@@ -1,10 +1,13 @@
 import { StyleSheet, View } from 'react-native';
-import { ClipboardCheck, Search } from 'lucide-react-native';
-import { Alert, Button, CampoTexto, Cargando, Input, ScreenContainer, Select, Text } from '@/shared/ui/atoms';
+import { Controller } from 'react-hook-form';
+import { ClipboardCheck } from 'lucide-react-native';
+import { Alert, Button, CampoTexto, ScreenContainer, Segmentado, Select, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
+import { BuscadorProductos } from '../components/BuscadorProductos';
 import { FilaProductoManual } from '../components/FilaProductoManual';
 import { usePedidoManual } from '../hooks/usePedidoManual';
+import { OPCIONES_ENTREGA } from '../textos';
 
 /**
  * Pedido manual (Más → Pedido manual): cargar un pedido que le hicieron al dueño por WhatsApp o en persona.
@@ -80,44 +83,24 @@ export function PedidoManualScreen() {
           )}
           {manual.errorProductos && <Alert tone="danger" message={manual.errorProductos} />}
 
-          <Input
-            icon={Search}
-            value={manual.texto}
-            onChangeText={manual.setTexto}
-            placeholder="Buscar un producto"
-            accessibilityLabel="Buscar un producto"
-            autoCapitalize="none"
-            returnKeyType="search"
-          />
-          {manual.cargandoProductos && <Cargando mensaje="Cargando productos…" style={styles.cargando} />}
-          {manual.errorCargaProductos && (
-            <View style={styles.error}>
-              <Alert tone="danger" message={manual.errorCargaProductos} />
-              <Button variant="secondary" label="Reintentar" onPress={manual.reintentarProductos} />
-            </View>
-          )}
-          {!manual.cargandoProductos && !manual.errorCargaProductos && manual.productos.length === 0 && (
-            <Text color="textMuted">Ningún producto coincide con «{manual.texto}».</Text>
-          )}
           {/* Los ya elegidos están arriba, con el total */}
-          <View>
-            {manual.productos
-              .filter((producto) => !elegidos.has(producto._id))
-              .map((producto) => (
-                <FilaProductoManual
-                  key={producto._id}
-                  producto={producto}
-                  cantidad={0}
-                  max={manual.maxUnidades}
-                  alCambiar={(cantidad) => manual.cambiarCantidad(producto, cantidad)}
-                />
-              ))}
-          </View>
-          {manual.cargandoMasProductos ? (
-            <Cargando tamano="chico" mensaje="Cargando más productos" />
-          ) : manual.hayMasProductos ? (
-            <Button variant="ghost" label="Ver más productos" onPress={manual.cargarMasProductos} fullWidth />
-          ) : null}
+          <BuscadorProductos buscador={manual.buscador} ocultos={elegidos} max={manual.maxUnidades} alCambiar={manual.cambiarCantidad} />
+        </View>
+
+        <View style={styles.seccion}>
+          <Text variant="subtitle">¿Cómo lo recibe?</Text>
+          <Controller
+            control={form.control}
+            name="conEnvio"
+            render={({ field }) => (
+              <Segmentado
+                opciones={OPCIONES_ENTREGA}
+                valor={field.value ? 'envio' : 'retiro'}
+                alCambiar={(valor) => field.onChange(valor === 'envio')}
+                accessibilityLabel="Cómo recibe el pedido"
+              />
+            )}
+          />
         </View>
 
         <View style={styles.seccion}>
@@ -134,7 +117,7 @@ export function PedidoManualScreen() {
             control={form.control}
             name="nota"
             label="Nota"
-            placeholder="Lo retira el sábado a la mañana"
+            placeholder="Para el sábado a la mañana"
             helper="Opcional. Para cuándo es, cómo lo quiere, lo que tengas que recordar."
             autoCapitalize="sentences"
             multiline
@@ -152,8 +135,6 @@ const createStyles = (theme: Theme) =>
   StyleSheet.create({
     contenido: { gap: theme.spacing.xl },
     seccion: { gap: theme.spacing.md },
-    cargando: { paddingVertical: theme.spacing.lg },
-    error: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     total: {
       flexDirection: 'row',
       justifyContent: 'space-between',

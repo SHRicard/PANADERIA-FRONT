@@ -16,8 +16,13 @@ expo-env.d.ts
 /android
 /ios
 
-# APKs que genera ./run.sh apk
+# APKs que genera ./run.sh apk: nunca a GitHub (tampoco una suelta en otra carpeta)
 /builds
+*.apk
+*.aab
+
+# Manual de la dueña (Markdown, capturas y PDF): queda solo en local
+/PANADERIA-DIGITAL/
 
 # Credenciales de firma: nunca al repo
 *.jks
@@ -52,3 +57,4 @@ yarn-error.*
 # Editor y sistema
 .vscode/.react
 .DS_Store
+

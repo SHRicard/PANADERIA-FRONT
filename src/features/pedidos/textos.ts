@@ -1,6 +1,7 @@
-import type { BadgeTone } from '@/shared/ui/atoms';
+import { Car, Store } from 'lucide-react-native';
+import type { BadgeTone, OpcionSegmentado } from '@/shared/ui/atoms';
 import { formatearFecha, formatearPrecio, nombreParaMostrar } from '@/shared/utils';
-import type { DetallePedido, EstadoPedido } from './types';
+import type { DetallePedido, EstadoPedido, Pedido } from './types';
 
 /** Cómo se ve cada estado */
 export const ESTADO: Record<EstadoPedido, { label: string; tone: BadgeTone }> = {
@@ -10,11 +11,34 @@ export const ESTADO: Record<EstadoPedido, { label: string; tone: BadgeTone }> = 
   cancelado: { label: 'Cancelado', tone: 'neutral' },
 };
 
+/** Confirmado con seña 0: el dueño lo confirmó sin seña. No dice «Seña pagada» */
+const SIN_SENA: { label: string; tone: BadgeTone } = { label: 'Sin seña', tone: 'primary' };
+
+/**
+ * La etiqueta del estado de un pedido: como `ESTADO`, pero el confirmado sin seña dice «Sin seña». Los contadores por
+ * estado (inicio, métricas) siguen con `ESTADO`: el back cuenta los sin seña como confirmados
+ */
+export function estadoDe(pedido: Pick<Pedido, 'estado' | 'sena'>): { label: string; tone: BadgeTone } {
+  return pedido.estado === 'confirmado' && pedido.sena?.monto === 0 ? SIN_SENA : ESTADO[pedido.estado];
+}
+
 /** Los pedidos que cargó el dueño llevan esta marca en la lista y en el detalle */
 export const MARCA_MANUAL = 'Cargado a mano';
 
 /** La marca de un pedido de la web que el dueño todavía no vio */
 export const MARCA_NUEVO = 'Nuevo';
+
+/** Cómo lo recibe el cliente: va en la lista y en el detalle, para saber de un vistazo si hay que mandarlo */
+export function marcaEnvio(conEnvio: boolean): { label: string; tone: BadgeTone } {
+  return conEnvio ? { label: 'Con envío', tone: 'warning' } : { label: 'Retira', tone: 'neutral' };
+}
+
+/** El selector del envío del pedido manual (lo que pidió el cliente por WhatsApp). El pedido guarda `conEnvio`: 'envio' es true */
+export type Entrega = 'retiro' | 'envio';
+export const OPCIONES_ENTREGA: OpcionSegmentado<Entrega>[] = [
+  { valor: 'retiro', label: 'Retira', icono: Store },
+  { valor: 'envio', label: 'Con envío', icono: Car },
+];
 
 const hora = new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 
@@ -46,18 +70,20 @@ export function mensajeSaludo(pedido: DetallePedido): string {
   return `¡Hola${nombre ? ` ${nombre}` : ''}! ¿Cómo estás? Te escribo de Dama Blanca por tu pedido.`;
 }
 
-/** El aviso de que el pedido está listo para retirar: qué pidió y cuánto le falta pagar (o que ya está pago) */
+/**
+ * El aviso de que el pedido está listo: qué pidió y cuánto le falta pagar (o que ya está pago). Con envío, que en
+ * un rato se lo llevan; si no, que lo pase a retirar
+ */
 export function mensajeListo(pedido: DetallePedido): string {
+  const { conEnvio, saldo } = pedido;
   const nombre = primerNombre(pedido);
   const productos = pedido.items.map(({ cantidad, nombre }) => `• ${cantidad} × ${nombreParaMostrar(nombre)}`);
-  const cobro =
-    pedido.saldo > 0
-      ? `Al retirarlo te queda por pagar ${formatearPrecio(pedido.saldo)}.`
-      : 'Ya está todo pago: solo tenés que pasar a buscarlo.';
+  const pago = conEnvio ? 'Ya está todo pago.' : 'Ya está todo pago: solo tenés que pasar a buscarlo.';
+  const cobro = saldo > 0 ? `Al ${conEnvio ? 'recibirlo' : 'retirarlo'} te queda por pagar ${formatearPrecio(saldo)}.` : pago;
   return [
-    `¡Hola${nombre ? ` ${nombre}` : ''}! Tu pedido ya está listo para retirar:`,
+    `¡Hola${nombre ? ` ${nombre}` : ''}! Tu pedido ya está listo${conEnvio ? ' y en un rato te lo llevamos' : ' para retirar'}:`,
     ...productos,
     cobro,
-    '¡Te esperamos! Dama Blanca',
+    conEnvio ? '¡Gracias! Dama Blanca' : '¡Te esperamos! Dama Blanca',
   ].join('\n');
 }

@@ -1,12 +1,25 @@
 import { StyleSheet, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, Ban, BellRing, CircleCheck, Eye, EyeOff, MessageCircle, PackageCheck, Undo2 } from 'lucide-react-native';
+import {
+  ArrowLeft,
+  Ban,
+  BellRing,
+  Car,
+  CircleCheck,
+  Eye,
+  EyeOff,
+  MessageCircle,
+  PackageCheck,
+  Pencil,
+  Store,
+  Undo2,
+} from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Badge, Button, CampoTexto, Cargando, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { Alert, Badge, Button, CampoTexto, Cargando, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
 import { useDetallePedido } from '../hooks/useDetallePedido';
-import { ESTADO, fechaYHora, MARCA_MANUAL, MARCA_NUEVO } from '../textos';
+import { estadoDe, fechaYHora, MARCA_MANUAL, MARCA_NUEVO, marcaEnvio } from '../textos';
 
 export function DetallePedidoScreen() {
   const styles = useStyles(createStyles);
@@ -38,9 +51,14 @@ export function DetallePedidoScreen() {
     );
   }
 
-  const estado = ESTADO[pedido.estado];
+  const estado = estadoDe(pedido);
+  const envio = marcaEnvio(pedido.conEnvio);
   const abierto = pedido.estado === 'pendiente' || pedido.estado === 'confirmado';
   const pedirMonto = pedido.estado === 'pendiente' || detalle.corrigiendoSena;
+  /** Con seña de verdad (mayor que 0). ❌ No uses `pedido.sena?.monto &&` en el JSX: con 0, React Native intenta dibujar el 0 */
+  const conSena = (pedido.sena?.monto ?? 0) > 0;
+  /** Lo confirmó sin seña (`sena.monto` 0) */
+  const sinSena = pedido.sena?.monto === 0;
 
   return (
     <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control} llenarAlto>
@@ -64,6 +82,7 @@ export function DetallePedidoScreen() {
           <View style={styles.marcas}>
             {!pedido.visto && <Badge tone="primary" label={MARCA_NUEVO} />}
             <Badge tone={estado.tone} label={estado.label} />
+            <Badge tone={envio.tone} label={envio.label} />
           </View>
           <Text variant="title">{pedido.clienteNombre}</Text>
           <Text color="textMuted">
@@ -84,8 +103,23 @@ export function DetallePedidoScreen() {
           />
         </View>
 
+        {/* Lo eligió el cliente al pedir (o el dueño, en el pedido manual): acá solo se lee. Una línea a todo el
+            ancho: el autito si hay que mandarlo, el local si lo pasa a retirar */}
+        <View style={[styles.envio, pedido.conEnvio ? styles.envioSi : styles.envioNo]} accessible>
+          <Icon icon={pedido.conEnvio ? Car : Store} color={pedido.conEnvio ? 'warning' : 'primary'} />
+          <Text variant="bodyStrong" numberOfLines={1} style={styles.envioTexto}>
+            {pedido.conEnvio ? 'El cliente solicitó envío' : 'El cliente lo retira en el local'}
+          </Text>
+        </View>
+
         <View style={styles.seccion}>
-          <Text variant="label">Productos</Text>
+          <View style={styles.encabezadoSeccion}>
+            <Text variant="label">Productos</Text>
+            {/* El cliente pidió sumar, sacar o cambiar algo: solo mientras está abierto */}
+            {abierto && (
+              <Button variant="ghost" size="sm" icon={Pencil} label="Editar productos" onPress={detalle.editarProductos} disabled={ocupado} />
+            )}
+          </View>
           {pedido.items.map((item) => (
             <View key={item.producto} style={styles.fila}>
               <Text style={styles.nombre}>
@@ -100,7 +134,8 @@ export function DetallePedidoScreen() {
               {formatearPrecio(pedido.total)}
             </Text>
           </View>
-          {pedido.sena && (
+          {/* Sin seña no salen: falta cobrar todo el total, que ya está arriba */}
+          {conSena && pedido.sena && (
             <>
               <View style={styles.fila}>
                 <Text color="textMuted">Seña</Text>
@@ -134,15 +169,24 @@ export function DetallePedidoScreen() {
             {pedido.sena && !detalle.corrigiendoSena && (
               <>
                 <Text color="textMuted">
-                  {formatearPrecio(pedido.sena.monto)}, confirmada el {fechaYHora(pedido.sena.pagadaEn)}
+                  {sinSena
+                    ? `Sin seña, confirmado el ${fechaYHora(pedido.sena.pagadaEn)}`
+                    : `${formatearPrecio(pedido.sena.monto)}, confirmada el ${fechaYHora(pedido.sena.pagadaEn)}`}
                 </Text>
                 <View style={styles.botonesFila}>
-                  <Button variant="ghost" size="sm" label="Corregir monto" onPress={detalle.corregirSena} disabled={ocupado} />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    label={sinSena ? 'Cargar seña' : 'Corregir monto'}
+                    onPress={detalle.corregirSena}
+                    disabled={ocupado}
+                  />
+                  {/* Sin seña, «Deshacer» es el mismo DELETE …/sena: vuelve a «Esperando la seña» */}
                   <Button
                     variant="ghost"
                     size="sm"
                     icon={Undo2}
-                    label="Quitar seña"
+                    label={sinSena ? 'Deshacer' : 'Quitar seña'}
                     onPress={detalle.quitarSena}
                     loading={enCurso === 'quitarSena'}
                     disabled={ocupado}
@@ -170,6 +214,17 @@ export function DetallePedidoScreen() {
                   disabled={ocupado}
                   fullWidth
                 />
+                {/* El mismo PUT …/sena con 0. También al corregir: así se arreglan los que se cargaron con $1 */}
+                {!sinSena && (
+                  <Button
+                    variant="secondary"
+                    label="Sin seña"
+                    onPress={detalle.confirmarSinSena}
+                    loading={enCurso === 'sinSena'}
+                    disabled={ocupado}
+                    fullWidth
+                  />
+                )}
                 {detalle.corrigiendoSena && (
                   <Button variant="ghost" label="No cambiar" onPress={detalle.dejarDeCorregir} disabled={ocupado} fullWidth />
                 )}
@@ -223,7 +278,7 @@ export function DetallePedidoScreen() {
               {pedido.canceladoEn && (
                 <Text color="textMuted" align="center">
                   Cancelado el {fechaYHora(pedido.canceladoEn)}
-                  {pedido.sena ? `. Tenía una seña de ${formatearPrecio(pedido.sena.monto)}.` : ''}
+                  {conSena && pedido.sena ? `. Tenía una seña de ${formatearPrecio(pedido.sena.monto)}.` : ''}
                 </Text>
               )}
               <Button
@@ -263,6 +318,20 @@ const createStyles = (theme: Theme) =>
     nuevo: { gap: theme.spacing.sm },
     marcas: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.xs },
     seccion: { gap: theme.spacing.sm },
+    // Una sola línea a todo el ancho, con el fondo suave del tono de la marca (sin borde)
+    envio: {
+      alignSelf: 'stretch',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: theme.spacing.sm,
+      paddingVertical: theme.spacing.sm,
+      paddingHorizontal: theme.spacing.md,
+      borderRadius: theme.radius.md,
+    },
+    envioSi: { backgroundColor: theme.colors.warningSoft },
+    envioNo: { backgroundColor: theme.colors.primarySoft },
+    envioTexto: { flex: 1 },
+    encabezadoSeccion: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: theme.spacing.sm },
     fila: { flexDirection: 'row', justifyContent: 'space-between', gap: theme.spacing.md },
     nombre: { flex: 1 },
     cifra: { fontVariant: ['tabular-nums'] },

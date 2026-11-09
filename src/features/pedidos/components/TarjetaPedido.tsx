@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { Badge, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
-import { ESTADO, fechaYHora, MARCA_MANUAL, MARCA_NUEVO, textoUnidades } from '../textos';
+import { estadoDe, fechaYHora, MARCA_MANUAL, MARCA_NUEVO, marcaEnvio, textoUnidades } from '../textos';
 import type { Pedido } from '../types';
 
 interface TarjetaPedidoProps {
@@ -11,17 +11,18 @@ interface TarjetaPedidoProps {
   onPress: () => void;
 }
 
-/** Un pedido en la lista: quién, cuándo, cuánto y en qué estado está. Si el dueño todavía no lo vio, resaltado y con «Nuevo» */
+/** Un pedido en la lista: quién, cuándo, cuánto, en qué estado está y si va con envío o retira. Si el dueño todavía no lo vio, resaltado y con «Nuevo» */
 export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
   const styles = useStyles(createStyles);
   const unidades = pedido.items.reduce((suma, item) => suma + item.cantidad, 0);
-  const estado = ESTADO[pedido.estado];
+  const estado = estadoDe(pedido);
+  const envio = marcaEnvio(pedido.conEnvio);
 
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${pedido.visto ? '' : `${MARCA_NUEVO}: `}Pedido de ${pedido.clienteNombre}, ${formatearPrecio(pedido.total)}, ${estado.label}`}
+      accessibilityLabel={`${pedido.visto ? '' : `${MARCA_NUEVO}: `}Pedido de ${pedido.clienteNombre}, ${formatearPrecio(pedido.total)}, ${estado.label}, ${envio.label}`}
       accessibilityHint="Ver el detalle"
       style={({ pressed }) => [styles.tarjeta, !pedido.visto && styles.nueva, pressed && styles.presionada]}
     >
@@ -41,6 +42,7 @@ export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
           <View style={styles.marcas}>
             {!pedido.visto && <Badge tone="primary" label={MARCA_NUEVO} />}
             <Badge tone={estado.tone} label={estado.label} />
+            <Badge tone={envio.tone} label={envio.label} />
             {pedido.origen === 'manual' && <Badge tone="neutral" label={MARCA_MANUAL} />}
           </View>
           {/* Con seña, lo que falta cobrar al entregar */}

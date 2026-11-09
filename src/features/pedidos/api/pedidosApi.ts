@@ -1,6 +1,13 @@
 import { baseApi } from '@/services/api';
 import { clientesSchema, detallePedidoSchema, paginaPedidosSchema } from '../schemas';
-import type { ClienteGuardado, DetallePedido, FiltrosPedidos, NuevoPedidoManual, PaginaPedidos } from '../types';
+import type {
+  ClienteGuardado,
+  DetallePedido,
+  FiltrosPedidos,
+  ItemsPedidoEditados,
+  NuevoPedidoManual,
+  PaginaPedidos,
+} from '../types';
 
 /** Pedidos por página. El back acepta hasta 100 */
 const POR_PAGINA = 20;
@@ -95,6 +102,25 @@ export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido', 'Cl
         },
       }),
 
+      /**
+       * Cambia los productos de un pedido abierto (el cliente pidió sumar, sacar o cambiar algo). Va la lista completa:
+       * lo que no va, se saca. Lo que ya estaba conserva el precio del pedido; lo nuevo entra con el de hoy. Responde el
+       * detalle: se guarda en su caché. Cambió el total: recarga las listas, el inicio y las métricas
+       */
+      editarItemsPedido: build.mutation<DetallePedido, ItemsPedidoEditados>({
+        query: ({ id, items }) => ({ url: `/pedidos/${id}/items`, method: 'PUT', body: { items } }),
+        rawResponseSchema: detallePedidoSchema,
+        invalidatesTags: [LISTA],
+        async onQueryStarted({ id }, { dispatch, queryFulfilled }): Promise<void> {
+          try {
+            const { data } = await queryFulfilled;
+            dispatch(pedidosApi.util.upsertQueryData('obtenerPedido', id, data));
+          } catch {
+            // El error lo muestra la pantalla de edición
+          }
+        },
+      }),
+
       /** Los que ya hicieron algún pedido: para elegir uno en el pedido manual sin escribir su teléfono */
       listarClientes: build.query<ClienteGuardado[], void>({
         query: () => '/clientes',
@@ -117,5 +143,6 @@ export const {
   useMarcarVistoMutation,
   useQuitarVistoMutation,
   useCrearPedidoManualMutation,
+  useEditarItemsPedidoMutation,
   useListarClientesQuery,
 } = pedidosApi;
