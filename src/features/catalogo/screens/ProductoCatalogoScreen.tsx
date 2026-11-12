@@ -11,6 +11,11 @@ import { PieCatalogo } from '../components/AvisosCatalogo';
 import { Estrellas } from '../components/Estrellas';
 import { FormularioRecomendacion } from '../components/FormularioRecomendacion';
 import { ListaRecomendaciones } from '../components/ListaRecomendaciones';
+import { BotonFiestas } from '../components/navidad/BotonFiestas';
+import { EtiquetaNavidad } from '../components/navidad/EtiquetaNavidad';
+import { Ilustracion } from '../components/navidad/Ilustracion';
+import { Vivo } from '../components/navidad/adornos';
+import { useEsNavidad } from '../hooks/useEsNavidad';
 import { useProductoCatalogo } from '../hooks/useProductoCatalogo';
 import { useRecomendar } from '../hooks/useRecomendar';
 import { textoIngredientes, textoPeso, textoPromedio, textoVotos } from '../textos';
@@ -18,7 +23,9 @@ import { textoIngredientes, textoPeso, textoPromedio, textoVotos } from '../text
 /**
  * El detalle de un producto, con todas sus fotos. Tiene URL propia (/producto/:id): es lo que se comparte.
  * En la tableta y la compu, las fotos a la izquierda y los datos a la derecha. Abajo, las recomendaciones:
- * votar y lo que dijeron los demás (en la compu, una al lado de la otra)
+ * votar y lo que dijeron los demás (en la compu, una al lado de la otra). Mientras la web está de Navidad: una ramita
+ * de acebo prendida en la esquina de la foto, la etiqueta como cinta roja, «Agregar al pedido» dorado, la línea dorada
+ * entre dos ramitas de acebo y un muñequito en las recomendaciones
  */
 export function ProductoCatalogoScreen() {
   const theme = useTheme();
@@ -31,6 +38,7 @@ export function ProductoCatalogoScreen() {
   const enCelular = tamano === 'celular';
   const carrito = useCarrito();
   const recomendar = useRecomendar(id);
+  const navidad = useEsNavidad();
   const { producto } = detalle;
   const enPedido = producto ? carrito.cantidadDe(producto._id) : 0;
   // Con 0 se pide en el momento: no se muestra nada
@@ -73,9 +81,11 @@ export function ProductoCatalogoScreen() {
               {/* La etiqueta del dueño sobre la foto grande, arriba a la izquierda, como en la vidriera */}
               {producto.etiqueta ? (
                 <View style={styles.sello} pointerEvents="none">
-                  <Sello texto={producto.etiqueta} />
+                  {navidad ? <EtiquetaNavidad texto={producto.etiqueta} /> : <Sello texto={producto.etiqueta} />}
                 </View>
               ) : null}
+              {/* La ramita de acebo prendida en la esquina de la foto grande, montada sobre el borde */}
+              {navidad && <Ilustracion nombre="acebo" alto={theme.sizes.aceboFoto} style={styles.aceboFoto} />}
             </View>
             <View style={[styles.datos, !enCelular && styles.datosAncho]}>
               <Text variant="overline" color="textMuted">
@@ -107,7 +117,11 @@ export function ProductoCatalogoScreen() {
               {producto.descripcion ? <Text>{producto.descripcion}</Text> : null}
               <View style={styles.agregar}>
                 {enPedido === 0 ? (
-                  <Button label="Agregar al pedido" icon={Plus} onPress={() => carrito.cambiarCantidad(producto._id, 1)} />
+                  navidad ? (
+                    <BotonFiestas label="Agregar al pedido" ancho="justo" onPress={() => carrito.cambiarCantidad(producto._id, 1)} />
+                  ) : (
+                    <Button label="Agregar al pedido" icon={Plus} onPress={() => carrito.cambiarCantidad(producto._id, 1)} />
+                  )
                 ) : (
                   <View style={styles.enPedido}>
                     <ControlCantidad
@@ -135,7 +149,15 @@ export function ProductoCatalogoScreen() {
 
         {producto && (
           <View style={styles.recomendaciones}>
-            <Adorno forma="izquierda" />
+            {navidad ? (
+              <View style={styles.separadorNavidad}>
+                <Ilustracion nombre="acebo" alto={theme.sizes.mascota} />
+                <Adorno forma="corto" />
+                <Ilustracion nombre="acebo" alto={theme.sizes.mascota} espejado />
+              </View>
+            ) : (
+              <Adorno forma="izquierda" />
+            )}
             <View style={[styles.opiniones, tamano === 'compu' && styles.opinionesCompu]}>
               <View style={tamano === 'compu' && styles.votar}>
                 <FormularioRecomendacion
@@ -144,6 +166,14 @@ export function ProductoCatalogoScreen() {
                   enviando={recomendar.enviando}
                   error={recomendar.error}
                   enviada={recomendar.enviada}
+                  navidad={navidad}
+                  dibujo={
+                    navidad ? (
+                      <Vivo como="flotar">
+                        <Ilustracion nombre="osoGalleta" alto={theme.sizes.pedidoDibujo} />
+                      </Vivo>
+                    ) : undefined
+                  }
                 />
               </View>
               <View style={tamano === 'compu' && styles.leer}>
@@ -151,6 +181,13 @@ export function ProductoCatalogoScreen() {
                   recomendaciones={producto.recomendaciones ?? []}
                   promedio={producto.puntajePromedio}
                   cantidad={producto.cantidadRecomendaciones}
+                  dibujoVacio={
+                    navidad ? (
+                      <Vivo como="flotar">
+                        <Ilustracion nombre="renoGorro" alto={theme.sizes.ilustracionPie} />
+                      </Vivo>
+                    ) : undefined
+                  }
                 />
               </View>
             </View>
@@ -179,6 +216,14 @@ const createStyles = (theme: Theme) =>
     datos: { gap: theme.spacing.sm },
     datosAncho: { flex: 1, minWidth: 0 },
     sello: { position: 'absolute', top: theme.spacing.md, left: theme.spacing.md, right: theme.spacing.xxxl },
+    // Un tercio afuera de la foto, arriba a la derecha, apenas torcida
+    aceboFoto: {
+      position: 'absolute',
+      top: -theme.sizes.aceboFoto / 3,
+      right: -theme.sizes.aceboFoto / 4,
+      transform: [{ rotate: '18deg' }],
+    },
+    separadorNavidad: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.spacing.sm },
     puntaje: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm },
     precioFila: { flexDirection: 'row', alignItems: 'baseline', gap: theme.spacing.sm },
     // El precio con la letra de texto en negrita (la de título es para nombres), en cifras parejas

@@ -35,6 +35,22 @@ export type ColorToken =
   | 'panCorte'
   | 'panBrillo'
   | 'panGalleta'
+  // El catálogo de Navidad: los copos de nieve y las rayas claras del bastón, el rojo del bastón y de las luces, las
+  // agujas de la guirnalda (dos verdes) y la luz azul. Las luces alternan cinta, accent, luzAzul y pino
+  | 'nieve'
+  // El contorno de cada copo de nieve: en claro, para que la nieve blanca se vea sobre el fondo; en oscuro, nada
+  | 'contornoNieve'
+  | 'cinta'
+  | 'pino'
+  | 'pinoOscuro'
+  | 'luzAzul'
+  // Una banda de color de temporada (la vidriera, el cielo), su tono más profundo (hacia los bordes, lo
+  // alto del cielo) y lo que va encima
+  | 'destacado'
+  | 'destacadoProfundo'
+  | 'onDestacado'
+  // La luz dorada de la tarjeta de un producto en el catálogo de Navidad de día
+  | 'resplandor'
   | 'shadow'
   | 'overlay';
 
@@ -78,7 +94,8 @@ export interface Theme extends TipografiaTema {
   mode: ModoTema;
   colors: Record<ColorToken, string>;
   spacing: typeof spacing;
-  radius: typeof radius;
+  // Los mismos nombres, con los valores que traiga el tema: uno de temporada puede redondear más (radiusRedondeado)
+  radius: Record<keyof typeof radius, number>;
   sizes: typeof sizes;
   iconSize: typeof iconSize;
   iconStroke: typeof iconStroke;

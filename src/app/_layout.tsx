@@ -12,7 +12,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { Provider } from 'react-redux';
-import { EncabezadoPantalla } from '@/features/navegacion';
 import { store } from '@/store';
 import { ThemeProvider, useCargarFuentes, useTheme } from '@/theme';
 
@@ -88,12 +87,9 @@ function Navegacion() {
           <Stack.Screen name="(admin)" />
         </Stack.Protected>
 
-        {/* Diseño del sistema: solo en desarrollo, en las dos caras */}
+        {/* Diseño del sistema: solo en desarrollo, en las dos caras. El encabezado lo pone (dev)/_layout */}
         <Stack.Protected guard={__DEV__}>
-          <Stack.Screen
-            name="(dev)"
-            options={{ headerShown: true, title: 'Diseño del sistema', header: (props) => <EncabezadoPantalla {...props} /> }}
-          />
+          <Stack.Screen name="(dev)" />
         </Stack.Protected>
       </Stack>
     </NavigationThemeProvider>

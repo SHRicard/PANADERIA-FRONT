@@ -59,6 +59,10 @@ const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
   },
   { titulo: 'Gráficos', tokens: ['grafico1', 'grafico2'] },
   { titulo: 'Vidriera (Cargando)', tokens: ['pan', 'panCorte', 'panBrillo', 'panGalleta'] },
+  {
+    titulo: 'Navidad (nieve, bastón, guirnalda, luz azul y la banda de color)',
+    tokens: ['nieve', 'contornoNieve', 'cinta', 'pino', 'pinoOscuro', 'luzAzul', 'destacado', 'onDestacado', 'resplandor'],
+  },
 ];
 
 const EJEMPLOS_TEXTO: { variante: TextVariant; ejemplo: string }[] = [

@@ -24,6 +24,8 @@ export interface ScreenContainerProps {
   superpuesto?: ReactNode;
   /** Algo fijo abajo, debajo del scroll: no tapa el contenido (ej.: la barra del pedido en la web) */
   pie?: ReactNode;
+  /** Un fondo con dibujo, fijo detrás del scroll: el contenido se desliza por encima (ej.: el catálogo de Navidad) */
+  fondo?: ReactNode;
   edges?: Edge[];
 }
 
@@ -39,6 +41,7 @@ export function ScreenContainer({
   llenarAlto = false,
   superpuesto,
   pie,
+  fondo,
   edges = BORDES_POR_DEFECTO,
 }: ScreenContainerProps) {
   const styles = useStyles(createStyles);
@@ -60,6 +63,7 @@ export function ScreenContainer({
     <SafeAreaView ref={pantalla} onLayout={medir} edges={edges} style={styles.fondo}>
       {/* También en Android: con edge-to-edge (SDK 54+) el adjustResize ya no achica la ventana y el teclado tapaba los inputs */}
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={arriba} style={styles.flex}>
+        {fondo !== undefined && <View style={styles.fondoFijo}>{fondo}</View>}
         <ScrollView
           style={styles.flex}
           contentContainerStyle={[styles.scroll, width === 'form' && styles.scrollForm, centered && styles.centrado]}
@@ -100,5 +104,6 @@ const createStyles = (theme: Theme) =>
     anchoForm: { width: theme.sizes.formWidth, maxWidth: theme.sizes.formMax },
     anchoContenido: { maxWidth: theme.sizes.contentMax },
     llenar: { flexGrow: 1 },
+    fondoFijo: { ...StyleSheet.absoluteFill, overflow: 'hidden', pointerEvents: 'none' },
     superpuesto: { position: 'absolute', top: theme.spacing.none, left: theme.spacing.none, right: theme.spacing.none, pointerEvents: 'box-none' },
   });

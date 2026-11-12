@@ -6,6 +6,7 @@ import { cambiarPreferencia, type PreferenciaTema } from './store/preferenciaTem
 import { crearTipografia } from './themes/base';
 import { darkTheme } from './themes/darkTheme';
 import { lightTheme } from './themes/lightTheme';
+import type { TemaTemporada } from './themes/temporada';
 import type { EstiloTipografia, ModoTema, Theme } from './types';
 
 const ThemeContext = createContext<Theme | null>(null);
@@ -29,6 +30,34 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     () => ({ ...(modo === 'dark' ? darkTheme : lightTheme), ...crearTipografia(estiloTipografia) }),
     [modo, estiloTipografia]
   );
+
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
+}
+
+interface TemaAnidadoProps {
+  /** El tema de temporada que se aplica adentro, en el modo de afuera (claro u oscuro). null: el de afuera, tal cual */
+  tema: TemaTemporada | null;
+  children: ReactNode;
+}
+
+/**
+ * Otro tema para una parte de la app (el catálogo de Navidad de la web), con los mismos nombres semánticos: lo de
+ * adentro lo lee con `useTheme()` como siempre y se pinta solo (colores, fuentes y esquinas). Siempre monta el mismo
+ * Provider, también con `tema` en null: así lo que va adentro (un Stack) no cambia de lugar en el árbol al cambiar
+ * de tema
+ */
+export function TemaAnidado({ tema, children }: TemaAnidadoProps) {
+  const afuera = useTheme();
+
+  const theme = useMemo<Theme>(() => {
+    if (!tema) return afuera;
+    return {
+      ...afuera,
+      colors: afuera.mode === 'dark' ? tema.oscuro : tema.claro,
+      radius: tema.radius,
+      ...crearTipografia(tema.fuentes),
+    };
+  }, [afuera, tema]);
 
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 }

@@ -1,0 +1,58 @@
+import { crearTemaTemporada } from '@/theme';
+
+/**
+ * Navidad de noche (`noche-navidad`): el cielo de borde a borde, del azul de lo alto (`destacadoProfundo`) al del horizonte
+ * (`destacado`), y abajo la página blanca fría. Toda en Nunito; esquinas redondeadas. De noche, azul noche entero
+ */
+export const TEMA_NOCHE_NAVIDAD = crearTemaTemporada({
+  tipografia: 'redondeada',
+  radios: 'redondeados',
+  claro: {
+    background: 'nieveFria',
+    surface: 'blanco',
+    surfaceMuted: 'nieveFriaApagado',
+    border: 'nieveFriaBorde',
+    text: 'azulNoche',
+    textMuted: 'azulNocheSuave',
+    primary: 'rojoEscena',
+    primaryPressed: 'rojoEscenaPresionado',
+    onPrimary: 'blanco',
+    primarySoft: 'rojoEscenaSuave',
+    accent: 'mostazaEscena',
+    onAccent: 'azulNoche',
+    nieve: 'blanco',
+    cinta: 'rojoEscena',
+    pino: 'pinoEscena',
+    pinoOscuro: 'pinoEscenaOscuro',
+    luzAzul: 'luzAzulEscena',
+    destacado: 'cieloHorizonte',
+    destacadoProfundo: 'cieloCenit',
+    onDestacado: 'crema',
+    resplandor: 'resplandorDorado',
+    shadow: 'sombraAzul',
+  },
+  oscuro: {
+    background: 'escenaNoche',
+    surface: 'escenaNocheSuperficie',
+    surfaceMuted: 'escenaNocheApagado',
+    border: 'escenaNocheBorde',
+    text: 'escenaNocheTinta',
+    textMuted: 'escenaNocheTintaSuave',
+    primary: 'rojoEscenaNoche',
+    primaryPressed: 'rojoEscenaNochePresionado',
+    onPrimary: 'rojoEscenaNocheTinta',
+    primarySoft: 'rojoEscenaNocheSuave',
+    accent: 'mostazaEscenaNoche',
+    onAccent: 'mostazaEscenaNocheTinta',
+    nieve: 'blanco',
+    cinta: 'rojoEscenaNoche',
+    pino: 'pinoEscenaNoche',
+    pinoOscuro: 'pinoEscena',
+    luzAzul: 'luzAzulEscenaNoche',
+    destacado: 'cieloHorizonteNoche',
+    destacadoProfundo: 'cieloCenitNoche',
+    onDestacado: 'crema',
+    resplandor: 'resplandorDoradoNoche',
+    shadow: 'sombraNegra',
+  },
+});

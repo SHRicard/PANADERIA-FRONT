@@ -1,7 +1,7 @@
 import { radius } from '../tokens/radius';
 import { iconSize, iconStroke, opacity, sizes, spacing } from '../tokens/spacing';
 import { familias, fontSize, letterSpacing, lineHeight } from '../tokens/typography';
-import type { EstiloTipografia, Theme, TipografiaTema } from '../types';
+import type { EstiloTipografia, Fuentes, Theme, TipografiaTema } from '../types';
 
 /** Lo que define cada modo: claro u oscuro. La tipografía la suma el ThemeProvider */
 export type TemaSinTipografia = Omit<Theme, keyof TipografiaTema>;
@@ -18,10 +18,11 @@ export const base: Omit<TemaSinTipografia, 'mode' | 'colors'> = {
 
 /**
  * Variantes de texto con las fuentes de un estilo. La fuente de título va solo en las variantes
- * de 22 px para arriba (la Cormorant de «delicada» es muy fina para menos); el resto, con la de texto.
+ * de 22 px para arriba (la Cormorant de «delicada» es muy fina para menos); el resto, con la de texto. Recibe uno de
+ * los tres estilos o, para un tema de temporada, sus fuentes ya elegidas
  */
-export function crearTipografia(estilo: EstiloTipografia): TipografiaTema {
-  const fuentes = familias[estilo];
+export function crearTipografia(estilo: EstiloTipografia | Fuentes): TipografiaTema {
+  const fuentes = typeof estilo === 'string' ? familias[estilo] : estilo;
   return {
     fonts: fuentes,
     text: {

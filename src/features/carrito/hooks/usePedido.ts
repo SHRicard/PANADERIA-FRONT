@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { useAnticipaciones } from '@/features/catalogo';
+import { useAnticipaciones, useEsNavidad } from '@/features/catalogo';
 import { mensajeDeError, type ApiError } from '@/services/api';
 import { textoAnticipacion } from '@/shared/utils';
 import { useCrearPedidoMutation } from '../api/carritoApi';
@@ -49,8 +49,12 @@ export function usePedido() {
     }
   });
 
+  const navidad = useEsNavidad();
+
   return {
     carrito,
+    /** La web está de Navidad: el pedido suma sus dibujos y detalles de fiestas */
+    navidad,
     cotizacion,
     cotizando,
     errorCotizacion,

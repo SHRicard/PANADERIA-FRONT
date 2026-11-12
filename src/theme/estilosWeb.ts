@@ -11,7 +11,6 @@ export function fondoDegradado(degradado: string): ViewStyle {
     : { experimental_backgroundImage: degradado };
 }
 
-
 /**
  * Sin el recuadro que el navegador dibuja alrededor de un campo con foco: el borde del Input ya lo marca.
  * Hace falta `outline-style: none`: Chrome dibuja su recuadro automático aunque el ancho sea 0

@@ -137,7 +137,7 @@ export function useDetallePedido(id: string) {
     escribirAlCliente: () => {
       if (pedido) void Linking.openURL(linkWhatsApp(pedido.clienteTelefono, mensajeSaludo(pedido)));
     },
-    /** Abre el chat del cliente con «Tu pedido ya está listo» escrito (para retirar o que se lo llevan): el dueño solo lo manda */
+    /** Abre el chat del cliente con «Tu pedido ya está listo» escrito (para retirar o para que se lo lleven): el dueño solo lo manda */
     avisarListo: () => {
       if (pedido) void Linking.openURL(linkWhatsApp(pedido.clienteTelefono, mensajeListo(pedido)));
     },

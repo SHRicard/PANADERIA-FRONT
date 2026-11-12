@@ -51,5 +51,9 @@ export interface ConsultaCatalogo extends FiltrosCatalogo {
   limite: number;
 }
 
-/** Cómo se ve el catálogo. Lo elige el dueño en Más → Preferencias y se guarda en el back */
-export type EstiloCatalogo = 'vidriera' | 'carta';
+/**
+ * Cómo se ve el catálogo. Lo elige el dueño en Más → Preferencias y se guarda en el back. Los de Navidad (`dia-navidad`
+ * y `noche-navidad`) son de temporada: además de su pantalla, traen su tema (colores y letras), que también pinta el
+ * detalle y el pedido
+ */
+export type EstiloCatalogo = 'vidriera' | 'carta' | 'dia-navidad' | 'noche-navidad';

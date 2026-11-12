@@ -84,11 +84,11 @@ export const claveArchivo = (archivo: ArchivoAlmacenado) =>
 export const tituloArchivo = (archivo: ArchivoAlmacenado) =>
   archivo.origen === 'producto' ? nombreParaMostrar(archivo.nombre) : archivo.titulo;
 
-/** "Portada · 138 KB", "Foto · pausado · 98 KB", "Promo · video · 4,2 MB" */
+/** "Portada · 138 KB", "Foto · producto pausado · 98 KB", "Promo · video · 4,2 MB" */
 export function detalleArchivo(archivo: ArchivoAlmacenado): string {
   const partes =
     archivo.origen === 'producto'
-      ? [archivo.portada ? 'Portada' : 'Foto', ...(archivo.disponible ? [] : ['pausado'])]
+      ? [archivo.portada ? 'Portada' : 'Foto', ...(archivo.disponible ? [] : ['producto pausado'])]
       : ['Promo', archivo.tipo === 'video' ? 'video' : 'foto'];
   return [...partes, formatearBytes(archivo.bytes)].join(' · ');
 }
