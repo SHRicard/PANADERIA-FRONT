@@ -64,7 +64,7 @@ export function useCierre() {
     cerrar: () =>
       Alert.alert(
         'Cerrar la web',
-        'Los clientes van a ver el cartel de cerrado en lugar del catálogo y no van a poder hacer pedidos hasta que elijas Vidriera o Carta. Tus productos no se tocan.',
+        'Los clientes van a ver el cartel de cerrado en lugar del catálogo y no van a poder hacer pedidos hasta que elijas cómo se ve el catálogo. Tus productos no se tocan.',
         [
           { text: 'Cancelar', style: 'cancel' },
           { text: 'Cerrar la web', style: 'destructive', onPress: () => void cambiar({ cerrado: true }) },

@@ -118,6 +118,11 @@ exigir_web_url() {
 java_ok() {
   local java_bin="${JAVA_HOME:+$JAVA_HOME/bin/}java"
   command -v "$java_bin" >/dev/null 2>&1 || return 1
+  # Un JRE (ej. el openjdk-25 que Ubuntu pone por defecto) trae java pero no javac, y Gradle no puede compilar.
+  # Se busca al lado del java real: el javac del PATH puede ser de otra versión.
+  local java_real
+  java_real="$(readlink -f "$(command -v "$java_bin")")"
+  [[ -x "$(dirname "$java_real")/javac" ]] || return 1
   local mayor
   mayor="$("$java_bin" -version 2>&1 | awk -F'"' '/version/ { split($2, v, "."); print v[1]; exit }')"
   [[ "$mayor" =~ ^[0-9]+$ ]] && ((mayor >= 17))

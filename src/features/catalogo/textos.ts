@@ -18,11 +18,11 @@ export const VISTA_PREVIA = {
 
 /**
  * El título de una sección de la carta: el nombre del tipo. Los que no tienen tipo van al final, como «Otros»; si
- * son los únicos (el dueño todavía no usa tipos), no son «otros» de nada
+ * son los únicos (el dueño todavía no usa tipos), no son «otros» de nada: `siEsUnica` (un estilo de temporada trae el suyo)
  */
-export function tituloSeccion(tipo: { nombre: string } | null, unica: boolean): string {
+export function tituloSeccion(tipo: { nombre: string } | null, unica: boolean, siEsUnica = 'Nuestros productos'): string {
   if (tipo) return tipo.nombre;
-  return unica ? 'Nuestros productos' : 'Otros';
+  return unica ? siEsUnica : 'Otros';
 }
 
 /** El saludo de la bienvenida según la hora del cliente */
@@ -84,3 +84,29 @@ export function fechaRecomendacion(iso: string): string {
   const fecha = new Date(iso);
   return (fecha.getFullYear() === new Date().getFullYear() ? fechaCorta : fechaConAnio).format(fecha);
 }
+
+/**
+ * Los textos del catálogo de Navidad. Viven acá, no en los componentes: el año que viene se cambian en un solo lugar.
+ * Los adornos son solo estilos: todo lo que se lee va con <Text>
+ */
+export const TEXTOS_NAVIDAD = {
+  saludo: '¡Felices fiestas!',
+  bajada: 'Pedí lo tuyo para la mesa navideña.',
+  /** La línea chica arriba del saludo */
+  temporada: 'Temporada de fiestas',
+  /** La sección de los productos sin tipo, si es la única */
+  seccionUnica: 'Para estas fiestas',
+  vacio: {
+    titulo: 'Estamos horneando lo de las fiestas',
+    texto: 'Muy pronto vas a ver acá todo lo que preparamos para la mesa navideña.',
+  },
+  pie: '¡Gracias por elegirnos estas fiestas!',
+  /** El saludo de arriba de la Navidad de día, abierto, debajo de la marca */
+  feliz: {
+    temporada: 'Temporada de fiestas',
+    titulo: '¡Feliz Navidad!',
+    texto:
+      'Este año, la mesa de las fiestas la armamos juntos. Horneamos cada pan dulce, cada budín y cada galletita con las mismas manos de siempre y mucho cariño, para que lo compartas con los que más querés.',
+    cierre: 'Encargá con tiempo: ¡el horno ya está encendido!',
+  },
+} as const;

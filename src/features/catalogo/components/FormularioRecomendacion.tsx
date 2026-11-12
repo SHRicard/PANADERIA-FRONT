@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Controller, type UseFormReturn } from 'react-hook-form';
 import { Heart, Sparkles, Star } from 'lucide-react-native';
@@ -15,10 +16,14 @@ interface FormularioRecomendacionProps {
   error: string | null;
   /** Ya dejó la suya: en vez del formulario, el «gracias» */
   enviada: boolean;
+  /** Un dibujo a la izquierda del título (los catálogos de Navidad ponen un muñequito) */
+  dibujo?: ReactNode;
+  /** De Navidad: se vota con galletitas de jengibre en lugar de estrellas */
+  navidad?: boolean;
 }
 
-/** «¿Es tu ganador?»: las estrellas y, si quiere, qué le pareció y su nombre. Sin cuenta */
-export function FormularioRecomendacion({ form, enviar, enviando, error, enviada }: FormularioRecomendacionProps) {
+/** «¿Es tu ganador?»: las estrellas (de Navidad, galletitas de jengibre) y, si quiere, qué le pareció y su nombre. Sin cuenta */
+export function FormularioRecomendacion({ form, enviar, enviando, error, enviada, dibujo, navidad = false }: FormularioRecomendacionProps) {
   const styles = useStyles(createStyles);
   const ideas = useAutorrecomendar(form);
 
@@ -39,19 +44,25 @@ export function FormularioRecomendacion({ form, enviar, enviando, error, enviada
   return (
     <View style={styles.formulario}>
       <View style={styles.titulo}>
-        <Text variant="overline" color="primary">
-          ¿Ya lo probaste?
-        </Text>
-        <Text variant="heading">¿Es tu ganador?</Text>
+        <View style={styles.encabezado}>
+          {dibujo}
+          <View style={styles.flexible}>
+            <Text variant="overline" color="primary">
+              ¿Ya lo probaste?
+            </Text>
+            <Text variant="heading">¿Es tu ganador?</Text>
+          </View>
+        </View>
         <Text color="textMuted">
-          Dejale tus estrellas y contanos qué te pareció. Cada voto nos llena el corazón y ayuda a otros a elegir.
+          Dejale tus {navidad ? 'galletitas' : 'estrellas'} y contanos qué te pareció. Cada voto nos llena el corazón y ayuda
+          a otros a elegir.
         </Text>
       </View>
       <Controller
         control={form.control}
         name="puntaje"
         render={({ field: { value, onChange }, fieldState }) => (
-          <ElegirEstrellas valor={value} alCambiar={onChange} error={fieldState.error?.message} />
+          <ElegirEstrellas valor={value} alCambiar={onChange} error={fieldState.error?.message} navidad={navidad} />
         )}
       />
       <CampoTexto
@@ -91,7 +102,7 @@ export function FormularioRecomendacion({ form, enviar, enviando, error, enviada
         onSubmitEditing={enviar}
       />
       {error && <Alert tone="danger" message={error} />}
-      <Button label="Dejar mis estrellas" icon={Star} onPress={enviar} loading={enviando} fullWidth />
+      <Button label={navidad ? 'Dejar mis galletitas' : 'Dejar mis estrellas'} icon={Star} onPress={enviar} loading={enviando} fullWidth />
     </View>
   );
 }
@@ -100,6 +111,8 @@ const createStyles = (theme: Theme) =>
   StyleSheet.create({
     formulario: { gap: theme.spacing.md },
     titulo: { gap: theme.spacing.xs },
+    encabezado: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm },
+    flexible: { flexShrink: 1, gap: theme.spacing.xs },
     autorrecomendar: { alignItems: 'flex-start' },
     gracias: { alignItems: 'center', gap: theme.spacing.sm, paddingVertical: theme.spacing.xl },
   });

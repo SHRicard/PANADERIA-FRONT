@@ -1,4 +1,11 @@
-export { ThemeProvider, useStyles, useTheme, useThemeMode, useTipografia } from './ThemeProvider';
+export { TemaAnidado, ThemeProvider, useStyles, useTheme, useThemeMode, useTipografia } from './ThemeProvider';
+export {
+  crearTemaTemporada,
+  type DefinicionTemporada,
+  type NombreRadios,
+  type NombreTipografia,
+  type TemaTemporada,
+} from './themes/temporada';
 export { fondoDegradado, sinContornoDeFoco } from './estilosWeb';
 export { ESTILO_TIPOGRAFIA_POR_DEFECTO } from './store/estiloTipografiaSlice';
 export type { PreferenciaTema } from './store/preferenciaTemaSlice';

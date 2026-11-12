@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Croissant, Palette, Search } from 'lucide-react-native';
+import { Croissant, Search } from 'lucide-react-native';
 import { Adorno, Alert, Button, Cargando, Icon, Text } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 
@@ -16,10 +16,25 @@ interface EstadoCatalogoProps {
   buscando: string;
   hayFiltros: boolean;
   limpiar: () => void;
+  /**
+   * El catálogo vacío de un estilo de temporada: su adorno (hecho con estilos) en lugar de la medialuna y sus textos.
+   * Sin filtros puestos; «no encontramos» queda igual en todos los estilos
+   */
+  vacioDeTemporada?: { adorno: ReactNode; titulo: string; texto: string };
 }
 
 /** Cargando, el error o «no encontramos» de la lista. Si hay productos para mostrar, no muestra nada */
-export function EstadoCatalogo({ cargando, refrescando, error, reintentar, vacio, buscando, hayFiltros, limpiar }: EstadoCatalogoProps) {
+export function EstadoCatalogo({
+  cargando,
+  refrescando,
+  error,
+  reintentar,
+  vacio,
+  buscando,
+  hayFiltros,
+  limpiar,
+  vacioDeTemporada,
+}: EstadoCatalogoProps) {
   const styles = useStyles(createStyles);
 
   if (cargando && !refrescando) return <Cargando mensaje="Cargando el catálogo…" llenarAlto style={styles.cargando} />;
@@ -45,12 +60,12 @@ export function EstadoCatalogo({ cargando, refrescando, error, reintentar, vacio
     </View>
   ) : (
     <View style={styles.vacio}>
-      <Icon icon={Croissant} size="xl" color="textMuted" />
+      {vacioDeTemporada?.adorno ?? <Icon icon={Croissant} size="xl" color="textMuted" />}
       <Text variant="subtitle" align="center">
-        Estamos preparando el catálogo
+        {vacioDeTemporada?.titulo ?? 'Estamos preparando el catálogo'}
       </Text>
       <Text color="textMuted" align="center">
-        Muy pronto vas a ver acá todo lo que horneamos.
+        {vacioDeTemporada?.texto ?? 'Muy pronto vas a ver acá todo lo que horneamos.'}
       </Text>
     </View>
   );
@@ -67,7 +82,7 @@ interface FinDeListaProps {
 export function FinDeLista({ cargandoMas, errorMas, hayMas, cargarMas }: FinDeListaProps) {
   const styles = useStyles(createStyles);
 
-  if (cargandoMas) return <Cargando tamano="chico" mensaje="Cargando más productos" style={styles.mas} />;
+  if (cargandoMas) return <Cargando tamano="chico" mensaje="Cargando más productos…" style={styles.mas} />;
   if (errorMas) {
     return (
       <View style={styles.error}>
@@ -79,18 +94,20 @@ export function FinDeLista({ cargandoMas, errorMas, hayMas, cargarMas }: FinDeLi
   return hayMas ? <Button variant="ghost" label="Ver más productos" onPress={cargarMas} fullWidth /> : null;
 }
 
-/** El cierre de la página, con la marca. En desarrollo, la puerta a Diseño del sistema */
-export function PieCatalogo() {
-  const styles = useStyles(createStyles);
-  const router = useRouter();
+interface PieCatalogoProps {
+  /** Lo que va arriba de la marca en un estilo de temporada (un adorno, un saludo). Por defecto, la línea dorada */
+  adorno?: ReactNode;
+}
 
+/** El cierre de la página, con la marca */
+export function PieCatalogo({ adorno }: PieCatalogoProps) {
+  const styles = useStyles(createStyles);
   return (
     <View style={styles.pie}>
-      <Adorno forma="corto" />
+      {adorno ?? <Adorno forma="corto" />}
       <Text variant="caption" color="textMuted" align="center">
         Dama Blanca · Horneados
       </Text>
-      {__DEV__ && <Button variant="ghost" size="sm" icon={Palette} label="Diseño del sistema" onPress={() => router.push('/diseno')} />}
     </View>
   );
 }

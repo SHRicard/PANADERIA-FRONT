@@ -14,12 +14,15 @@ import {
   Text,
   type OpcionSegmentado,
 } from '@/shared/ui/atoms';
-import { useStyles, type Theme } from '@/theme';
+import { BotonFiestas, IlustracionNavidad, Vivo } from '@/features/catalogo';
+import { useStyles, useTheme, type Theme } from '@/theme';
+import { EncabezadoPedidoNavidad } from '../components/EncabezadoPedidoNavidad';
 import { ItemPedido } from '../components/ItemPedido';
 import { PedidoConfirmado } from '../components/PedidoConfirmado';
 import { ResumenPedido } from '../components/ResumenPedido';
 import { TituloPaso } from '../components/TituloPaso';
 import { usePedido } from '../hooks/usePedido';
+import { TEXTOS_PEDIDO_NAVIDAD } from '../textos';
 
 const productos = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
@@ -34,11 +37,15 @@ const OPCIONES_ENTREGA: OpcionSegmentado<Entrega>[] = [
  * «Tu pedido» (/pedido), en tres pasos, en el orden en que se hace: 1 lo que eligió, 2 el resumen (total,
  * seña, el resto y cuándo está listo) y 3 sus datos para confirmar. En la compu, los productos a la izquierda
  * y el resumen con los datos a la derecha, bajo el mismo título. Después de confirmar muestra el pedido como
- * lo guardó el back
+ * lo guardó el back. De Navidad: arriba, la escena con la canasta navideña (`EncabezadoPedidoNavidad`), los números de los pasos con
+ * muñequitos (uno por paso), el botón dorado de confirmar (`BotonFiestas`, de catalogo), el muñeco de nieve en el
+ * pedido vacío y Papá Noel al confirmar
  */
 export function PedidoScreen() {
+  const theme = useTheme();
   const styles = useStyles(createStyles);
   const pedido = usePedido();
+  const { navidad } = pedido;
   const refresco = useRefrescar(pedido.refrescar);
   const { carrito, cotizacion } = pedido;
   const vacio = carrito.items.length === 0;
@@ -57,15 +64,22 @@ export function PedidoScreen() {
             cobro={pedido.cobroConfirmado}
             entrega={pedido.entregaConfirmado}
             alVolver={pedido.verCatalogo}
+            navidad={navidad}
           />
         ) : vacio ? (
           <View style={styles.vacio}>
-            <Icon icon={ShoppingBag} size="xl" color="textMuted" />
+            {navidad ? (
+              <Vivo como="flotar">
+                <IlustracionNavidad nombre="munecoNieveGorroPapaNoel" alto={theme.sizes.ilustracionVacio} />
+              </Vivo>
+            ) : (
+              <Icon icon={ShoppingBag} size="xl" color="textMuted" />
+            )}
             <Text variant="subtitle" align="center">
-              Tu pedido está vacío
+              {navidad ? TEXTOS_PEDIDO_NAVIDAD.vacio.titulo : 'Tu pedido está vacío'}
             </Text>
             <Text color="textMuted" align="center">
-              Elegí lo que gustes del catálogo con el «+» de cada producto.
+              {navidad ? TEXTOS_PEDIDO_NAVIDAD.vacio.texto : 'Elegí lo que gustes del catálogo con el «+» de cada producto.'}
             </Text>
             {pedido.quitados > 0 && (
               <Alert tone="warning" message="Lo que tenías ya no está disponible: lo sacamos de tu pedido." />
@@ -74,22 +88,26 @@ export function PedidoScreen() {
           </View>
         ) : (
           <>
-            <View style={styles.encabezado}>
-              <Text variant="display" accessibilityRole="header">
-                Tu pedido
-              </Text>
-              <Text color="textMuted">
-                Revisá lo que elegiste, mirá la seña y dejanos tus datos. Los precios son los de hoy.
-              </Text>
-              <View style={styles.adorno}>
-                <Adorno forma="izquierda" />
+            {navidad ? (
+              <EncabezadoPedidoNavidad />
+            ) : (
+              <View style={styles.encabezado}>
+                <Text variant="display" accessibilityRole="header">
+                  Tu pedido
+                </Text>
+                <Text color="textMuted">
+                  Revisá lo que elegiste, mirá la seña y dejanos tus datos. Los precios son los de hoy.
+                </Text>
+                <View style={styles.adorno}>
+                  <Adorno forma="izquierda" />
+                </View>
               </View>
-            </View>
+            )}
 
             <View style={[styles.cuerpo, enCompu && styles.cuerpoCompu]}>
               {/* 1 · Lo que elegiste */}
               <View style={[styles.paso, enCompu && styles.columnaProductos]}>
-                <TituloPaso numero={1} titulo="Lo que elegiste" detalle={productos(carrito.unidades)} />
+                <TituloPaso numero={1} titulo="Lo que elegiste" navidad={navidad} detalle={productos(carrito.unidades)} />
 
                 {pedido.quitados > 0 && (
                   <Alert
@@ -134,7 +152,7 @@ export function PedidoScreen() {
               <View style={[styles.columnaCuentas, enCompu && styles.columnaCuentasCompu]}>
                 {/* 2 · Resumen */}
                 <View style={styles.paso}>
-                  <TituloPaso numero={2} titulo="Resumen" />
+                  <TituloPaso numero={2} titulo="Resumen" navidad={navidad} />
                   <ResumenPedido
                     unidades={carrito.unidades}
                     total={cotizacion && !pedido.cotizando ? cotizacion.total : null}
@@ -145,7 +163,7 @@ export function PedidoScreen() {
 
                 {/* 3 · Tus datos */}
                 <View style={styles.paso}>
-                  <TituloPaso numero={3} titulo="Tus datos" />
+                  <TituloPaso numero={3} titulo="Tus datos" navidad={navidad} />
                   <Text variant="caption" color="textMuted">
                     Para contactarte por tu pedido. No hace falta crear una cuenta.
                   </Text>
@@ -201,13 +219,22 @@ export function PedidoScreen() {
                     )}
                   />
                   {pedido.error && <Alert tone="danger" message={pedido.error} />}
-                  <Button
-                    label="Confirmar pedido"
-                    onPress={pedido.confirmar}
-                    loading={pedido.enviando}
-                    disabled={!cotizacion || pedido.cotizando}
-                    fullWidth
-                  />
+                  {navidad ? (
+                    <BotonFiestas
+                      label="Confirmar pedido"
+                      onPress={pedido.confirmar}
+                      loading={pedido.enviando}
+                      disabled={!cotizacion || pedido.cotizando}
+                    />
+                  ) : (
+                    <Button
+                      label="Confirmar pedido"
+                      onPress={pedido.confirmar}
+                      loading={pedido.enviando}
+                      disabled={!cotizacion || pedido.cotizando}
+                      fullWidth
+                    />
+                  )}
                   <Text variant="caption" color="textMuted" align="center">
                     Te escribimos al teléfono que dejaste para coordinar la seña y la entrega.
                   </Text>

@@ -37,7 +37,7 @@ export function PedidoManualScreen() {
               valor={manual.clienteElegido}
               alCambiar={manual.elegirCliente}
               placeholder="Elegilo de la lista, o escribí sus datos"
-              helper="Opcional: completa el nombre y el teléfono."
+              helper="Opcional: al elegirlo se completan el nombre y el teléfono."
             />
           )}
           <CampoTexto

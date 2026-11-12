@@ -168,7 +168,7 @@ export const DIA_CORTO: Record<DiaDeLaSemana, string> = {
   domingo: 'Dom',
 };
 
-/** "Se cancelaron 1 de 5: el 20%"; sin cancelados, lo dice */
+/** "Se canceló 1 de 5: el 20%"; sin cancelados, lo dice */
 export function textoCancelados(cancelados: number, total: number, porcentaje: number): string {
   if (cancelados === 0) return 'No se canceló ninguno.';
   if (cancelados === 1) return `Se canceló 1 de ${numero.format(total)}: el ${textoPorcentaje(porcentaje)}.`;

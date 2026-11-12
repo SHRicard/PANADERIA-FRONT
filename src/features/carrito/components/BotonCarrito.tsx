@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ShoppingBag } from 'lucide-react-native';
 import { Icon, Text } from '@/shared/ui/atoms';
@@ -7,8 +8,15 @@ import { useEnNavegador } from '../hooks/useEnNavegador';
 
 const productos = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
+interface BotonCarritoProps {
+  /** Otro dibujo en vez de la bolsa (en Navidad, un regalo) */
+  dibujo?: ReactNode;
+  /** Sin el recuadro: solo el dibujo y el numerito */
+  sinMarco?: boolean;
+}
+
 /** El clásico botón del carrito, arriba a la derecha: la bolsa con cuántos productos lleva. Abre «Tu pedido» */
-export function BotonCarrito() {
+export function BotonCarrito({ dibujo, sinMarco = false }: BotonCarritoProps = {}) {
   const styles = useStyles(createStyles);
   const carrito = useCarrito();
   // La web se prerenderiza sin carrito: el número aparece recién en el navegador
@@ -20,11 +28,16 @@ export function BotonCarrito() {
       onPress={carrito.abrirPedido}
       accessibilityRole="button"
       accessibilityLabel={lleno ? `Ver tu pedido: ${productos(unidades)}` : 'Ver tu pedido'}
-      style={({ pressed }) => [styles.boton, lleno && styles.botonLleno, pressed && styles.presionado]}
+      style={({ pressed }) => [
+        styles.boton,
+        !sinMarco && styles.marco,
+        !sinMarco && lleno && styles.botonLleno,
+        pressed && styles.presionado,
+      ]}
     >
-      <Icon icon={ShoppingBag} color={lleno ? 'primary' : 'text'} />
+      {dibujo ?? <Icon icon={ShoppingBag} color={lleno ? 'primary' : 'text'} />}
       {lleno && (
-        <View style={styles.insignia}>
+        <View style={[styles.insignia, sinMarco && styles.insigniaSinMarco]}>
           <Text variant="caption" color="onPrimary" style={styles.numero}>
             {unidades > 99 ? '99+' : unidades}
           </Text>
@@ -41,6 +54,8 @@ const createStyles = (theme: Theme) =>
       height: theme.sizes.touchMin,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    marco: {
       borderRadius: theme.radius.md,
       borderWidth: 1,
       borderColor: theme.colors.border,
@@ -64,5 +79,7 @@ const createStyles = (theme: Theme) =>
       borderColor: theme.colors.background,
       backgroundColor: theme.colors.primary,
     },
+    // Sin el recuadro, pegada a la esquina del dibujo (si no, quedaba flotando)
+    insigniaSinMarco: { top: -theme.spacing.xxs, right: -theme.spacing.xxs },
     numero: { fontFamily: theme.fonts.textoNegrita, fontVariant: ['tabular-nums'] },
   });

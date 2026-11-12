@@ -1,0 +1,19 @@
+{
+    "material-icon-theme.folders.associations": {
+        "features": "features",
+        "atoms": "components",
+        "ui": "ui",
+        "screens": "views",
+        "store": "redux-store",
+        "services": "api",
+        "compartir": "shared",
+        "storage": "database",
+        "tokens": "theme",
+        "themes": "theme",
+        "(admin)": "admin",
+        "(publico)": "public",
+        "(dev)": "tools",
+        "(tabs)": "layout",
+        "navidad": "images"
+    }
+}

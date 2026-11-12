@@ -3,7 +3,7 @@ import { gananciaPorUnidad } from './precio';
 import type { UnidadReceta } from './types';
 
 /**
- * Cómo lee los pesos el dueño: de 1 a 999 en gramos; los kilos enteros o y medio, en kilos; el resto, en gramos.
+ * Cómo lee los pesos el dueño: de 1 a 999 en gramos; los kilos enteros o con medio, en kilos; el resto, en gramos.
  * 250 → "250 gramos", 1000 → "1 kilo", 1500 → "1 kilo y medio", 1750 → "1750 gramos", 2000 → "2 kilos"
  */
 export function textoGramos(gramos: number): string {

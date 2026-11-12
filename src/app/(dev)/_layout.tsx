@@ -1,6 +1,11 @@
 import { Stack } from 'expo-router';
+import { EncabezadoPantalla } from '@/features/navegacion';
 
-// El header lo pone el Stack raíz (título "Diseño del sistema")
+// Cada pantalla de desarrollo con su título
 export default function DevLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack screenOptions={{ headerShown: true, header: (props) => <EncabezadoPantalla {...props} /> }}>
+      <Stack.Screen name="diseno" options={{ title: 'Diseño del sistema' }} />
+    </Stack>
+  );
 }
