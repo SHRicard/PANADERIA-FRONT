@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View, type ScrollViewProps } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View, type ScrollViewInstance, type ScrollViewProps, type ViewInstance } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 import { useFondoTemporada, useStyles, type Theme } from '@/theme';
 
@@ -53,14 +53,14 @@ export function ScreenContainer({
   const styles = useStyles(createStyles);
   // Lo que pone un tema de temporada detrás de cada pantalla (la nieve de Navidad), encima del fondo de la pantalla
   const deTemporada = useFondoTemporada();
-  const scroll = useRef<ScrollView>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
   useEffect(() => {
     if (volverArribaCon != null) scroll.current?.scrollTo({ y: 0, animated: false });
   }, [volverArribaCon]);
   // Dónde empieza la pantalla en la ventana: debajo del header del Stack, si hay (Billetera, editar un
   // producto…). El KeyboardAvoidingView mide su lugar relativo al padre, no a la ventana: sin sumarle esto,
   // se quedaba corto justo el alto del header y el teclado tapaba los últimos campos
-  const pantalla = useRef<View>(null);
+  const pantalla = useRef<ViewInstance>(null);
   const [arriba, setArriba] = useState(0);
   const medir = () => pantalla.current?.measureInWindow((_x, y) => setArriba(y));
 

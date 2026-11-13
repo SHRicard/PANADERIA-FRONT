@@ -40,7 +40,7 @@ export function LoginScreen() {
             autoComplete="current-password"
             textContentType="password"
             returnKeyType="go"
-            onSubmitEditing={enviar}
+            onSubmitEditing={() => enviar()}
           />
         </View>
 

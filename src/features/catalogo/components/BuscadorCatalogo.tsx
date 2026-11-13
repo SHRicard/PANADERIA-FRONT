@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Pressable, StyleSheet, type TextInput } from 'react-native';
+import { Pressable, StyleSheet, type TextInputInstance } from 'react-native';
 import { Search, X } from 'lucide-react-native';
 import { Icon, Input } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
@@ -17,7 +17,7 @@ interface BuscadorCatalogoProps {
 export function BuscadorCatalogo({ texto, alCambiar, placeholder }: BuscadorCatalogoProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
-  const campo = useRef<TextInput>(null);
+  const campo = useRef<TextInputInstance>(null);
 
   return (
     <Input

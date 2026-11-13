@@ -1,18 +1,19 @@
-import Head from 'expo-router/head';
 import { config } from '@/config';
 import { VISTA_PREVIA } from '../textos';
 
 /**
  * Las etiquetas que leen WhatsApp (y los demás) para armar la vista previa del link: el logo, el título y la
- * descripción. Salen en el HTML prerenderizado (`web.output: "static"`), que es lo único que ve WhatsApp: no corre el
- * JS. También ponen el título de la pestaña. La imagen va con la URL entera de la web (`EXPO_PUBLIC_WEB_URL`, también
- * en Vercel): con una relativa, WhatsApp no la muestra
+ * descripción. Van en el `<head>` de `src/app/+html.tsx`, así salen en el HTML prerenderizado de todas las URLs
+ * (`web.output: "static"`), que es lo único que ve WhatsApp: no corre el JS. También ponen el título de la pestaña.
+ * ❌ No van con `expo-router/head`: desde el SDK 58 sus etiquetas ya no entran en el HTML exportado.
+ * La imagen va con la URL entera de la web (`EXPO_PUBLIC_WEB_URL`, también en Vercel): con una relativa, WhatsApp no
+ * la muestra
  */
-export function VistaPreviaLink() {
+export function EtiquetasVistaPrevia() {
   const imagen = `${config.webUrl}${VISTA_PREVIA.imagen}`;
 
   return (
-    <Head>
+    <>
       <title>{VISTA_PREVIA.titulo}</title>
       <meta name="description" content={VISTA_PREVIA.descripcion} />
       <meta property="og:type" content="website" />
@@ -27,6 +28,6 @@ export function VistaPreviaLink() {
       <meta property="og:image:height" content={String(VISTA_PREVIA.imagenAlto)} />
       <meta property="og:image:alt" content={VISTA_PREVIA.imagenTexto} />
       <meta name="twitter:card" content="summary_large_image" />
-    </Head>
+    </>
   );
 }

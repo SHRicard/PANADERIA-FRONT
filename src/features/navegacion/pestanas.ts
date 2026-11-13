@@ -37,7 +37,7 @@ export interface BarraProps {
 }
 
 /** Las pestañas a partir de lo que le pasa el navegador a la barra */
-export function armarPestanas({ state, descriptors, navigation }: BottomTabBarProps): Pestana[] {
+export function armarPestanas({ state, descriptors, emitter, navigateToTab }: BottomTabBarProps): Pestana[] {
   return state.routes.map((route, indice) => {
     const activa = state.index === indice;
     const pestana = PESTANAS_ADMIN.find(({ ruta }) => ruta === route.name);
@@ -50,8 +50,8 @@ export function armarPestanas({ state, descriptors, navigation }: BottomTabBarPr
       activa,
       // Igual que la barra de fábrica: avisa con tabPress y solo navega si nadie lo frenó
       alPresionar: () => {
-        const evento = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-        if (!activa && !evento.defaultPrevented) navigation.navigate(route.name, route.params);
+        const evento = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+        if (!activa && !evento.defaultPrevented) navigateToTab(route.key);
       },
     };
   });
