@@ -97,7 +97,7 @@ export function useThemeMode(): {
   return { modo: mode, preferencia, cambiarPreferencia: (nueva) => dispatch(cambiarPreferencia(nueva)) };
 }
 
-/** Estilo de tipografía (clásica, artesanal o delicada) y cómo cambiarlo. Se guarda solo */
+/** Estilo de tipografía y cómo cambiarlo (hoy hay uno solo: clásica). Se guarda solo */
 export function useTipografia(): { estilo: EstiloTipografia; cambiarEstilo: (estilo: EstiloTipografia) => void } {
   const estilo = useAppSelector((s) => s.estiloTipografia.estilo);
   const dispatch = useAppDispatch();

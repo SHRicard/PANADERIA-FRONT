@@ -236,7 +236,10 @@ cmd_apk() {
   paso "Compilando el APK de release (puede tardar varios minutos)…"
   # --rerun en el bundle de JS: Gradle no mira los .env, y después de cambiar una EXPO_PUBLIC_* (la URL del back o
   # de la web) reusaba el bundle viejo y la APK salía con las URLs de antes
-  (cd android && ./gradlew :app:createBundleReleaseJsAndAssets --rerun assembleRelease)
+  # Solo arm64-v8a: la APK la usan dos celulares (un Galaxy Z Fold5 y un Moto G32), los dos de 64 bits. Las librerías
+  # nativas de los otros tres procesadores (x86 y x86_64 son de emuladores; armeabi-v7a, de celulares viejos) eran
+  # ~70 MB de los 118. Esta APK no se instala en un emulador x86: para eso, ./run.sh android
+  (cd android && ./gradlew -PreactNativeArchitectures=arm64-v8a :app:createBundleReleaseJsAndAssets --rerun assembleRelease)
 
   local origen="android/app/build/outputs/apk/release/app-release.apk"
   [[ -f "$origen" ]] || error "Gradle terminó pero no encuentro $origen."

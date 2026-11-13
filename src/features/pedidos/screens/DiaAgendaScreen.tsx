@@ -63,7 +63,7 @@ export function DiaAgendaScreen() {
           dia?.tope && (
             <Alert
               tone="warning"
-              message="Llegó a tu tope: la web ya no ofrece este día. Vos podés seguir cargando pedidos. Para volver a ofrecerlo, subí tu tope."
+              message="Llegaste a tu tope. La web lo sigue ofreciendo: si no querés más pedidos para este día, tocá «Agenda llena»."
             />
           )
         )}

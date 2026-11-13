@@ -14,8 +14,8 @@ export const itemCotizadoSchema = z.object({
 /**
  * Los días que el cliente puede elegir para este carrito (AAAA-MM-DD). Los calcula el back con la anticipación del
  * producto que más demora: desde mañana o pasado, hasta fin de mes (o fin del mes siguiente si faltan 7 días o
- * menos). `diasLlenos`: los que el dueño marcó como «Agenda llena». `diasCasiLlenos`: los que se están llenando (se
- * pueden elegir; la web los muestra en amarillo). Con `default`, por si el back todavía no lo manda
+ * menos). `diasLlenos`: los que el dueño marcó como «Agenda llena». `diasCasiLlenos`: los que se están llenando o
+ * llegaron al tope del dueño (se pueden elegir; la web los muestra en amarillo). El tope no cierra ningún día. Con `default`, por si el back todavía no lo manda
  */
 export const entregaSchema = z.object({
   desde: z.string(),

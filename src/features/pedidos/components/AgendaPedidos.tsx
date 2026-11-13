@@ -12,8 +12,8 @@ interface AgendaPedidosProps {
 }
 
 /**
- * La agenda, en el inicio: el tope de productos por día, el mes pintado como lo ve el cliente (verde «Libre», amarillo
- * «Casi», rojo «Llena») y la leyenda. Tocar un día abre su pantalla (/agenda/[fecha]) con sus números, «Qué hay que
+ * La agenda, en el inicio: el tope de productos por día, el mes pintado (verde «Libre», amarillo «Casi» y «Tope», rojo
+ * «Llena») y la leyenda. Tocar un día abre su pantalla (/agenda/[fecha]) con sus números, «Qué hay que
  * hacer», «Agenda llena» y sus pedidos: antes iba todo acá abajo y el inicio quedaba muy cargado
  */
 export function AgendaPedidos({ agenda, refrescando }: AgendaPedidosProps) {
@@ -27,7 +27,7 @@ export function AgendaPedidos({ agenda, refrescando }: AgendaPedidosProps) {
           <Text variant="caption" color="textMuted" style={styles.referenciaTexto}>
             {agenda.productosPorDia
               ? `Tu tope: ${agenda.productosPorDia} productos por día`
-              : 'Poné cuántos productos podés preparar por día: al llegar, la web deja de ofrecer ese día'}
+              : 'Poné cuántos productos podés preparar por día: te avisa cuando un día llega'}
           </Text>
           <Button variant="ghost" size="sm" label={agenda.productosPorDia ? 'Cambiar' : 'Ponerlo'} onPress={agenda.editarReferencia} />
         </View>
@@ -67,7 +67,7 @@ export function AgendaPedidos({ agenda, refrescando }: AgendaPedidosProps) {
           name="productosPorDia"
           label="¿Cuántos productos podés preparar por día?"
           placeholder="25"
-          helper="Tu tope: cuando un día llega a este número, la web deja de ofrecerlo. Desde el 40 % sale «Casi». Vacío, no cierra ninguno solo."
+          helper="Cuando un día llega a este número, lo ves marcado «Tope». La web lo sigue ofreciendo: para cerrarlo, «Agenda llena». Desde el 40 % sale «Casi»."
           keyboardType="number-pad"
         />
       </HojaInferior>

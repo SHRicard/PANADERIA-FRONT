@@ -71,8 +71,9 @@ export type TextVariant =
 
 export type ModoTema = 'light' | 'dark';
 
-/** Las tres combinaciones de fuentes. El dueño elige la suya en Más → Preferencias */
-export type EstiloTipografia = 'clasica' | 'artesanal' | 'delicada';
+// Queda solo la que eligió el dueño (docs/TIPOGRAFIAS.md, paso 6): las otras se desinstalaron para que la app pese
+// menos y arranque antes. Para probar otra, se vuelve a sumar acá, en `familias` y su paquete
+export type EstiloTipografia = 'clasica';
 
 /** Las fuentes de un estilo. El peso ya va en el nombre: nunca se combinan con fontWeight */
 export interface Fuentes {
