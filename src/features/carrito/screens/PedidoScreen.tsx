@@ -6,6 +6,7 @@ import {
   Adorno,
   Alert,
   Button,
+  CalendarioMes,
   CampoTexto,
   Cargando,
   Icon,
@@ -17,12 +18,14 @@ import {
 import { BotonFiestas, IlustracionNavidad, Vivo } from '@/features/catalogo';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { EncabezadoPedidoNavidad } from '../components/EncabezadoPedidoNavidad';
+import { DiaElegido } from '../components/DiaElegido';
+import { HojaDiaLleno } from '../components/HojaDiaLleno';
 import { ItemPedido } from '../components/ItemPedido';
 import { PedidoConfirmado } from '../components/PedidoConfirmado';
 import { ResumenPedido } from '../components/ResumenPedido';
 import { TituloPaso } from '../components/TituloPaso';
 import { usePedido } from '../hooks/usePedido';
-import { TEXTOS_PEDIDO_NAVIDAD } from '../textos';
+import { TEXTO_ANTES_DE_CONFIRMAR, TEXTOS_PEDIDO_NAVIDAD } from '../textos';
 
 const productos = (total: number) => (total === 1 ? '1 producto' : `${total} productos`);
 
@@ -35,13 +38,16 @@ const OPCIONES_ENTREGA: OpcionSegmentado<Entrega>[] = [
 
 /**
  * «Tu pedido» (/pedido), en tres pasos, en el orden en que se hace: 1 lo que eligió, 2 el resumen (total,
- * seña, el resto y cuándo está listo) y 3 sus datos para confirmar. En la compu, los productos a la izquierda
- * y el resumen con los datos a la derecha, bajo el mismo título. Después de confirmar muestra el pedido como
+ * seña, el resto y cuándo está listo) y 3 sus datos para confirmar. En cualquier ancho, uno debajo del otro como en el
+ * celular, del mismo ancho que la carta y el detalle de un producto (`cartaMax`; el 80% de la ventana en la compu). Después de confirmar muestra el pedido como
  * lo guardó el back. De Navidad: arriba, la escena con la canasta navideña (`EncabezadoPedidoNavidad`), los números de los pasos con
  * muñequitos (uno por paso), el botón dorado de confirmar (`BotonFiestas`, de catalogo), el muñeco de nieve en el
  * pedido vacío y Papá Noel al confirmar
  */
 export function PedidoScreen() {
+  const tamano = useBreakpoint();
+  const enCompu = tamano === 'compu';
+  const enCelular = tamano === 'celular';
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const pedido = usePedido();
@@ -49,10 +55,9 @@ export function PedidoScreen() {
   const refresco = useRefrescar(pedido.refrescar);
   const { carrito, cotizacion } = pedido;
   const vacio = carrito.items.length === 0;
-  const enCompu = useBreakpoint() === 'compu';
 
   return (
-    <ScreenContainer width="completo" refreshControl={refresco.control}>
+    <ScreenContainer width="completo" refreshControl={refresco.control} volverArribaCon={pedido.confirmado?.id ?? null}>
       <View style={[styles.contenido, enCompu && styles.contenidoCompu]}>
         <View style={styles.volver}>
           <Button variant="ghost" size="sm" icon={ArrowLeft} label="Catálogo" onPress={pedido.volver} accessibilityLabel="Volver al catálogo" />
@@ -104,9 +109,9 @@ export function PedidoScreen() {
               </View>
             )}
 
-            <View style={[styles.cuerpo, enCompu && styles.cuerpoCompu]}>
+            <View style={styles.cuerpo}>
               {/* 1 · Lo que elegiste */}
-              <View style={[styles.paso, enCompu && styles.columnaProductos]}>
+              <View style={styles.paso}>
                 <TituloPaso numero={1} titulo="Lo que elegiste" navidad={navidad} detalle={productos(carrito.unidades)} />
 
                 {pedido.quitados > 0 && (
@@ -129,7 +134,7 @@ export function PedidoScreen() {
                   <Cargando mensaje="Calculando tu pedido…" style={styles.cargando} />
                 ) : null}
 
-                {cotizacion && (
+                {cotizacion ? (
                   <View>
                     {cotizacion.items.map((item, indice) => (
                       <View key={item.productoId} style={indice > 0 && styles.separado}>
@@ -143,13 +148,28 @@ export function PedidoScreen() {
                       </View>
                     ))}
                   </View>
-                )}
+                ) : pedido.errorCotizacion ? (
+                  // Sin cotización no hay precios, pero lo que eligió se sigue viendo (y se puede cambiar)
+                  <View>
+                    {pedido.itemsSinCotizar.map((item, indice) => (
+                      <View key={item.productoId} style={indice > 0 && styles.separado}>
+                        <ItemPedido
+                          item={{ nombre: item.nombre, precio: null, portada: null }}
+                          cantidad={carrito.cantidadDe(item.productoId)}
+                          max={carrito.maxUnidades}
+                          anticipacion={pedido.anticipacionDe(item.productoId)}
+                          alCambiar={(cantidad) => carrito.cambiarCantidad(item.productoId, cantidad)}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                ) : null}
                 <View style={styles.agregar}>
                   <Button variant="ghost" size="sm" icon={Plus} label="Agregar más productos" onPress={pedido.volver} />
                 </View>
               </View>
 
-              <View style={[styles.columnaCuentas, enCompu && styles.columnaCuentasCompu]}>
+              <View style={styles.columnaCuentas}>
                 {/* 2 · Resumen */}
                 <View style={styles.paso}>
                   <TituloPaso numero={2} titulo="Resumen" navidad={navidad} />
@@ -157,7 +177,8 @@ export function PedidoScreen() {
                     unidades={carrito.unidades}
                     total={cotizacion && !pedido.cotizando ? cotizacion.total : null}
                     cobro={pedido.cobro}
-                    entrega={pedido.entrega}
+                    // El día va arriba de «Confirmar pedido» (DiaElegido): acá se repetía
+                    entrega={null}
                   />
                 </View>
 
@@ -200,69 +221,124 @@ export function PedidoScreen() {
                   />
                   <Controller
                     control={pedido.form.control}
-                    name="conEnvio"
-                    render={({ field }) => (
+                    name="fechaEntrega"
+                    render={({ field, fieldState }) => (
                       <View style={styles.campo}>
-                        <Text variant="label">¿Cómo lo recibís?</Text>
-                        <Segmentado
-                          opciones={OPCIONES_ENTREGA}
-                          valor={field.value ? 'envio' : 'retiro'}
-                          alCambiar={(valor) => field.onChange(valor === 'envio')}
-                          accessibilityLabel="Cómo recibís el pedido"
-                        />
-                        {field.value && (
+                        <Text variant="label">¿Para qué día?</Text>
+                        {pedido.calendario ? (
+                          <CalendarioMes
+                            mes={pedido.calendario.mes}
+                            dias={pedido.calendario.dias}
+                            seleccionado={field.value || null}
+                            alElegir={pedido.calendario.alElegir}
+                            alRechazar={pedido.calendario.alRechazar}
+                            alMesAnterior={pedido.calendario.alMesAnterior}
+                            alMesSiguiente={pedido.calendario.alMesSiguiente}
+                          />
+                        ) : pedido.errorCotizacion ? (
+                          // Sin cotización no hay días: el error y «Reintentar» están en el paso 1
                           <Text variant="caption" color="textMuted">
-                            La dirección la coordinamos por WhatsApp.
+                            No pudimos traer los días disponibles. Tocá «Reintentar» arriba.
+                          </Text>
+                        ) : (
+                          <Cargando tamano="chico" mensaje="Buscando los días disponibles" />
+                        )}
+                        {pedido.calendario?.aviso && (
+                          <Text variant="caption" color="textMuted">
+                            {pedido.calendario.aviso}
+                          </Text>
+                        )}
+                        {fieldState.error && (
+                          <Text variant="caption" color="danger">
+                            {fieldState.error.message}
                           </Text>
                         )}
                       </View>
                     )}
                   />
                   {pedido.error && <Alert tone="danger" message={pedido.error} />}
-                  {navidad ? (
-                    <BotonFiestas
-                      label="Confirmar pedido"
-                      onPress={pedido.confirmar}
-                      loading={pedido.enviando}
-                      disabled={!cotizacion || pedido.cotizando}
-                    />
-                  ) : (
-                    <Button
-                      label="Confirmar pedido"
-                      onPress={pedido.confirmar}
-                      loading={pedido.enviando}
-                      disabled={!cotizacion || pedido.cotizando}
-                      fullWidth
-                    />
-                  )}
-                  <Text variant="caption" color="textMuted" align="center">
-                    Te escribimos al teléfono que dejaste para coordinar la seña y la entrega.
-                  </Text>
+                  {pedido.diaElegido && <DiaElegido texto={pedido.diaElegido} fiestas={navidad} />}
+                  {/* Cómo lo recibe y «Confirmar pedido», mitad y mitad en la misma fila (en el celular, uno debajo del
+                      otro): a lo ancho de la página, cada uno de punta a punta era demasiado */}
+                  <View style={styles.campo}>
+                    <Text variant="label">¿Cómo lo recibís?</Text>
+                    <View style={[styles.cierre, !enCelular && styles.cierreAncho]}>
+                      <Controller
+                        control={pedido.form.control}
+                        name="conEnvio"
+                        render={({ field }) => (
+                          <View style={[styles.mitad, !enCelular && styles.mitadAncha]}>
+                            <Segmentado
+                              opciones={OPCIONES_ENTREGA}
+                              valor={field.value ? 'envio' : 'retiro'}
+                              alCambiar={(valor) => field.onChange(valor === 'envio')}
+                              accessibilityLabel="Cómo recibís el pedido"
+                            />
+                            {field.value && (
+                              <Text variant="caption" color="textMuted">
+                                La dirección la coordinamos por WhatsApp.
+                              </Text>
+                            )}
+                          </View>
+                        )}
+                      />
+                      <View style={[styles.mitad, !enCelular && styles.mitadAncha]}>
+                        {navidad ? (
+                          <BotonFiestas
+                            label="Confirmar pedido"
+                            onPress={pedido.confirmar}
+                            loading={pedido.enviando}
+                            disabled={!cotizacion || pedido.cotizando}
+                          />
+                        ) : (
+                          <Button
+                            label="Confirmar pedido"
+                            onPress={pedido.confirmar}
+                            loading={pedido.enviando}
+                            disabled={!cotizacion || pedido.cotizando}
+                            fullWidth
+                          />
+                        )}
+                        <Text variant="caption" color="textMuted" align="center">
+                          {TEXTO_ANTES_DE_CONFIRMAR}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
           </>
         )}
       </View>
+
+      <HojaDiaLleno
+        visible={pedido.diaLleno.visible}
+        opciones={pedido.diaLleno.opciones}
+        alElegir={pedido.diaLleno.elegir}
+        alCerrar={pedido.diaLleno.cerrar}
+      />
     </ScreenContainer>
   );
 }
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    // El mismo ancho que la carta: una columna en el celular y la tableta, el 80% de la ventana en la compu
+    // Una sola columna, como en el celular, del mismo ancho que la carta: hasta 780 en la tableta, el 80% en la compu
     contenido: { gap: theme.spacing.lg, width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
     contenidoCompu: { width: theme.sizes.cartaCompu, maxWidth: '100%' },
     volver: { alignItems: 'flex-start' },
     encabezado: { gap: theme.spacing.xs },
     adorno: { paddingTop: theme.spacing.sm },
-    // Los pasos, uno debajo del otro; en la compu, el 1 a la izquierda y el 2 y el 3 a la derecha
+    // Los pasos, uno debajo del otro
     cuerpo: { gap: theme.spacing.xxl },
-    cuerpoCompu: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.xxxl },
-    columnaProductos: { flex: 3, minWidth: 0 },
     columnaCuentas: { gap: theme.spacing.xxl },
-    columnaCuentasCompu: { flex: 2, minWidth: 0 },
     paso: { gap: theme.spacing.md },
+    // El selector de envío y «Confirmar pedido»: uno debajo del otro en el celular; mitad y mitad en pantallas anchas
+    cierre: { gap: theme.spacing.lg },
+    cierreAncho: { flexDirection: 'row', alignItems: 'flex-start' },
+    mitad: { gap: theme.spacing.sm },
+    mitadAncha: { flex: 1, minWidth: 0 },
     campo: { gap: theme.spacing.sm },
     cargando: { paddingVertical: theme.spacing.xl },
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },

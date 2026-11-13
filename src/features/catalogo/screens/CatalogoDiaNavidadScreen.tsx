@@ -35,7 +35,7 @@ export function CatalogoDiaNavidadScreen() {
   return (
     <EsqueletoNavidad
       fondo={<PatronNavidad dibujos={PAPEL_DE_REGALO} />}
-      tarjetas
+      tarjetas="luz"
       cabecera={<CabeceraDiaNavidad />}
       seccion={(titulo, cantidad, indice) => (
         <View style={styles.titulo}>

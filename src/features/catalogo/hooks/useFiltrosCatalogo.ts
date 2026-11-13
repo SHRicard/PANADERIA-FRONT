@@ -14,7 +14,8 @@ export function useFiltrosCatalogo() {
   const [buscar, setBuscar] = useState('');
   const [tipo, setTipo] = useState<string | null>(null);
   const [gusto, setGusto] = useState<string | null>(null);
-  const opciones = useListarFiltrosCatalogoQuery();
+  // Cuentan con el otro filtro puesto: mientras llega la cuenta nueva, quedan las de antes (`data`), no se vacía la lista
+  const opciones = useListarFiltrosCatalogoQuery({ tipo: tipo ?? undefined, categoria: gusto ?? undefined });
 
   useEffect(() => {
     const espera = setTimeout(() => setBuscar(texto.trim()), ESPERA_BUSQUEDA_MS);
@@ -22,14 +23,19 @@ export function useFiltrosCatalogo() {
   }, [texto]);
 
   // Tal como vienen, pasadas a opciones para mostrar: el tipo viaja por _id, el gusto por nombre
-  const tipos = useMemo<OpcionFiltro[]>(
+  const todosLosTipos = useMemo<OpcionFiltro[]>(
     () => opciones.data?.tipos.map(({ _id, nombre, cantidad }) => ({ valor: _id, label: nombre, cantidad })) ?? [],
     [opciones.data],
   );
-  const gustos = useMemo<OpcionFiltro[]>(
+  const todosLosGustos = useMemo<OpcionFiltro[]>(
     () => opciones.data?.categorias.map(({ nombre, cantidad }) => ({ valor: nombre, label: nombre, cantidad })) ?? [],
     [opciones.data],
   );
+  // Para elegir, solo los que dan algo con el otro filtro (con Pizzas no se ofrece «Dulce»: daría la carta vacía). El
+  // elegido queda siempre, aunque cuente 0, para verlo y poder sacarlo
+  const tipos = todosLosTipos.filter(({ valor, cantidad }) => cantidad > 0 || valor === tipo);
+  const gustos = todosLosGustos.filter(({ valor, cantidad }) => cantidad > 0 || valor === gusto);
+  const sumar = (lista: OpcionFiltro[]) => lista.reduce((suma, { cantidad }) => suma + cantidad, 0);
 
   // Los filtros vacíos van en undefined: no viajan y no arman otra caché
   const consulta: FiltrosCatalogo = {
@@ -48,17 +54,19 @@ export function useFiltrosCatalogo() {
     tipo,
     setTipo,
     /** El nombre del tipo elegido, para mostrarlo */
-    nombreTipo: tipos.find(({ valor }) => valor === tipo)?.label ?? null,
+    nombreTipo: todosLosTipos.find(({ valor }) => valor === tipo)?.label ?? null,
     gusto,
     setGusto,
     /** Los tipos con productos activos, por nombre, con cuántos tiene cada uno */
     tipos,
     /** Los gustos con productos activos, en el orden fijo, con cuántos tiene cada uno */
     gustos,
-    /** Todos los productos activos: cada uno tiene un gusto, así que es la suma de los gustos */
-    totalActivos: gustos.reduce((suma, { cantidad }) => suma + cantidad, 0),
+    /** La opción «Todos los tipos»: los activos con el gusto elegido */
+    totalTipos: opciones.data?.totales?.tipos ?? sumar(todosLosGustos),
+    /** La opción «Todos los gustos»: los activos del tipo elegido (cada producto tiene un gusto: es la suma) */
+    totalGustos: opciones.data?.totales?.categorias ?? sumar(todosLosGustos),
     /** Ya llegaron las opciones y el dueño no les puso tipo a los productos activos: no hay filtro de tipo */
-    sinTipos: opciones.isSuccess && tipos.length === 0,
+    sinTipos: opciones.isSuccess && todosLosTipos.length === 0,
     hayFiltros: Boolean(buscar || tipo || gusto),
     /** Cuántos de la hoja están puestos (la búsqueda ya se ve en su campo) */
     filtrosPuestos: (tipo ? 1 : 0) + (gusto ? 1 : 0),

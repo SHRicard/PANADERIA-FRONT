@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { useBreakpoint } from '@/shared/hooks';
 import { Adorno, Text } from '@/shared/ui/atoms';
-import { useStyles, useTheme, type Theme } from '@/theme';
+import { fondoDegradado, useStyles, useTheme, type Theme } from '@/theme';
 import type { NombreAssetNavidad } from '@/features/catalogo/assetsNavidad';
 import { Vivo, type Movimiento } from '@/features/catalogo/components/navidad/adornos';
 import { Ilustracion } from '@/features/catalogo/components/navidad/Ilustracion';
@@ -36,19 +36,22 @@ export function SaludoNavidad() {
           </Vivo>
         ))}
       </View>
-      <Text variant="overline" color="accent" align="center">
-        {feliz.temporada}
-      </Text>
-      <Text variant={enCompu ? 'hero' : 'display'} align="center" accessibilityRole="header">
-        {feliz.titulo}
-      </Text>
-      <Text color="textMuted" align="center" style={styles.texto}>
-        {feliz.texto}
-      </Text>
-      <Adorno forma="corto" />
-      <Text variant="bodyStrong" color="primary" align="center">
-        {feliz.cierre}
-      </Text>
+      {/* Los textos, sobre un velo del color de la página: el patrón del fondo no pasa detrás de las letras */}
+      <View style={styles.velo}>
+        <Text variant="overline" color="accentText" align="center">
+          {feliz.temporada}
+        </Text>
+        <Text variant={enCompu ? 'hero' : 'display'} align="center" accessibilityRole="header">
+          {feliz.titulo}
+        </Text>
+        <Text color="textMuted" align="center" style={styles.texto}>
+          {feliz.texto}
+        </Text>
+        <Adorno forma="corto" />
+        <Text variant="bodyStrong" color="primary" align="center">
+          {feliz.cierre}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -65,4 +68,15 @@ const createStyles = (theme: Theme) =>
       paddingBottom: theme.spacing.xs,
     },
     texto: { maxWidth: theme.sizes.saludoTexto },
+    // El color de la página, macizo detrás de las letras y esfumado hacia los bordes: no es una caja (el saludo va
+    // abierto, sin caja), solo aparta los dibujos del patrón
+    velo: {
+      alignItems: 'center',
+      gap: theme.spacing.sm,
+      paddingHorizontal: theme.spacing.xl,
+      paddingVertical: theme.spacing.lg,
+      marginHorizontal: -theme.spacing.lg,
+      marginVertical: -theme.spacing.md,
+      ...fondoDegradado(`radial-gradient(farthest-side, ${theme.colors.background} 75%, transparent 100%)`),
+    },
   });

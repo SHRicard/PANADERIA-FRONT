@@ -2,16 +2,16 @@ import { StyleSheet, View } from 'react-native';
 import { useRefrescar } from '@/shared/hooks';
 import { ScreenContainer, Text } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
-import { PreferenciaBarra } from '../components/PreferenciaBarra';
 import { PreferenciaCatalogo } from '../components/PreferenciaCatalogo';
-import { PreferenciaEncabezado } from '../components/PreferenciaEncabezado';
 import { PreferenciaTema } from '../components/PreferenciaTema';
-import { PreferenciaTipografia } from '../components/PreferenciaTipografia';
 import { usePreferenciaWeb } from '../hooks/usePreferenciaWeb';
 
 // Se abre desde Más. Cada cambio se ve en el momento y se guarda solo: no hay botón de guardar (salvo el mensaje del
 // cartel de cerrado, que se escribe). Lo de la app se guarda en el celular; lo de la web (catálogo o cerrado), en el
-// back (por eso se refresca tirando para abajo). El título lo pone el header del Stack
+// back (por eso se refresca tirando para abajo). El título lo pone el header del Stack.
+// La tipografía, el estilo de la barra y el del encabezado ya no se muestran (2026-11-13: el dueño ya eligió los suyos y
+// era mucho ruido): siguen guardados como están. Sus componentes (PreferenciaTipografia, PreferenciaBarra,
+// PreferenciaEncabezado) quedan en la feature por si vuelven
 export function PreferenciasScreen() {
   const styles = useStyles(createStyles);
   const catalogo = usePreferenciaWeb();
@@ -20,17 +20,10 @@ export function PreferenciasScreen() {
   return (
     <ScreenContainer edges={['bottom', 'left', 'right']} refreshControl={refresco.control}>
       <View style={styles.contenido}>
-        {/* Tres grupos: cómo se ve la app, cómo se recorre y cómo la ven los clientes en la web */}
+        {/* Dos grupos: cómo se ve la app y cómo la ven los clientes en la web */}
         <View style={styles.seccion}>
           <Text variant="subtitle">Apariencia</Text>
           <PreferenciaTema />
-          <PreferenciaTipografia />
-        </View>
-
-        <View style={styles.seccion}>
-          <Text variant="subtitle">Navegación</Text>
-          <PreferenciaBarra />
-          <PreferenciaEncabezado />
         </View>
 
         <View style={styles.seccion}>

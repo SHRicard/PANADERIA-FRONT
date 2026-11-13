@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { Badge, Icon, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
+import { textoParaElDia } from '../agenda';
 import { estadoDe, fechaYHora, MARCA_MANUAL, MARCA_NUEVO, marcaEnvio, textoUnidades } from '../textos';
 import type { Pedido } from '../types';
 
@@ -35,8 +36,10 @@ export function TarjetaPedido({ pedido, onPress }: TarjetaPedidoProps) {
             {formatearPrecio(pedido.total)}
           </Text>
         </View>
+        {/* Para cuándo es: lo que el dueño mira primero para organizarse */}
+        <Text variant="bodyStrong">{textoParaElDia(pedido.fechaEntrega)}</Text>
         <Text variant="caption" color="textMuted">
-          {fechaYHora(pedido.createdAt)} · {textoUnidades(unidades)}
+          Pedido del {fechaYHora(pedido.createdAt)} · {textoUnidades(unidades)}
         </Text>
         <View style={styles.fila}>
           <View style={styles.marcas}>

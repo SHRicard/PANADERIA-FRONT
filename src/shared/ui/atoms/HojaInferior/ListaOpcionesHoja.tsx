@@ -37,7 +37,8 @@ export function ListaOpcionesHoja<T extends string>({
             key={opcion.valor}
             onPress={() => alElegir(opcion.valor)}
             accessibilityRole="radio"
-            accessibilityState={{ checked: elegida }}
+            // aria-checked y no accessibilityState: en la web, react-native-web solo lee el primero
+            aria-checked={elegida}
             accessibilityLabel={opcion.label}
             style={({ pressed }) => [styles.opcion, elegida && styles.elegida, pressed && styles.presionada]}
           >

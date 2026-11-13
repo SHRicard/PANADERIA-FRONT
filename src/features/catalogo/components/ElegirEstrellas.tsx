@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Star } from 'lucide-react-native';
-import { Icon, Text } from '@/shared/ui/atoms';
+import { Icon, Text, useFlechasRadio } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import { TEXTO_PUNTAJE } from '../textos';
 import { Ilustracion } from './navidad/Ilustracion';
@@ -28,22 +28,28 @@ export function ElegirEstrellas({ valor, alCambiar, error, navidad = false }: El
   const unidad = (n: number) => (navidad ? (n === 1 ? 'galletita' : 'galletitas') : n === 1 ? 'estrella' : 'estrellas');
   const [encima, setEncima] = useState(0);
   const mostrado = encima || valor;
+  // Con el teclado (en la web): Tab entra a la elegida y las flechas suben o bajan el puntaje
+  const flechas = useFlechasRadio(ESTRELLAS, valor || null, alCambiar);
 
   return (
     <View style={styles.campo}>
       <View style={styles.fila}>
-        <View style={styles.estrellas} role="radiogroup" aria-label={navidad ? 'Cuántas galletitas le das' : 'Cuántas estrellas le das'}>
-          {ESTRELLAS.map((estrella) => {
+        <View style={styles.estrellas} role="radiogroup" aria-label={navidad ? 'Cuántas galletitas le das' : 'Cuántas estrellas le das'}
+          {...flechas.grupo}
+        >
+          {ESTRELLAS.map((estrella, indice) => {
             const prendida = estrella <= mostrado;
             return (
               <Pressable
                 key={estrella}
+                {...flechas.opcion(indice)}
                 onPress={() => alCambiar(estrella)}
                 onHoverIn={() => setEncima(estrella)}
                 onHoverOut={() => setEncima(0)}
                 accessibilityRole="radio"
                 accessibilityLabel={`${estrella} ${unidad(estrella)}: ${TEXTO_PUNTAJE[estrella]}`}
-                accessibilityState={{ checked: estrella === valor }}
+                // aria-checked y no accessibilityState: en la web, react-native-web solo lee el primero
+                aria-checked={estrella === valor}
                 style={({ pressed }) => [styles.estrella, pressed && styles.presionada]}
               >
                 {navidad ? (

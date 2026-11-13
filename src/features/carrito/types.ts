@@ -1,8 +1,10 @@
 import type { z } from 'zod';
-import type { cotizacionSchema, formularioPedidoSchema, itemCotizadoSchema, pedidoCreadoSchema } from './schemas';
+import type { cotizacionSchema, entregaSchema, formularioPedidoSchema, itemCotizadoSchema, pedidoCreadoSchema } from './schemas';
 
 export type ItemCotizado = z.infer<typeof itemCotizadoSchema>;
 export type Cotizacion = z.infer<typeof cotizacionSchema>;
+/** Los días que puede elegir: `entrega` de la cotización */
+export type EntregaDisponible = z.infer<typeof entregaSchema>;
 export type PedidoCreado = z.infer<typeof pedidoCreadoSchema>;
 export type FormularioPedido = z.infer<typeof formularioPedidoSchema>;
 
@@ -26,4 +28,11 @@ export interface NuevoPedido {
   nota?: string;
   /** true: quiere que se lo manden · false: lo pasa a retirar */
   conEnvio: boolean;
+  /** Para qué día (AAAA-MM-DD). El back revisa que sea uno de los que ofreció la cotización */
+  fechaEntrega: string;
+  /**
+   * La clave de este intento de confirmar (al azar): si el pedido llega dos veces (dos toques a la vez, o se cortó la
+   * conexión después de guardarlo y el cliente volvió a confirmar), el back responde el mismo y no crea otro
+   */
+  intento: string;
 }

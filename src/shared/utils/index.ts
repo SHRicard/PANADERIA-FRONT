@@ -1,3 +1,16 @@
+export {
+  diaCorto,
+  diaDeFecha,
+  diaDeHoy,
+  fechaDeDia,
+  formatearDia,
+  mesDeDia,
+  mesDeHoy,
+  nombreDelMes,
+  semanasDelMes,
+  sumarDias,
+  sumarMeses,
+} from './dias';
 export { enlaceWhatsapp } from './enlaceWhatsapp';
 export { formatearFecha } from './formatearFecha';
 export { formatearPrecio } from './formatearPrecio';

@@ -10,8 +10,3 @@ export function textoCatalogo(): string {
     `👉 ${config.webUrl}`,
   ].join('\n\n');
 }
-
-/** El link sin «https://»: para mostrarlo en la tarjeta, que se lea de un vistazo cuál es */
-export function linkParaMostrar(url: string): string {
-  return url.replace(/^https?:\/\//, '');
-}

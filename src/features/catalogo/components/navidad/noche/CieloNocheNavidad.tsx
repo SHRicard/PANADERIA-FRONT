@@ -4,7 +4,6 @@ import { Text } from '@/shared/ui/atoms';
 import { fondoDegradado, useStyles, useTheme, type Theme } from '@/theme';
 import type { NombreAssetNavidad } from '@/features/catalogo/assetsNavidad';
 import {
-  Bokeh,
   Colgantes,
   Destellos,
   GuirnaldaViva,
@@ -62,8 +61,8 @@ const ATRAS: Record<Ancho, NombreAssetNavidad[]> = {
 };
 
 /**
- * La noche mágica, de borde a borde arriba de todo: el cielo del azul de lo alto al del horizonte, una aurora que
- * respira, estrellas que titilan, nieve en tres capas y, arriba, la guirnalda de pino con luces vivas y esferas que se
+ * La noche mágica, de borde a borde arriba de todo: el cielo del negro de lo alto al del horizonte (sin aurora: sobre
+ * negro, sus colores lo volvían oliva o gris), estrellas que titilan, nieve en tres capas y, arriba, la guirnalda de pino con luces vivas y esferas que se
  * mecen. La marca con el logo crema y el regalo del pedido, el saludo y dos lomas de nieve: la de atrás con arbolitos
  * lejanos y la de adelante con los personajes, cada uno con su movimiento
  */
@@ -76,7 +75,6 @@ export function CieloNocheNavidad() {
 
   return (
     <View style={styles.cielo}>
-      <Bokeh tipo="aurora" cantidad={3} colores={['luzAzul', 'pino', 'accent']} />
       <Destellos cantidad={enCompu ? 46 : 24} modo="estrella" hasta={0.65} />
       <Nieve cantidad={enCompu ? 120 : 64} />
       <View style={[styles.contenido, enCompu && styles.contenidoCompu]}>
@@ -147,18 +145,20 @@ const createStyles = (theme: Theme) =>
     debajoCompu: { paddingTop: theme.spacing.xxxl },
     saludo: { gap: theme.spacing.xs, alignItems: 'center' },
     paisaje: { marginTop: theme.spacing.xl, justifyContent: 'flex-end' },
-    // Las lomas: la mitad de arriba de un óvalo (los radios en porcentaje hacen la curva). La de atrás, corrida a la
-    // izquierda, más alta y translúcida: está lejos
+    // Las lomas: la mitad de arriba de un óvalo (los radios en porcentaje hacen la curva). La de atrás es un óvalo
+    // entero, enterrado a la mitad (así se ve solo la cúpula, curva de punta a punta, sin un tramo recto ni esquinas),
+    // más ancho que la pantalla y corrido a la izquierda: la cima queda de ese lado y baja hacia la derecha, llegando a
+    // los dos bordes. Translúcida y más clara arriba, como nieve lejana con la luz de la luna: está lejos
     lomaAtras: {
       position: 'absolute',
-      left: '-25%',
-      right: '20%',
-      bottom: theme.spacing.none,
-      height: theme.sizes.loma * 4.4,
-      borderTopLeftRadius: '50%',
-      borderTopRightRadius: '50%',
+      left: '-50%',
+      right: '-10%',
+      bottom: -theme.sizes.loma * 3.5,
+      height: theme.sizes.loma * 7,
+      borderRadius: '50%',
       backgroundColor: theme.colors.nieve,
       opacity: theme.opacity.lejano,
+      ...fondoDegradado(`linear-gradient(to bottom, ${theme.colors.nieve} 0%, ${theme.colors.destacado} 45%)`),
     },
     arbolitos: {
       position: 'absolute',

@@ -17,6 +17,7 @@ export const darkTheme: TemaSinTipografia = {
     primarySoft: palette.horno700,
     accent: palette.manteca300,
     onAccent: palette.tostado900,
+    accentText: palette.manteca300,
     success: palette.verde300,
     successSoft: palette.verde900,
     successStrong: palette.verde700,

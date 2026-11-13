@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { mensajeDeError, type ApiError } from '@/services/api';
 import { formatearPrecio } from '@/shared/utils';
 import {
+  useCambiarFechaEntregaMutation,
   useCancelarPedidoMutation,
   useMarcarVistoMutation,
   useObtenerPedidoQuery,
@@ -19,6 +20,7 @@ import {
 import { formularioSenaSchema } from '../schemas';
 import { linkWhatsApp, mensajeListo, mensajeSaludo } from '../textos';
 import type { FormularioSena } from '../types';
+import { useCalendarioDueno } from './useCalendarioDueno';
 
 type Accion =
   | 'sena'
@@ -29,7 +31,8 @@ type Accion =
   | 'cancelar'
   | 'quitarCancelacion'
   | 'visto'
-  | 'quitarVisto';
+  | 'quitarVisto'
+  | 'fecha';
 
 /** El detalle de un pedido con sus pasos: confirmar la seña, entregar, cancelar y deshacer cada uno */
 export function useDetallePedido(id: string) {
@@ -45,12 +48,16 @@ export function useDetallePedido(id: string) {
   const [quitarCancelacion] = useQuitarCancelacionMutation();
   const [marcarVisto] = useMarcarVistoMutation();
   const [quitarVisto] = useQuitarVistoMutation();
+  const [cambiarFechaEntrega] = useCambiarFechaEntregaMutation();
 
   /** La acción que está esperando respuesta: su botón muestra el spinner y los demás no se pueden tocar */
   const [enCurso, setEnCurso] = useState<Accion | null>(null);
   const [error, setError] = useState<string | null>(null);
   /** Con seña ya pagada, el campo del monto se abre solo para corregirlo */
   const [corrigiendoSena, setCorrigiendoSena] = useState(false);
+  /** La hoja con el calendario para cambiar el día */
+  const [eligiendoDia, setEligiendoDia] = useState(false);
+  const calendario = useCalendarioDueno(pedido?.fechaEntrega ?? null);
 
   const form = useForm<FormularioSena>({
     resolver: zodResolver(formularioSenaSchema),
@@ -130,6 +137,18 @@ export function useDetallePedido(id: string) {
     marcarVisto: () => void ejecutar('visto', () => marcarVisto(id).unwrap()),
     /** Por si lo marcó sin querer: vuelve a salir como nuevo */
     marcarNoVisto: () => void ejecutar('quitarVisto', () => quitarVisto(id).unwrap()),
+    /** El calendario para pasarlo a otro día (cualquiera: el cliente lo pidió). Abre en el mes del día que tiene */
+    eligiendoDia,
+    calendario,
+    abrirCambioDeDia: () => {
+      if (pedido?.fechaEntrega) calendario.irAlMesDe(pedido.fechaEntrega);
+      setEligiendoDia(true);
+    },
+    cerrarCambioDeDia: () => setEligiendoDia(false),
+    cambiarDia: async (fechaEntrega: string) => {
+      setEligiendoDia(false);
+      if (fechaEntrega !== pedido?.fechaEntrega) await ejecutar('fecha', () => cambiarFechaEntrega({ id, fechaEntrega }).unwrap());
+    },
     /** Sumar, sacar o cambiar productos. Solo con el pedido abierto. Al guardar vuelve acá, ya actualizado */
     editarProductos: () => router.push({ pathname: '/editar-pedido/[id]', params: { id } }),
 

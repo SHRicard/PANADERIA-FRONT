@@ -1,25 +1,26 @@
 import { crearTemaTemporada } from '@/theme';
 
 /**
- * Navidad de noche (`noche-navidad`): el cielo de borde a borde, del azul de lo alto (`destacadoProfundo`) al del horizonte
- * (`destacado`), y abajo la página blanca fría. Toda en Nunito; esquinas redondeadas. De noche, azul noche entero
+ * Navidad de noche (`noche-navidad`): el cielo de borde a borde, del negro de lo alto (`destacadoProfundo`) al del
+ * horizonte (`destacado`), y abajo la página blanca. Toda en Nunito; esquinas redondeadas. De noche, negro entero
  */
 export const TEMA_NOCHE_NAVIDAD = crearTemaTemporada({
   tipografia: 'redondeada',
   radios: 'redondeados',
   claro: {
-    background: 'nieveFria',
+    background: 'nieveNoche',
     surface: 'blanco',
-    surfaceMuted: 'nieveFriaApagado',
-    border: 'nieveFriaBorde',
-    text: 'azulNoche',
-    textMuted: 'azulNocheSuave',
+    surfaceMuted: 'nieveNocheApagado',
+    border: 'nieveNocheBorde',
+    text: 'negroNoche',
+    textMuted: 'negroNocheSuave',
     primary: 'rojoEscena',
     primaryPressed: 'rojoEscenaPresionado',
     onPrimary: 'blanco',
     primarySoft: 'rojoEscenaSuave',
     accent: 'mostazaEscena',
-    onAccent: 'azulNoche',
+    accentText: 'mostazaEscenaTexto',
+    onAccent: 'negroNoche',
     nieve: 'blanco',
     cinta: 'rojoEscena',
     pino: 'pinoEscena',
@@ -29,7 +30,7 @@ export const TEMA_NOCHE_NAVIDAD = crearTemaTemporada({
     destacadoProfundo: 'cieloCenit',
     onDestacado: 'crema',
     resplandor: 'resplandorDorado',
-    shadow: 'sombraAzul',
+    shadow: 'sombraNoche',
   },
   oscuro: {
     background: 'escenaNoche',
@@ -43,6 +44,7 @@ export const TEMA_NOCHE_NAVIDAD = crearTemaTemporada({
     onPrimary: 'rojoEscenaNocheTinta',
     primarySoft: 'rojoEscenaNocheSuave',
     accent: 'mostazaEscenaNoche',
+    accentText: 'mostazaEscenaNoche',
     onAccent: 'mostazaEscenaNocheTinta',
     nieve: 'blanco',
     cinta: 'rojoEscenaNoche',

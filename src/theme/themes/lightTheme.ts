@@ -17,6 +17,7 @@ export const lightTheme: TemaSinTipografia = {
     primarySoft: palette.crema100,
     accent: palette.manteca400,
     onAccent: palette.tostado900,
+    accentText: palette.manteca400,
     success: palette.verde700,
     successSoft: palette.verde50,
     successStrong: palette.verde700,

@@ -35,6 +35,8 @@ export const seccionesCatalogoSchema = z.object({
 export const filtrosCatalogoSchema = z.object({
   tipos: z.array(tipoDeProductoSchema.extend({ cantidad: z.number().int() })),
   categorias: z.array(z.object({ nombre: z.string(), cantidad: z.number().int() })),
+  /** Lo de la opción «Todos» de cada filtro, con el otro puesto. Sin el campo (un back de antes), se suma en el front */
+  totales: z.object({ tipos: z.number().int(), categorias: z.number().int() }).optional(),
 });
 
 /** POST /api/catalogo/:id/recomendaciones: la recomendación guardada y el resumen del producto ya recalculado */
@@ -48,7 +50,8 @@ export const recomendacionCreadaSchema = z.object({
 
 /** Recomendar un producto. Las mismas reglas que el back, para avisar antes de mandar. 0 = no eligió estrellas */
 export const formularioRecomendacionSchema = z.object({
-  puntaje: z.number().int().min(1, 'Tocá las estrellas para dar tu voto').max(5),
+  // Neutro: en Navidad no se vota con estrellas sino con galletitas
+  puntaje: z.number().int().min(1, 'Elegí un puntaje para dar tu voto').max(5),
   texto: z.string().trim().max(300, 'Puede tener hasta 300 letras'),
   autor: z
     .string()

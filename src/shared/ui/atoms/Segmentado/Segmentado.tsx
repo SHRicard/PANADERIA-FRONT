@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react-native';
 import { useStyles, type Theme } from '@/theme';
 import { Icon } from '../Icon';
 import { Text } from '../Text';
+import { useFlechasRadio } from './useFlechasRadio';
 
 export interface OpcionSegmentado<T extends string> {
   valor: T;
@@ -21,17 +22,24 @@ export interface SegmentadoProps<T extends string> {
 /** Elegir una opción entre pocas (2 a 4), todas a la vista. Se comporta como un grupo de radios */
 export function Segmentado<T extends string>({ opciones, valor, alCambiar, accessibilityLabel }: SegmentadoProps<T>) {
   const styles = useStyles(createStyles);
+  const flechas = useFlechasRadio(
+    opciones.map((opcion) => opcion.valor),
+    valor,
+    alCambiar,
+  );
 
   return (
-    <View style={styles.grupo} accessibilityRole="radiogroup" accessibilityLabel={accessibilityLabel}>
-      {opciones.map((opcion) => {
+    <View style={styles.grupo} accessibilityRole="radiogroup" accessibilityLabel={accessibilityLabel} {...flechas.grupo}>
+      {opciones.map((opcion, indice) => {
         const activa = opcion.valor === valor;
         return (
           <Pressable
             key={opcion.valor}
+            {...flechas.opcion(indice)}
             onPress={() => alCambiar(opcion.valor)}
             accessibilityRole="radio"
-            accessibilityState={{ checked: activa }}
+            // aria-checked y no accessibilityState: en la web, react-native-web solo lee el primero
+            aria-checked={activa}
             accessibilityLabel={opcion.label}
             style={[styles.opcion, activa && styles.activa]}
           >

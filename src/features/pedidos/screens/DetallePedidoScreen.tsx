@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   Ban,
   BellRing,
+  CalendarDays,
   Car,
   CircleCheck,
   Eye,
@@ -15,9 +16,10 @@ import {
   Undo2,
 } from 'lucide-react-native';
 import { useRefrescar } from '@/shared/hooks';
-import { Alert, Badge, Button, CampoTexto, Cargando, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
+import { Alert, Badge, Button, CalendarioMes, CampoTexto, Cargando, HojaInferior, Icon, ScreenContainer, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
 import { useStyles, type Theme } from '@/theme';
+import { textoParaElDia } from '../agenda';
 import { useDetallePedido } from '../hooks/useDetallePedido';
 import { estadoDe, fechaYHora, MARCA_MANUAL, MARCA_NUEVO, marcaEnvio } from '../textos';
 
@@ -102,6 +104,34 @@ export function DetallePedidoScreen() {
             onPress={detalle.escribirAlCliente}
           />
         </View>
+
+        {/* Para qué día es. Con el pedido abierto, el dueño lo cambia (el cliente le pidió otro día): cualquiera */}
+        <View style={styles.dia}>
+          <Icon icon={CalendarDays} color="primary" />
+          <Text variant="bodyStrong" style={styles.diaTexto}>
+            {textoParaElDia(pedido.fechaEntrega)}
+          </Text>
+          {abierto && (
+            <Button
+              variant="ghost"
+              size="sm"
+              label="Cambiar día"
+              onPress={detalle.abrirCambioDeDia}
+              loading={enCurso === 'fecha'}
+              disabled={ocupado}
+            />
+          )}
+        </View>
+        <HojaInferior visible={detalle.eligiendoDia} alCerrar={detalle.cerrarCambioDeDia} titulo="¿Para qué día?">
+          <CalendarioMes
+            mes={detalle.calendario.mes}
+            dias={detalle.calendario.dias}
+            seleccionado={pedido.fechaEntrega}
+            alElegir={(dia) => void detalle.cambiarDia(dia)}
+            alMesAnterior={detalle.calendario.alMesAnterior}
+            alMesSiguiente={detalle.calendario.alMesSiguiente}
+          />
+        </HojaInferior>
 
         {/* Lo eligió el cliente al pedir (o el dueño, en el pedido manual): acá solo se lee. Una línea a todo el
             ancho: el autito si hay que mandarlo, el local si lo pasa a retirar */}
@@ -319,6 +349,8 @@ const createStyles = (theme: Theme) =>
     marcas: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.xs },
     seccion: { gap: theme.spacing.sm },
     // Una sola línea a todo el ancho, con el fondo suave del tono de la marca (sin borde)
+    dia: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm },
+    diaTexto: { flex: 1 },
     envio: {
       alignSelf: 'stretch',
       flexDirection: 'row',

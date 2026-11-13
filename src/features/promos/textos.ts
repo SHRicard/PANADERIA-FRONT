@@ -27,3 +27,6 @@ function cuando(fecha: Date, ahora: Date): string {
   if (dias < 7) return `hace ${dias} días`;
   return fecha.toLocaleDateString('es-AR', { day: 'numeric', month: 'numeric' });
 }
+
+/** Cuando la foto o el video ya no está en Cloudinary (se borró desde allá): la promo no se puede compartir */
+export const AVISO_SIN_ARCHIVO = 'No se encuentra el archivo de esta promo. Borrala y subila de nuevo.';

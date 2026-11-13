@@ -37,6 +37,10 @@ export function ControlRefresco({ refreshing, onRefresh, enabled = true, style, 
   const caja = useRef<View>(null);
   const tirado = useSharedValue(0);
   const [estado, setEstado] = useState<Estado>('tirando');
+  // Si el dedo está tirando ahora. El aviso queda en la página aunque no se vea (opacidad 0): sin esto, el lector de
+  // pantalla leía «Tirá para actualizar» al final de cada página
+  const [tirandoAhora, setTirandoAhora] = useState(false);
+  const aLaVista = tirandoAhora || Boolean(refreshing);
 
   // Los listeners del DOM se ponen una sola vez: leen de acá lo último que llegó por props
   const ultimo = useRef({ refreshing, onRefresh, enabled });
@@ -64,6 +68,7 @@ export function ControlRefresco({ refreshing, onRefresh, enabled = true, style, 
       tirando = false;
       pasoElUmbral = false;
       if (!estabaTirando) return;
+      setTirandoAhora(false);
       if (actualizar) ultimo.current.onRefresh?.();
       // Si se actualiza, se queda en el umbral hasta que llegan los datos (lo baja el efecto de `refreshing`)
       tirado.value = withTiming(actualizar ? UMBRAL : 0, { duration: VUELTA_MS });
@@ -91,6 +96,7 @@ export function ControlRefresco({ refreshing, onRefresh, enabled = true, style, 
         }
         tirando = true;
         setEstado('tirando');
+        setTirandoAhora(true);
       }
 
       // Sin esto, el navegador mueve el scroll (o lo estira, en el iPhone) a la par del aviso
@@ -134,7 +140,7 @@ export function ControlRefresco({ refreshing, onRefresh, enabled = true, style, 
   return (
     <View ref={caja} style={[styles.caja, style]}>
       {children}
-      <Animated.View style={[styles.carril, bajar]}>
+      <Animated.View style={[styles.carril, bajar]} aria-hidden={!aLaVista}>
         <View style={styles.aviso}>
           {refreshing ? (
             <Cargando tamano="chico" mensaje="Actualizando" />

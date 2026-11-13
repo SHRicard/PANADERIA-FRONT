@@ -1,4 +1,12 @@
-export { TemaAnidado, ThemeProvider, useStyles, useTheme, useThemeMode, useTipografia } from './ThemeProvider';
+export {
+  TemaAnidado,
+  ThemeProvider,
+  useFondoTemporada,
+  useStyles,
+  useTheme,
+  useThemeMode,
+  useTipografia,
+} from './ThemeProvider';
 export {
   crearTemaTemporada,
   type DefinicionTemporada,
