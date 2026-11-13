@@ -40,8 +40,8 @@ export const sizes = {
   // La carta del catálogo: en la tableta, una columna de hasta 780; en la compu, el 80% de la ventana
   cartaMax: 780,
   cartaCompu: '80%',
-  // Las fotos del detalle de un producto en pantallas anchas: hasta acá crecen, el resto es para los datos
-  galeriaMax: 560,
+  // La foto del detalle de un producto: en la compu no pasa de acá (al ancho de la carta quedaba más alta que la pantalla)
+  fotoDetalleMax: 520,
   // El buscador de la bienvenida en la compu: no cruza todo el ancho
   buscadorMax: 560,
   // Desde qué ancho de ventana la web pasa a tableta y a compu (cambian los números, no el árbol)

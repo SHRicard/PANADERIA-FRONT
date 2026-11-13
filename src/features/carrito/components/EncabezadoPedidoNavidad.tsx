@@ -31,7 +31,7 @@ export function EncabezadoPedidoNavidad() {
           </View>
         ))}
       </View>
-      <Text variant="overline" color="accent" align="center">
+      <Text variant="overline" color="accentText" align="center">
         {TEXTOS_PEDIDO_NAVIDAD.temporada}
       </Text>
       <Text variant="display" align="center" accessibilityRole="header">

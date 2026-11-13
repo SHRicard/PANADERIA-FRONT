@@ -16,6 +16,9 @@ export type ColorToken =
   | 'primarySoft'
   | 'accent'
   | 'onAccent'
+  // El dorado para TEXTO sobre el fondo claro: `accent` pinta estrellas y botones, pero como letra no llega al
+  // contraste AA (4,5). En los temas que lo tienen oscuro de sobra, es el mismo `accent`
+  | 'accentText'
   | 'success'
   | 'successSoft'
   // El botón verde (WhatsApp): relleno con texto blanco, oscuro en los dos modos para que el blanco se lea

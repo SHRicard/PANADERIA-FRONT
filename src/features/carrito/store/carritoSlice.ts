@@ -1,12 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { storageService } from '@/services/storage';
-import { carritoGuardadoSchema, pedidoCreadoSchema } from '../schemas';
+import { carritoGuardadoSchema, itemGuardadoSchema, pedidoCreadoSchema } from '../schemas';
 import type { ItemCarrito, PedidoCreado } from '../types';
 
 /** Los topes del back: hasta 30 productos distintos y hasta 50 unidades de cada uno */
 export const MAX_PRODUCTOS = 30;
 export const MAX_UNIDADES = 50;
 const CLAVE = 'carrito';
+
+/** Una cantidad válida: entera y de 0 a 50 */
+const tope = (cantidad: number) => Math.min(MAX_UNIDADES, Math.max(0, Math.round(cantidad)));
 const CLAVE_CONFIRMADO = 'pedido-confirmado';
 
 interface CarritoState {
@@ -24,10 +27,28 @@ function leerCarrito(): ItemCarrito[] {
   if (!guardado) return [];
   try {
     const resultado = carritoGuardadoSchema.safeParse(JSON.parse(guardado));
-    return resultado.success ? resultado.data : [];
+    return resultado.success ? sanearCarrito(resultado.data) : [];
   } catch {
     return [];
   }
+}
+
+/**
+ * Acomoda un carrito guardado con valores raros en vez de tirarlo entero: la cantidad se redondea y se lleva de 1 a 50
+ * (9999 → 50, 2.7 → 3, 0.4 → 1). Se descarta solo lo imposible: sin id, sin cantidad, con 0 o menos (no lo tenía) o
+ * repetido. Y hasta 30 productos distintos, como el back
+ */
+export function sanearCarrito(guardado: unknown[]): ItemCarrito[] {
+  const items: ItemCarrito[] = [];
+  for (const crudo of guardado) {
+    const item = itemGuardadoSchema.safeParse(crudo);
+    if (!item.success || item.data.cantidad <= 0) continue;
+    const { productoId } = item.data;
+    if (items.some((otro) => otro.productoId === productoId)) continue;
+    items.push({ productoId, cantidad: Math.max(1, tope(item.data.cantidad)) });
+    if (items.length === MAX_PRODUCTOS) break;
+  }
+  return items;
 }
 
 /** Lo llama la persistencia de `@/store` cada vez que cambia el carrito */
@@ -51,8 +72,6 @@ export function guardarConfirmado(pedido: PedidoCreado | null): void {
   if (pedido) storageService.general.guardar(CLAVE_CONFIRMADO, JSON.stringify(pedido));
   else storageService.general.borrar(CLAVE_CONFIRMADO);
 }
-
-const tope = (cantidad: number) => Math.min(MAX_UNIDADES, Math.max(0, Math.round(cantidad)));
 
 const carritoSlice = createSlice({
   name: 'carrito',

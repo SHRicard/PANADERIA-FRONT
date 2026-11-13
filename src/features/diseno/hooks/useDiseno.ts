@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
-import type { OpcionSegmentado, OpcionSelect } from '@/shared/ui/atoms';
+import type { DiaCalendario, OpcionSegmentado, OpcionSelect } from '@/shared/ui/atoms';
+import { diaDeHoy, mesDeHoy, sumarDias, sumarMeses } from '@/shared/utils';
 
 const DURACION_CARGA_MS = 1500;
 
@@ -17,6 +18,17 @@ export const GUSTOS: OpcionSelect<string>[] = ['Dulce', 'Salado', 'Agridulce', '
   (gusto) => ({ valor: gusto, label: gusto }),
 );
 
+/** Los días de ejemplo del calendario, como la agenda: hoy apagado, después libres, uno «Casi» y uno «Llena» */
+function diasDeEjemplo(): Record<string, DiaCalendario> {
+  const hoy = diaDeHoy();
+  const dias: Record<string, DiaCalendario> = { [hoy]: { deshabilitado: true } };
+  for (let i = 1; i <= 7; i++) dias[sumarDias(hoy, i)] = { aviso: 'Libre', tono: 'exito' };
+  dias[sumarDias(hoy, 2)] = { aviso: 'Libre', tono: 'exito', contador: 4, queCuenta: 'productos' };
+  dias[sumarDias(hoy, 3)] = { aviso: 'Casi', tono: 'atencion', contador: 18, queCuenta: 'productos' };
+  dias[sumarDias(hoy, 5)] = { aviso: 'Llena', tono: 'peligro', contador: 27, queCuenta: 'productos' };
+  return dias;
+}
+
 /** Estado de los ejemplos interactivos de la pantalla de diseño */
 export function useDiseno() {
   const { width } = useWindowDimensions();
@@ -25,6 +37,8 @@ export function useDiseno() {
   const [periodo, setPeriodo] = useState<Periodo>('hoy');
   const [gusto, setGusto] = useState<string | null>(null);
   const [hojaAbierta, setHojaAbierta] = useState(false);
+  const [mes, setMes] = useState(mesDeHoy);
+  const [dia, setDia] = useState<string | null>(null);
 
   // El botón de ejemplo muestra el spinner un rato y vuelve solo
   useEffect(() => {
@@ -46,5 +60,13 @@ export function useDiseno() {
     setGusto,
     hojaAbierta,
     setHojaAbierta,
+    calendario: {
+      mes,
+      seleccionado: dia,
+      dias: diasDeEjemplo(),
+      alElegir: setDia,
+      alMesAnterior: () => setMes((m) => sumarMeses(m, -1)),
+      alMesSiguiente: () => setMes((m) => sumarMeses(m, 1)),
+    },
   };
 }

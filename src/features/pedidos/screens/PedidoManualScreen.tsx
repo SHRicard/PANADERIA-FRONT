@@ -1,8 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { ClipboardCheck } from 'lucide-react-native';
-import { Alert, Button, CampoTexto, ScreenContainer, Segmentado, Select, Text } from '@/shared/ui/atoms';
+import { Alert, Button, CalendarioMes, CampoTexto, ScreenContainer, Segmentado, Select, Text } from '@/shared/ui/atoms';
 import { formatearPrecio } from '@/shared/utils';
+import { textoParaElDia } from '../agenda';
 import { useStyles, type Theme } from '@/theme';
 import { BuscadorProductos } from '../components/BuscadorProductos';
 import { FilaProductoManual } from '../components/FilaProductoManual';
@@ -85,6 +86,33 @@ export function PedidoManualScreen() {
 
           {/* Los ya elegidos están arriba, con el total */}
           <BuscadorProductos buscador={manual.buscador} ocultos={elegidos} max={manual.maxUnidades} alCambiar={manual.cambiarCantidad} />
+        </View>
+
+        <View style={styles.seccion}>
+          <Text variant="subtitle">¿Para qué día?</Text>
+          <Controller
+            control={form.control}
+            name="fechaEntrega"
+            render={({ field, fieldState }) => (
+              <>
+                <CalendarioMes
+                  mes={manual.calendario.mes}
+                  dias={manual.calendario.dias}
+                  seleccionado={field.value || null}
+                  alElegir={field.onChange}
+                  alMesAnterior={manual.calendario.alMesAnterior}
+                  alMesSiguiente={manual.calendario.alMesSiguiente}
+                />
+                {fieldState.error ? (
+                  <Text variant="caption" color="danger">
+                    {fieldState.error.message}
+                  </Text>
+                ) : (
+                  field.value && <Text variant="bodyStrong">{textoParaElDia(field.value)}</Text>
+                )}
+              </>
+            )}
+          />
         </View>
 
         <View style={styles.seccion}>

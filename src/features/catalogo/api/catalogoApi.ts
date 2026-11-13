@@ -41,9 +41,12 @@ export const catalogoApi = baseApi.injectEndpoints({
       rawResponseSchema: seccionesCatalogoSchema,
     }),
 
-    /** Las opciones de los filtros de la web: solo los tipos y los gustos con productos activos */
-    listarFiltrosCatalogo: build.query<OpcionesDeFiltros, void>({
-      query: () => '/catalogo/filtros',
+    /**
+     * Las opciones de los filtros de la web: solo los tipos y los gustos con productos activos, y cuántos tiene cada
+     * uno con el otro filtro puesto (con el tipo Pizzas, cuántas pizzas hay de cada gusto)
+     */
+    listarFiltrosCatalogo: build.query<OpcionesDeFiltros, Pick<FiltrosCatalogo, 'tipo' | 'categoria'>>({
+      query: (filtros) => ({ url: '/catalogo/filtros', params: filtros }),
       rawResponseSchema: filtrosCatalogoSchema,
     }),
 

@@ -8,7 +8,7 @@ import type { Cobro, Entrega } from '../sena';
 import type { PedidoCreado } from '../types';
 import { PagoSena } from './PagoSena';
 import { ResumenPedido } from './ResumenPedido';
-import { TEXTOS_PEDIDO_NAVIDAD } from '../textos';
+import { TEXTO_CONFIRMADO, TEXTOS_PEDIDO_NAVIDAD } from '../textos';
 
 interface PedidoConfirmadoProps {
   pedido: PedidoCreado;
@@ -40,7 +40,12 @@ export function PedidoConfirmado({ pedido, cobro, entrega, alVolver, navidad = f
   return (
     <View style={styles.confirmado}>
       <View style={styles.cabecera}>
-        {navidad && <Destellos cantidad={10} color="accent" />}
+        {/* Los destellos («✦») son adorno: el lector de pantalla no los lee */}
+        {navidad && (
+          <View style={styles.adornos} aria-hidden accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            <Destellos cantidad={10} color="accent" />
+          </View>
+        )}
         {navidad ? (
           <>
             <View style={styles.escena} aria-hidden>
@@ -50,7 +55,7 @@ export function PedidoConfirmado({ pedido, cobro, entrega, alVolver, navidad = f
                 </Vivo>
               ))}
             </View>
-            <Text variant="overline" color="accent" align="center">
+            <Text variant="overline" color="accentText" align="center">
               {TEXTOS_PEDIDO_NAVIDAD.confirmado.temporada}
             </Text>
           </>
@@ -61,9 +66,7 @@ export function PedidoConfirmado({ pedido, cobro, entrega, alVolver, navidad = f
           ¡Recibimos tu pedido!
         </Text>
         <Text color="textMuted" align="center">
-          {navidad
-            ? TEXTOS_PEDIDO_NAVIDAD.confirmado.texto
-            : 'Te vamos a contactar al teléfono que dejaste para coordinar la seña y la entrega.'}
+          {navidad ? TEXTOS_PEDIDO_NAVIDAD.confirmado.texto : TEXTO_CONFIRMADO}
         </Text>
       </View>
       <Adorno forma={navidad ? 'corto' : 'izquierda'} />
@@ -112,7 +115,7 @@ export function PedidoConfirmado({ pedido, cobro, entrega, alVolver, navidad = f
       {navidad && (
         <View style={styles.despedida}>
           <IlustracionNavidad nombre="acebo" alto={theme.sizes.mascota} />
-          <Text variant="bodyStrong" color="accent" align="center" style={styles.flexible}>
+          <Text variant="bodyStrong" color="accentText" align="center" style={styles.flexible}>
             {TEXTOS_PEDIDO_NAVIDAD.confirmado.despedida}
           </Text>
           <IlustracionNavidad nombre="acebo" alto={theme.sizes.mascota} espejado />
@@ -126,6 +129,8 @@ export function PedidoConfirmado({ pedido, cobro, entrega, alVolver, navidad = f
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
     confirmado: { gap: theme.spacing.lg },
+    // Los destellos llenan la cabecera, detrás de todo y sin toques
+    adornos: { ...StyleSheet.absoluteFill, pointerEvents: 'none' },
     cabecera: { position: 'relative', alignItems: 'center', gap: theme.spacing.sm, paddingTop: theme.spacing.xl },
     // Los tres parados sobre la misma línea
     escena: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', gap: theme.spacing.sm },

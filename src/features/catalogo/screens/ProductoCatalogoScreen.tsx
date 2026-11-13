@@ -22,8 +22,8 @@ import { textoIngredientes, textoPeso, textoPromedio, textoVotos } from '../text
 
 /**
  * El detalle de un producto, con todas sus fotos. Tiene URL propia (/producto/:id): es lo que se comparte.
- * En la tableta y la compu, las fotos a la izquierda y los datos a la derecha. Abajo, las recomendaciones:
- * votar y lo que dijeron los demás (en la compu, una al lado de la otra). Mientras la web está de Navidad: una ramita
+ * En cualquier ancho va igual que en el celular, todo uno debajo del otro: las fotos, los datos, votar y lo que dijeron
+ * los demás. Del mismo ancho que la carta: hasta `cartaMax` y el 80% de la ventana en la compu (así lo quiere el dueño). Mientras la web está de Navidad: una ramita
  * de acebo prendida en la esquina de la foto, la etiqueta como cinta roja, «Agregar al pedido» dorado, la línea dorada
  * entre dos ramitas de acebo y un muñequito en las recomendaciones
  */
@@ -32,10 +32,9 @@ export function ProductoCatalogoScreen() {
   const styles = useStyles(createStyles);
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const enCompu = useBreakpoint() === 'compu';
   const detalle = useProductoCatalogo(id);
   const refresco = useRefrescar(detalle.refrescar);
-  const tamano = useBreakpoint();
-  const enCelular = tamano === 'celular';
   const carrito = useCarrito();
   const recomendar = useRecomendar(id);
   const navidad = useEsNavidad();
@@ -46,7 +45,7 @@ export function ProductoCatalogoScreen() {
 
   return (
     <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />} llenarAlto>
-      <View style={[styles.contenido, tamano === 'compu' && styles.contenidoCompu]}>
+      <View style={[styles.contenido, enCompu && styles.contenidoCompu]}>
         <View style={styles.volver}>
           <Button variant="ghost" size="sm" icon={ArrowLeft} label="Catálogo" onPress={detalle.volver} accessibilityLabel="Volver al catálogo" />
         </View>
@@ -75,8 +74,8 @@ export function ProductoCatalogoScreen() {
         )}
 
         {producto && (
-          <View style={[styles.producto, !enCelular && styles.productoAncho]}>
-            <View style={!enCelular && styles.fotosAncho}>
+          <View style={styles.producto}>
+            <View style={styles.fotos}>
               <CarruselFotos fotos={producto.imagenes} nombre={nombreParaMostrar(producto.nombre)} proporcion={1} miniaturas />
               {/* La etiqueta del dueño sobre la foto grande, arriba a la izquierda, como en la vidriera */}
               {producto.etiqueta ? (
@@ -87,7 +86,7 @@ export function ProductoCatalogoScreen() {
               {/* La ramita de acebo prendida en la esquina de la foto grande, montada sobre el borde */}
               {navidad && <Ilustracion nombre="acebo" alto={theme.sizes.aceboFoto} style={styles.aceboFoto} />}
             </View>
-            <View style={[styles.datos, !enCelular && styles.datosAncho]}>
+            <View style={styles.datos}>
               <Text variant="overline" color="textMuted">
                 {producto.categoria}
               </Text>
@@ -158,8 +157,8 @@ export function ProductoCatalogoScreen() {
             ) : (
               <Adorno forma="izquierda" />
             )}
-            <View style={[styles.opiniones, tamano === 'compu' && styles.opinionesCompu]}>
-              <View style={tamano === 'compu' && styles.votar}>
+            <View style={styles.opiniones}>
+              <View>
                 <FormularioRecomendacion
                   form={recomendar.form}
                   enviar={recomendar.enviar}
@@ -176,7 +175,7 @@ export function ProductoCatalogoScreen() {
                   }
                 />
               </View>
-              <View style={tamano === 'compu' && styles.leer}>
+              <View>
                 <ListaRecomendaciones
                   recomendaciones={producto.recomendaciones ?? []}
                   promedio={producto.puntajePromedio}
@@ -202,7 +201,7 @@ export function ProductoCatalogoScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    // El mismo ancho que la carta: una columna de hasta 780 en la tableta, el 80% de la ventana en la compu
+    // Una sola columna, como en el celular, del mismo ancho que la carta: hasta 780 en la tableta, el 80% en la compu
     contenido: { flexGrow: 1, gap: theme.spacing.lg, width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
     contenidoCompu: { width: theme.sizes.cartaCompu, maxWidth: '100%' },
     volver: { alignItems: 'flex-start' },
@@ -210,11 +209,9 @@ const createStyles = (theme: Theme) =>
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     noDisponible: { alignItems: 'center', gap: theme.spacing.md, paddingVertical: theme.spacing.xxl },
     producto: { gap: theme.spacing.xl },
-    productoAncho: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.xxl },
-    // Las fotos crecen hasta un tope (en una pantalla grande tapaban todo); lo que sobra es para los datos
-    fotosAncho: { flex: 1, minWidth: 0, maxWidth: theme.sizes.galeriaMax },
+    // La foto con sus miniaturas: con tope y centrada; el resto de la página sigue al ancho de la carta
+    fotos: { width: '100%', maxWidth: theme.sizes.fotoDetalleMax, alignSelf: 'center' },
     datos: { gap: theme.spacing.sm },
-    datosAncho: { flex: 1, minWidth: 0 },
     sello: { position: 'absolute', top: theme.spacing.md, left: theme.spacing.md, right: theme.spacing.xxxl },
     // Un tercio afuera de la foto, arriba a la derecha, apenas torcida
     aceboFoto: {
@@ -233,7 +230,4 @@ const createStyles = (theme: Theme) =>
     enPedido: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md },
     recomendaciones: { gap: theme.spacing.xl, paddingTop: theme.spacing.lg },
     opiniones: { gap: theme.spacing.xxl },
-    opinionesCompu: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.xxxl },
-    votar: { flex: 2, minWidth: 0 },
-    leer: { flex: 3, minWidth: 0 },
   });

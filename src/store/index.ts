@@ -24,10 +24,10 @@ export const store = configureStore({
     subidaFotos: subidaFotosReducer,
     carrito: carritoReducer,
   },
-  // El chequeo de inmutabilidad (solo en desarrollo) recorre todo el estado en cada acción: con la caché de RTK Query
-  // llena pasa los 32 ms por defecto y avisa en cada recarga. En producción no corre
+  // Los chequeos de inmutabilidad y de serializable (solo en desarrollo) recorren todo el estado en cada acción: con la
+  // caché de RTK Query llena pasan los 32 ms por defecto y avisan en cada recarga. En producción no corren
   middleware: (getDefault) =>
-    getDefault({ immutableCheck: { warnAfter: 128 } })
+    getDefault({ immutableCheck: { warnAfter: 128 }, serializableCheck: { warnAfter: 128 } })
       .prepend(persistencia.middleware)
       .concat(baseApi.middleware),
 });

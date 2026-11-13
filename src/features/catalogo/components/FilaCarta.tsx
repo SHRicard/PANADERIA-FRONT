@@ -44,7 +44,10 @@ export function FilaCarta({ producto, alAbrir, grande, cantidad, alCambiarCantid
       <Pressable
         onPress={() => alAbrir(producto._id)}
         accessible={false}
-        focusable={false}
+        // tabIndex y no focusable: en la web, el Pressable de react-native-web pone tabIndex 0 e ignora focusable. Sin
+        // esto, la foto era una parada de Tab sin nombre antes del botón con el nombre, que ya abre lo mismo
+        tabIndex={-1}
+        aria-hidden
         style={({ pressed }) => pressed && styles.presionada}
       >
         <Miniatura uri={producto.portada} lado={grande ? theme.sizes.fotoCartaGrande : theme.sizes.fotoCarta} />

@@ -13,6 +13,7 @@ import {
   Alert,
   Badge,
   Button,
+  CalendarioMes,
   Cargando,
   CarruselFotos,
   Icon,
@@ -52,7 +53,7 @@ import { GUSTOS, PERIODOS, useDiseno } from '../hooks/useDiseno';
 const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
   { titulo: 'Superficies', tokens: ['background', 'surface', 'surfaceMuted', 'border', 'shadow', 'overlay'] },
   { titulo: 'Texto', tokens: ['text', 'textMuted'] },
-  { titulo: 'Marca', tokens: ['primary', 'primaryPressed', 'onPrimary', 'primarySoft', 'accent', 'onAccent'] },
+  { titulo: 'Marca', tokens: ['primary', 'primaryPressed', 'onPrimary', 'primarySoft', 'accent', 'onAccent', 'accentText'] },
   {
     titulo: 'Estados',
     tokens: ['success', 'successSoft', 'successStrong', 'successStrongPressed', 'onSuccess', 'warning', 'warningSoft', 'danger', 'dangerSoft'],
@@ -61,7 +62,7 @@ const GRUPOS_COLOR: { titulo: string; tokens: ColorToken[] }[] = [
   { titulo: 'Vidriera (Cargando)', tokens: ['pan', 'panCorte', 'panBrillo', 'panGalleta'] },
   {
     titulo: 'Navidad (nieve, bastón, guirnalda, luz azul y la banda de color)',
-    tokens: ['nieve', 'contornoNieve', 'cinta', 'pino', 'pinoOscuro', 'luzAzul', 'destacado', 'onDestacado', 'resplandor'],
+    tokens: ['nieve', 'contornoNieve', 'cinta', 'pino', 'pinoOscuro', 'luzAzul', 'destacado', 'destacadoProfundo', 'onDestacado', 'resplandor'],
   },
 ];
 
@@ -105,7 +106,7 @@ const RELLENOS_ICONO: { relleno: boolean | 'lleno'; nombre: string }[] = [
 export function DisenoScreen() {
   const theme = useTheme();
   const styles = useStyles(createStyles);
-  const { columnas, cargando, simularCarga, texto, setTexto, periodo, setPeriodo, gusto, setGusto, hojaAbierta, setHojaAbierta } = useDiseno();
+  const { columnas, cargando, simularCarga, texto, setTexto, periodo, setPeriodo, gusto, setGusto, hojaAbierta, setHojaAbierta, calendario } = useDiseno();
   const tipografia = useTipografia();
   const tema = useThemeMode();
 
@@ -222,14 +223,14 @@ export function DisenoScreen() {
           <View style={styles.filaLibre}>
             <Button variant="success" icon={MessageCircle} label="WhatsApp" onPress={simularCarga} />
             <Text variant="caption" color="textMuted">
-              variant="success": todo lo que abre WhatsApp
+              variant=«success»: todo lo que abre WhatsApp
             </Text>
           </View>
           <Button icon={ShoppingBag} label="Ancho completo" onPress={simularCarga} fullWidth />
           <View style={styles.filaLibre}>
             <Button size="sm" icon={Plus} label="Nuevo" onPress={simularCarga} />
             <Text variant="caption" color="textMuted">
-              size="sm": la píldora al lado de un título
+              size=«sm»: la píldora al lado de un título
             </Text>
           </View>
         </Seccion>
@@ -323,6 +324,10 @@ export function DisenoScreen() {
               <Sello key={texto} texto={texto} />
             ))}
           </View>
+        </Seccion>
+
+        <Seccion titulo="Calendario" descripcion="Un mes para elegir un día, como la agenda: hoy apagado, verde «Libre», amarillo «Casi» (pasó el 40 % del tope) y rojo «Llena» (llegó al tope o lo marcó el dueño). El circulito: cuántos productos hay ese día.">
+          <CalendarioMes {...calendario} />
         </Seccion>
 
         <Seccion titulo="Alertas">

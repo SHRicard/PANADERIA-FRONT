@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Search, SlidersHorizontal } from 'lucide-react-native';
-import { Button, HojaInferior, Icon, Input, ListaOpcionesHoja, Text, type OpcionHoja } from '@/shared/ui/atoms';
+import { SlidersHorizontal } from 'lucide-react-native';
+import { Button, HojaInferior, Icon, ListaOpcionesHoja, Text, type OpcionHoja } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
 import type { useFiltrosCatalogo } from '../hooks/useFiltrosCatalogo';
 import type { OpcionFiltro } from '../types';
+import { BuscadorCatalogo } from './BuscadorCatalogo';
 
 // Ningún tipo ni gusto del back tiene ese valor: es la opción de no filtrar
 const TODOS = '';
@@ -39,15 +40,7 @@ export function FiltrosVidriera({ filtros, total }: FiltrosVidrieraProps) {
     <View style={styles.filtros}>
       <View style={styles.fila}>
         <View style={styles.buscar}>
-          <Input
-            icon={Search}
-            value={filtros.texto}
-            onChangeText={filtros.setTexto}
-            placeholder="Buscar por nombre"
-            accessibilityLabel="Buscar por nombre"
-            autoCorrect={false}
-            returnKeyType="search"
-          />
+          <BuscadorCatalogo texto={filtros.texto} alCambiar={filtros.setTexto} placeholder="Buscar por nombre" />
         </View>
         <Pressable
           onPress={() => setAbierta(true)}

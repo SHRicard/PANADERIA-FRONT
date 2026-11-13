@@ -9,8 +9,9 @@ import { useCrearPedidoManualMutation, useListarClientesQuery } from '../api/ped
 import { formularioPedidoManualSchema, MAX_PRODUCTOS_PEDIDO, MAX_UNIDADES_PRODUCTO } from '../schemas';
 import type { FormularioPedidoManual } from '../types';
 import { useBuscadorProductos } from './useBuscadorProductos';
+import { useCalendarioDueno } from './useCalendarioDueno';
 
-const VACIO: FormularioPedidoManual = { nombre: '', telefono: '', nota: '', sena: '', conEnvio: false };
+const VACIO: FormularioPedidoManual = { nombre: '', telefono: '', nota: '', sena: '', conEnvio: false, fechaEntrega: '' };
 
 /** Un producto elegido: se guarda entero para mostrarlo aunque la búsqueda cambie y ya no aparezca */
 interface Elegido {
@@ -35,6 +36,9 @@ export function usePedidoManual() {
     defaultValues: VACIO,
   });
 
+  // ── El día: cualquiera (el dueño no tiene las reglas de la web), viendo cómo viene la agenda ──
+  const calendario = useCalendarioDueno(null);
+
   // ── Productos: la lista del dueño (con los pausados), con búsqueda ──
   const buscador = useBuscadorProductos();
 
@@ -55,12 +59,16 @@ export function usePedidoManual() {
     });
   };
 
-  const guardar = form.handleSubmit(async ({ nombre, telefono, nota, sena, conEnvio }) => {
+  // Sin productos: se avisa junto con los errores del formulario (nombre, teléfono, día), no recién cuando están bien
+  const revisarProductos = () => {
+    if (lista.length > 0) return true;
+    setErrorProductos('Elegí al menos un producto');
+    return false;
+  };
+
+  const guardar = form.handleSubmit(async ({ nombre, telefono, nota, sena, conEnvio, fechaEntrega }) => {
     setError(null);
-    if (lista.length === 0) {
-      setErrorProductos('Elegí al menos un producto');
-      return;
-    }
+    if (!revisarProductos()) return;
     if (sena && Number(sena) > total) {
       form.setError('sena', { message: `No puede ser más que el total (${formatearPrecio(total)})` });
       return;
@@ -69,6 +77,7 @@ export function usePedidoManual() {
       const pedido = await crearPedidoManual({
         cliente: { nombre, telefono },
         conEnvio,
+        fechaEntrega,
         items: lista.map(({ producto, cantidad }) => ({ productoId: producto._id, cantidad })),
         ...(nota && { nota }),
         ...(sena && { sena: { monto: Number(sena) } }),
@@ -78,7 +87,7 @@ export function usePedidoManual() {
     } catch (e) {
       setError(mensajeDeError(e));
     }
-  });
+  }, revisarProductos);
 
   return {
     form,
@@ -98,6 +107,7 @@ export function usePedidoManual() {
     },
 
     buscador,
+    calendario,
 
     elegidos: lista,
     cantidadDe: (id: string) => elegidos[id]?.cantidad ?? 0,

@@ -23,7 +23,7 @@ export function BarraCarrito() {
   const navidad = useEsNavidad();
   const enCompu = useBreakpoint() === 'compu';
   const carrito = useCarrito();
-  const { cotizacion } = useCotizacion(carrito.items);
+  const { cotizacion, cotizando } = useCotizacion(carrito.items);
   // La web se prerenderiza sin carrito: aparece recién en el navegador
   const enNavegador = useEnNavegador();
 
@@ -42,7 +42,8 @@ export function BarraCarrito() {
           <Text variant="label">{navidad ? TEXTOS_PEDIDO_NAVIDAD.barra : 'Tu pedido'}</Text>
           <Text variant="caption" color="textMuted">
             {unidades(carrito.unidades)}
-            {cotizacion ? ` · ${formatearPrecio(cotizacion.total)}` : ''}
+            {/* Mientras cotiza el cambio, el total de antes sería de otros productos: no se muestra uno que no corresponde */}
+            {cotizando ? ' · calculando…' : cotizacion ? ` · ${formatearPrecio(cotizacion.total)}` : ''}
           </Text>
         </View>
         <Button label="Ver pedido" icon={ShoppingBag} onPress={carrito.abrirPedido} />

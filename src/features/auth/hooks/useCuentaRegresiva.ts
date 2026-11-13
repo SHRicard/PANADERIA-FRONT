@@ -7,9 +7,14 @@ function segundosHasta(hasta: number | null): number {
 /** Segundos que faltan hasta `hasta` (ms). Se actualiza cada segundo y se frena en 0 */
 export function useCuentaRegresiva(hasta: number | null): number {
   const [segundos, setSegundos] = useState(() => segundosHasta(hasta));
+  // Si cambia `hasta`, la cuenta arranca de nuevo en el mismo render (no en un efecto, que dibuja una vez el número viejo)
+  const [hastaAnterior, setHastaAnterior] = useState(hasta);
+  if (hasta !== hastaAnterior) {
+    setHastaAnterior(hasta);
+    setSegundos(segundosHasta(hasta));
+  }
 
   useEffect(() => {
-    setSegundos(segundosHasta(hasta));
     if (!hasta) return;
 
     const intervalo = setInterval(() => {

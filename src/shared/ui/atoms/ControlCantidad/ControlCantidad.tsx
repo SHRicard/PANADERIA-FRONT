@@ -55,7 +55,9 @@ export function ControlCantidad({ valor, alCambiar, max = Number.POSITIVE_INFINI
         onPress={() => alCambiar(valor + 1)}
         disabled={valor >= max}
         accessibilityRole="button"
-        accessibilityLabel={`Uno más de ${nombre}`}
+        // En el tope el botón se apaga: el lector de pantalla dice por qué
+        accessibilityLabel={valor >= max ? `Uno más de ${nombre}: llegaste al máximo de ${max}` : `Uno más de ${nombre}`}
+        accessibilityHint={valor >= max ? `Se pueden pedir hasta ${max}` : undefined}
         accessibilityState={{ disabled: valor >= max }}
         hitSlop={styles.alcance.padding}
         style={({ pressed }) => [styles.boton, styles.agregar, valor >= max && styles.deshabilitado, pressed && styles.presionado]}

@@ -1,7 +1,7 @@
 # 1. Empezar
 
 Cómo instalar la app en tu celular, entrar con tu usuario, recuperar la contraseña
-si te la olvidás, qué te muestra el inicio y cómo moverte por las pantallas.
+si te la olvidás, qué te muestra el Inicio y cómo moverte por las pantallas.
 
 [← Volver al índice](README.md)
 
@@ -10,7 +10,7 @@ si te la olvidás, qué te muestra el inicio y cómo moverte por las pantallas.
 ## Instalar la app
 
 La app no está en Play Store: te la pasa la persona que la desarrolló, como un
-archivo `.apk` (por ejemplo `panaderia-digital-1.3.0.apk`), o te la instala con el
+archivo `.apk` (por ejemplo `panaderia-digital-1.5.0.apk`), o te la instala con el
 celular conectado a la computadora.
 
 Si te mandan el archivo:
@@ -26,7 +26,7 @@ En tu pantalla de inicio aparece el ícono redondo de Dama Blanca, con el nombre
 **Para actualizarla**, instalá la versión nueva encima de la que tenés, de la misma
 forma. No hace falta desinstalar: tu sesión y tus preferencias se mantienen. Para
 saber qué versión tenés, mirá al fondo de la pestaña **Más**: dice, por ejemplo,
-«Versión 1.3.0».
+«Versión 1.5.0».
 
 > ⚠️ Si al actualizar Android dice que la app no se puede instalar porque ya existe
 > una distinta, avisale a quien te la pasó antes de desinstalar nada.
@@ -119,7 +119,7 @@ Abajo de todo está la **barra de pestañas**, con las cuatro partes principales
 
 | Pestaña | Para qué es |
 | --- | --- |
-| **Dashboard** | El inicio: compartir tu catálogo y lo que pasó hoy (lo vemos abajo). |
+| **Inicio** | Compartir tu catálogo y la agenda: tus pedidos día por día (lo vemos abajo). |
 | **Productos** | Lo que vendés: cargar, editar, compartir, pausar y borrar ([capítulo 2](02-productos.md)). |
 | **Pedidos** | Lo que te encargan tus clientes ([capítulo 3](03-pedidos.md)). |
 | **Más** | Todo lo demás: pedido manual, métricas, tipos, insumos, promos, billetera, memoria, preferencias y cerrar sesión. |
@@ -128,26 +128,20 @@ Tocá una pestaña para ir a esa parte.
 
 ---
 
-## El Dashboard
+## El Inicio
 
-Es lo primero que ves al entrar. Tiene dos partes.
+Es lo primero que ves al entrar. Arriba tiene dos botones y, debajo, la agenda.
 
 Si cerraste la web ([Preferencias](10-preferencias.md#cerrar-la-web-por-un-tiempo)),
 arriba de todo aparece el aviso «Tu web está cerrada»: «Los clientes ven el cartel y
 no pueden hacer pedidos.» Está para que no te olvides de abrirla. El botón **Abrirla
 en Preferencias** te lleva a donde se abre.
 
-<p>
-<img src="capturas/claro/01-dashboard.webp" width="230" alt="El Dashboard: la tarjeta Tu catálogo con Compartir por WhatsApp y Ver mi catálogo, y abajo Vendido hoy y Para atender · modo claro">
-<img src="capturas/oscuro/01-dashboard.webp" width="230" alt="El Dashboard: la tarjeta Tu catálogo con Compartir por WhatsApp y Ver mi catálogo, y abajo Vendido hoy y Para atender · modo oscuro">
-</p>
+### Compartir y Ver catálogo
 
-### Tu catálogo
+Son el atajo para lo que más hacés cuando un cliente te escribe:
 
-Arriba está la tarjeta **Tu catálogo**, con el link de tu web. Es el atajo para lo
-que más hacés cuando un cliente te escribe:
-
-- **Compartir por WhatsApp** (verde): abre WhatsApp con un saludo y el link ya
+- **Compartir** (verde): abre WhatsApp con un saludo y el link de tu web ya
   escritos. Elegí a quién mandarlo (el chat del cliente que te preguntó, un grupo o
   **Mi estado**) y tocá **Enviar**. Antes de mandarlo podés cambiar el texto.
 
@@ -156,29 +150,40 @@ que más hacés cuando un cliente te escribe:
   >
   > 👉 (el link de tu web)
 
-- **Ver mi catálogo**: abre tu web en el navegador del celular, para que veas lo
-  mismo que ven tus clientes.
+- **Ver catálogo**: abre tu web en el navegador del celular, para que veas lo mismo
+  que ven tus clientes.
 
-### Lo de hoy
+### La agenda
 
-Debajo, el resumen del día:
-
-- **Vendido hoy**: la suma de los pedidos que te hicieron hoy, y cuántos son. No
-  cuenta los cancelados. Es la misma cuenta que [Métricas](08-metricas.md).
-- **Para atender**: cuántos pedidos están **Esperando la seña** y cuántos tienen la
-  **Seña pagada** y falta entregar. Estos son **de cualquier día**, no solo de hoy:
-  es lo que tenés pendiente.
-- **Pedidos de hoy**: los pedidos que entraron hoy, del más nuevo al más viejo (hasta
-  10). Tocá uno para abrirlo. Si hubo más, abajo aparece **Ver los demás en
-  Pedidos**. Los que todavía no miraste salen resaltados, con la marca «Nuevo»
-  ([Los pedidos nuevos](03-pedidos.md#los-pedidos-nuevos)).
+Debajo está la **Agenda**: el mes, con un color en cada día según cuántos productos
+te pidieron para ese día.
 
 <p>
-<img src="capturas/claro/01-dashboard-2.webp" width="230" alt="Más abajo en el Dashboard: Vendido hoy, Para atender y la lista Pedidos de hoy · modo claro">
-<img src="capturas/oscuro/01-dashboard-2.webp" width="230" alt="Más abajo en el Dashboard: Vendido hoy, Para atender y la lista Pedidos de hoy · modo oscuro">
+<img src="capturas/claro/01-inicio.webp" width="230" alt="El Inicio: la Agenda con Tu tope: 25 productos por día, el botón Cambiar y el mes de noviembre con sus colores · modo claro">
+<img src="capturas/oscuro/01-inicio.webp" width="230" alt="El Inicio: la Agenda con Tu tope: 25 productos por día, el botón Cambiar y el mes de noviembre con sus colores · modo oscuro">
 </p>
 
-«Hoy» es el día de Argentina, aunque sean las 23:30.
+- Arriba dice **tu tope**, por ejemplo «Tu tope: 25 productos por día»: cuántos
+  productos podés preparar en un día. Para cambiarlo, tocá **Cambiar**.
+- Cada día del mes está pintado **igual que lo ve el cliente en la web**: verde
+  «Libre», amarillo «Casi» y rojo «Llena». Los días que ya pasaron van sin color.
+- **Hoy** va en blanco, con el borde marcado y la palabra «Hoy».
+- En la esquina de los días con pedidos hay un **circulito con un número**: cuántos
+  productos te faltan preparar para ese día.
+- Con las flechas de arriba pasás al mes anterior o al siguiente.
+
+**Tocá un día para abrirlo**: ves sus pedidos, qué hay que hacer y podés cerrarlo
+para la web. Todo eso está explicado en
+[La agenda: tus pedidos por día](03-pedidos.md#la-agenda-tus-pedidos-por-día).
+
+<p>
+<img src="capturas/claro/01-inicio-2.webp" width="230" alt="La agenda de noviembre: el 13 en blanco con Hoy, días Libre, Casi y Llena con su circulito, y la leyenda de colores · modo claro">
+<img src="capturas/oscuro/01-inicio-2.webp" width="230" alt="La agenda de noviembre: el 13 en blanco con Hoy, días Libre, Casi y Llena con su circulito, y la leyenda de colores · modo oscuro">
+</p>
+
+> 💡 Lo que antes estaba en el inicio (lo vendido hoy y los pedidos para atender)
+> ahora lo ves en **Más → Métricas → Balance** ([capítulo 8](08-metricas.md)) y en
+> la pestaña **Pedidos** ([capítulo 3](03-pedidos.md)).
 
 > 💡 Lo que hacés desde la app (confirmar una seña, entregar, cancelar, cargar un
 > pedido manual) se actualiza solo. Los pedidos nuevos de la **web** no: **tirá la
@@ -204,15 +209,15 @@ Debajo, el resumen del día:
 | **Promos** | Fotos y videos para compartir en tu estado ([capítulo 6](06-promos.md)). |
 | **Billetera** | La cuenta a la que te transfieren la seña ([capítulo 5](05-billetera.md)). |
 | **Memoria** | Cuánto lugar usan tus fotos y videos ([capítulo 9](09-memoria.md)). |
-| **Preferencias** | Tema, letra, pestañas, encabezado y la web: catálogo o cerrado ([capítulo 10](10-preferencias.md)). |
+| **Preferencias** | Tema y la web: catálogo o cerrado ([capítulo 10](10-preferencias.md)). |
 | **Cerrar sesión** | En rojo, al fondo. |
 
 Al fondo de todo, debajo de **Cerrar sesión**, dice qué versión de la app tenés
-(por ejemplo «Versión 1.3.0»).
+(por ejemplo «Versión 1.5.0»).
 
 <p>
-<img src="capturas/claro/01-mas-2.webp" width="230" alt="Más abajo en Más: Memoria, Preferencias, Cerrar sesión en rojo y Versión 1.1.0 · modo claro">
-<img src="capturas/oscuro/01-mas-2.webp" width="230" alt="Más abajo en Más: Memoria, Preferencias, Cerrar sesión en rojo y Versión 1.1.0 · modo oscuro">
+<img src="capturas/claro/01-mas-2.webp" width="230" alt="Más abajo en Más: Tipos, Insumos, Promos, Billetera, Memoria, Preferencias y Cerrar sesión en rojo · modo claro">
+<img src="capturas/oscuro/01-mas-2.webp" width="230" alt="Más abajo en Más: Tipos, Insumos, Promos, Billetera, Memoria, Preferencias y Cerrar sesión en rojo · modo oscuro">
 </p>
 
 ### Volver atrás
@@ -222,16 +227,17 @@ izquierda aparece un **botón redondo con una flecha**. Tocalo para volver. El b
 de volver de Android hace lo mismo.
 
 Desde **Productos**, **Pedidos** o **Más**, el botón de volver de Android te lleva al
-**Dashboard**; desde el **Dashboard**, sale de la app.
+**Inicio**; desde el **Inicio**, sale de la app.
 
 ### Tirar para abajo para actualizar
 
-En las pantallas que muestran datos (el Dashboard, la lista de productos, la de
-pedidos, un pedido, las métricas, los insumos, las promos y la memoria), **apoyá el
+En las pantallas que muestran datos (el Inicio, un día de la agenda, la lista de
+productos, la de pedidos, un pedido, las métricas, los insumos, las promos y la
+memoria), **apoyá el
 dedo arriba de todo y deslizalo hacia abajo**. Aparece una ruedita que gira: cuando
 desaparece, ya tenés los datos al día.
 
-Usalo sobre todo en el **Dashboard** y en **Pedidos**, para ver si entraron pedidos
+Usalo sobre todo en el **Inicio** y en **Pedidos**, para ver si entraron pedidos
 nuevos.
 
 En los formularios (cargar un producto, un pedido manual, la billetera…) no se usa:
@@ -262,7 +268,7 @@ un botón **Reintentar**. Revisá tu internet y tocalo.
 <img src="capturas/oscuro/01-cerrar-sesion.webp" width="230" alt="El aviso Cerrar sesión, con los botones Cancelar y Cerrar sesión · modo oscuro">
 </p>
 
-Tus preferencias (tema, letra, barra y encabezado) no se borran.
+Tus preferencias no se borran.
 
 ---
 

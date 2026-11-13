@@ -25,7 +25,8 @@ const NOCHE_NEVADA: DibujoPatron[] = [
  * El catálogo de Navidad de noche (`noche-navidad`): arriba, el cielo de borde a borde con la aurora, las estrellas, la
  * nieve, la guirnalda viva y los personajes en las lomas; abajo, la página blanca fría con un patrón de noche fijo detrás
  * (dibujos fríos y dorados con estrellitas que titilan, cayendo despacio como la nieve), cada sección presentada por su
- * mascota y los productos como en la carta, directo sobre el patrón, entrando de a uno
+ * mascota y los productos como en la carta, cada uno en su tarjeta blanca (el patrón no pasa detrás del texto),
+ * entrando de a uno
  */
 export function CatalogoNocheNavidadScreen() {
   const theme = useTheme();
@@ -35,6 +36,7 @@ export function CatalogoNocheNavidadScreen() {
     <EsqueletoNavidad
       fondo={<PatronNavidad dibujos={NOCHE_NEVADA} entre="estrella" deriva="cae" />}
       encima={<CieloNocheNavidad />}
+      tarjetas="lisa"
       cabecera={null}
       seccion={(titulo, cantidad, indice) => (
         <View style={styles.titulo}>

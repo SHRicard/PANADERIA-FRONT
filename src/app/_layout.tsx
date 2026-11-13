@@ -12,6 +12,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { Provider } from 'react-redux';
+import { useTemaDelDueno } from '@/features/ajustes';
 import { store } from '@/store';
 import { ThemeProvider, useCargarFuentes, useTheme } from '@/theme';
 
@@ -42,6 +43,8 @@ export default function RootLayout() {
 }
 
 function Navegacion() {
+  // Claro u oscuro: el que eligió el dueño, en la APK y en la web para todos los clientes
+  useTemaDelDueno();
   const theme = useTheme();
   const base = theme.mode === 'dark' ? DarkTheme : DefaultTheme;
   const temaNavegacion: NavigationTheme = {

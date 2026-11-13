@@ -34,7 +34,8 @@ export function PagoSena({ pedido, sena }: PagoSenaProps) {
   if (!pago.datos && !pago.whatsapp) return null;
 
   // Una baldosa por dato: lo que se copia, grande, con el botón cuadrado a la derecha
-  const baldosa = (cual: string, etiqueta: string, valor: string, paraCopiar: string) => {
+  // `paraLeer`: cómo se nombra el dato en «Copiar …» (las siglas van en mayúscula: «Copiar CBU o CVU»)
+  const baldosa = (cual: string, etiqueta: string, paraLeer: string, valor: string, paraCopiar: string) => {
     const copiado = pago.copiado === cual;
     return (
       <View style={styles.baldosa}>
@@ -50,7 +51,7 @@ export function PagoSena({ pedido, sena }: PagoSenaProps) {
           <Pressable
             onPress={() => void pago.copiar(cual, paraCopiar)}
             accessibilityRole="button"
-            accessibilityLabel={copiado ? `${etiqueta} copiado` : `Copiar ${etiqueta.toLowerCase()}`}
+            accessibilityLabel={copiado ? `${etiqueta} copiado` : `Copiar ${paraLeer}`}
             style={({ pressed }) => [styles.copiar, copiado && styles.copiado, pressed && styles.presionado]}
           >
             <Icon icon={copiado ? Check : Copy} color={copiado ? 'success' : 'primary'} />
@@ -93,8 +94,8 @@ export function PagoSena({ pedido, sena }: PagoSenaProps) {
             </View>
           ) : (
             <View style={styles.panel}>
-              {baldosa('alias', 'Alias', pago.datos.alias, pago.datos.alias)}
-              {baldosa('cbu', 'CBU o CVU', cbuParaLeer(pago.datos.cbu), pago.datos.cbu)}
+              {baldosa('alias', 'Alias', 'alias', pago.datos.alias, pago.datos.alias)}
+              {baldosa('cbu', 'CBU o CVU', 'CBU o CVU', cbuParaLeer(pago.datos.cbu), pago.datos.cbu)}
               <Text color="textMuted">
                 A nombre de <Text style={styles.fuerte}>{pago.datos.nombreCompleto}</Text>, en {pago.datos.billetera}.
               </Text>
@@ -102,7 +103,9 @@ export function PagoSena({ pedido, sena }: PagoSenaProps) {
                 <Button
                   variant="success"
                   icon={MessageCircle}
-                  label="Mandar el comprobante por WhatsApp"
+                  // Corto, para que entre en un renglón en el celular; el lector de pantalla dice el completo
+                  label="Mandar comprobante"
+                  accessibilityLabel="Mandar el comprobante por WhatsApp"
                   onPress={pago.whatsapp.comprobante}
                   fullWidth
                 />

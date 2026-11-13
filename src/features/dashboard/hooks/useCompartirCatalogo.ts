@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Linking } from 'react-native';
 import { config } from '@/config';
 import { compartirEnWhatsApp, sePuedeCompartir } from '@/services/compartir';
-import { linkParaMostrar, textoCatalogo } from '../textos';
+import { textoCatalogo } from '../textos';
 
 /**
- * La tarjeta «Tu catálogo» del inicio: abre WhatsApp con el saludo y el link a la web, sin foto. Ahí el dueño elige
+ * Los botones del catálogo en el inicio: abre WhatsApp con el saludo y el link a la web, sin foto. Ahí el dueño elige
  * a quién mandarlo (el chat del cliente que le preguntó, un grupo o «Mi estado») y toca «Enviar». También abre la web
  * en el navegador, para ver lo que ven los clientes
  */
@@ -29,7 +29,6 @@ export function useCompartirCatalogo() {
 
   return {
     puedeCompartir: sePuedeCompartir,
-    link: linkParaMostrar(config.webUrl),
     compartir: () => void compartir(),
     verCatalogo: () => void Linking.openURL(config.webUrl),
     preparando,

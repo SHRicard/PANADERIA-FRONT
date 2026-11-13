@@ -133,14 +133,18 @@ export function CarruselFotos({ fotos, nombre, proporcion = 4 / 3, miniaturas = 
           showsHorizontalScrollIndicator={false}
           onLayout={({ nativeEvent }) => setAnchoTira(nativeEvent.layout.width)}
           contentContainerStyle={styles.tira}
+          // Las miniaturas eligen qué foto se ve arriba: pestañas, y la elegida lo dice (aria-selected)
+          accessibilityRole="tablist"
+          accessibilityLabel="Fotos"
         >
           {fotos.map((foto, indice) => (
             <Pressable
               key={foto.id}
               onPress={() => ir(indice)}
-              accessibilityRole="button"
+              accessibilityRole="tab"
               accessibilityLabel={`Ver foto ${indice + 1} de ${fotos.length}`}
-              accessibilityState={{ selected: indice === actual }}
+              // aria-selected y no accessibilityState: en la web, react-native-web solo lee el primero
+              aria-selected={indice === actual}
               style={({ pressed }) => [
                 styles.miniatura,
                 indice === actual && styles.miniaturaActual,

@@ -14,7 +14,7 @@ export interface PestanaAdmin {
 
 /** Las pestañas del admin, en el orden de la barra. La primera es la que abre después del login */
 export const PESTANAS_ADMIN: readonly PestanaAdmin[] = [
-  { ruta: 'dashboard', titulo: 'Dashboard', subtitulo: 'El resumen del día en la panadería', icono: LayoutDashboard },
+  { ruta: 'dashboard', titulo: 'Inicio', subtitulo: 'Tu agenda: qué días tenés pedidos y qué hay que preparar', icono: LayoutDashboard },
   { ruta: 'productos', titulo: 'Productos', subtitulo: 'Lo que ven tus clientes en el catálogo', icono: Croissant },
   { ruta: 'pedidos', titulo: 'Pedidos', subtitulo: 'Lo que te encargan tus clientes', icono: ClipboardList },
   { ruta: 'mas', titulo: 'Más', subtitulo: 'Preferencias y cuenta', icono: Menu },

@@ -2,10 +2,13 @@ import { StyleSheet, View } from 'react-native';
 import { ControlCantidad, Miniatura, Text } from '@/shared/ui/atoms';
 import { formatearPrecio, nombreParaMostrar } from '@/shared/utils';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import type { ItemCotizado } from '../types';
 
 interface ItemPedidoProps {
-  item: ItemCotizado;
+  /**
+   * Lo que se muestra del producto. Sin cotización (falló), llega sin precio ni foto: se ve el nombre y la cantidad,
+   * para que el cliente no pierda de vista lo que eligió
+   */
+  item: { nombre: string; precio: number | null; portada: string | null };
   /** La del carrito, que puede ir un paso adelante de la cotización mientras se toca «+» */
   cantidad: number;
   max: number;
@@ -31,16 +34,26 @@ export function ItemPedido({ item, cantidad, max, anticipacion, alCambiar }: Ite
           <Text variant="bodyStrong" numberOfLines={2} style={styles.nombre}>
             {nombre}
           </Text>
-          <Text variant="bodyStrong" style={styles.subtotal}>
-            {formatearPrecio(item.precio * cantidad)}
-          </Text>
+          {item.precio !== null && (
+            <Text variant="bodyStrong" style={styles.subtotal}>
+              {formatearPrecio(item.precio * cantidad)}
+            </Text>
+          )}
         </View>
-        <Text variant="caption" color="textMuted">
-          {[`${formatearPrecio(item.precio)} c/u`, anticipacion].filter(Boolean).join(' · ')}
-        </Text>
+        {(item.precio !== null || anticipacion) && (
+          <Text variant="caption" color="textMuted">
+            {[item.precio !== null && `${formatearPrecio(item.precio)} c/u`, anticipacion].filter(Boolean).join(' · ')}
+          </Text>
+        )}
         <View style={styles.cantidad}>
           <ControlCantidad valor={cantidad} alCambiar={alCambiar} max={max} nombre={nombre} />
         </View>
+        {/* El «+» se apaga en el tope: que se entienda por qué */}
+        {cantidad >= max && (
+          <Text variant="caption" color="textMuted">
+            {`Podés pedir hasta ${max} de cada producto.`}
+          </Text>
+        )}
       </View>
     </View>
   );

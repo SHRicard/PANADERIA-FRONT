@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
-import { Cookie, Search, Tags } from 'lucide-react-native';
+import { Cookie, Tags } from 'lucide-react-native';
 import { useBreakpoint } from '@/shared/hooks';
-import { Input } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import type { useFiltrosCatalogo } from '../hooks/useFiltrosCatalogo';
+import { BuscadorCatalogo } from './BuscadorCatalogo';
 import { SelectorFiltro } from './SelectorFiltro';
 
 interface FiltrosCartaProps {
@@ -21,15 +21,7 @@ export function FiltrosCarta({ filtros }: FiltrosCartaProps) {
   return (
     <View style={[styles.filtros, enFila && styles.enFila]}>
       <View style={enFila && styles.buscar}>
-        <Input
-          icon={Search}
-          value={filtros.texto}
-          onChangeText={filtros.setTexto}
-          placeholder="Tarta, chipá, brownie…"
-          accessibilityLabel="Buscar por nombre"
-          autoCorrect={false}
-          returnKeyType="search"
-        />
+        <BuscadorCatalogo texto={filtros.texto} alCambiar={filtros.setTexto} placeholder="Tarta, chipá, brownie…" />
       </View>
       <View style={[styles.selectores, enFila && styles.selectoresEnFila]}>
         {!filtros.sinTipos && (
@@ -38,7 +30,7 @@ export function FiltrosCarta({ filtros }: FiltrosCartaProps) {
               etiqueta="Tipo"
               icono={Tags}
               todos="Todos los tipos"
-              cantidadTodos={filtros.totalActivos}
+              cantidadTodos={filtros.totalTipos}
               tituloHoja="¿Qué estás buscando?"
               opciones={filtros.tipos}
               valor={filtros.tipo}
@@ -51,7 +43,7 @@ export function FiltrosCarta({ filtros }: FiltrosCartaProps) {
             etiqueta="Gusto"
             icono={Cookie}
             todos="Todos los gustos"
-            cantidadTodos={filtros.totalActivos}
+            cantidadTodos={filtros.totalGustos}
             tituloHoja="¿Qué gusto buscás?"
             opciones={filtros.gustos}
             valor={filtros.gusto}
@@ -66,7 +58,8 @@ export function FiltrosCarta({ filtros }: FiltrosCartaProps) {
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
     filtros: { gap: theme.spacing.sm },
-    enFila: { flexDirection: 'row', alignItems: 'center', maxWidth: theme.sizes.cartaMax },
+    // Del ancho de la lista que tiene abajo (en la compu, el 80% de la ventana)
+    enFila: { flexDirection: 'row', alignItems: 'center' },
     buscar: { flex: 3, minWidth: 0 },
     selectores: { flexDirection: 'row', gap: theme.spacing.sm },
     // En la fila de la compu, los dos selectores parejos al lado del buscador

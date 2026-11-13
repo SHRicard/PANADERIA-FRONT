@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ChevronRight, CircleFadingPlus } from 'lucide-react-native';
-import { Button, Icon, Text } from '@/shared/ui/atoms';
+import { Alert, Button, Icon, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type Theme } from '@/theme';
-import { textoPublicaciones } from '../textos';
+import { AVISO_SIN_ARCHIVO, textoPublicaciones } from '../textos';
 import type { Promo } from '../types';
 import { VistaPromo } from './VistaPromo';
 
@@ -26,6 +27,8 @@ interface TarjetaPromoProps {
 export function TarjetaPromo({ promo, onAbrir, puedeCompartir, onCompartir, preparando, bloqueado }: TarjetaPromoProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
+  // Si la miniatura no carga, el archivo ya no está: se avisa en vez de dejar un cuadrado vacío
+  const [sinArchivo, setSinArchivo] = useState(false);
 
   return (
     <View style={styles.tarjeta}>
@@ -36,7 +39,13 @@ export function TarjetaPromo({ promo, onAbrir, puedeCompartir, onCompartir, prep
         accessibilityHint="Editar la promo"
         style={({ pressed }) => [styles.fila, pressed && styles.presionada]}
       >
-        <VistaPromo tipo={promo.tipo} uri={promo.miniatura} duracionSegundos={promo.duracionSegundos} lado={theme.sizes.miniatura} />
+        <VistaPromo
+          tipo={promo.tipo}
+          uri={promo.miniatura}
+          duracionSegundos={promo.duracionSegundos}
+          lado={theme.sizes.miniatura}
+          alNoCargar={() => setSinArchivo(true)}
+        />
         <View style={styles.datos}>
           <Text variant="bodyStrong" numberOfLines={2}>
             {promo.titulo}
@@ -55,6 +64,8 @@ export function TarjetaPromo({ promo, onAbrir, puedeCompartir, onCompartir, prep
           <Icon icon={ChevronRight} color="textMuted" />
         </View>
       </Pressable>
+
+      {sinArchivo && <Alert tone="danger" message={AVISO_SIN_ARCHIVO} />}
 
       {puedeCompartir && (
         <Button

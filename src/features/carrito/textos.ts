@@ -13,6 +13,15 @@ export const TEXTOS_PEDIDO_NAVIDAD = {
     temporada: '¡Felices fiestas!',
     lista: 'Lo que pediste',
     despedida: '¡Que pases unas muy felices fiestas!',
-    texto: 'Gracias por elegirnos para tu mesa de fiestas. Te vamos a contactar al teléfono que dejaste para coordinar la seña y la entrega.',
+    texto: 'Gracias por elegirnos para tu mesa de fiestas. Para confirmarlo, pagá la seña acá abajo: con la seña empezamos a prepararlo.',
   },
 } as const;
+
+/**
+ * Debajo de «¡Recibimos tu pedido!»: una sola instrucción, la misma que sigue abajo («Pagá la seña»). Cómo lo recibe y
+ * que le avisamos por WhatsApp van en su propio bloque
+ */
+export const TEXTO_CONFIRMADO = 'Para confirmarlo, pagá la seña acá abajo: con la seña empezamos a prepararlo.';
+
+/** Debajo de «Confirmar pedido»: qué pasa después, coherente con la pantalla de confirmado */
+export const TEXTO_ANTES_DE_CONFIRMAR = 'Después de confirmar te mostramos cómo pagar la seña.';
