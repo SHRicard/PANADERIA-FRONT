@@ -100,8 +100,11 @@ export const clientesSchema = z.array(
 
 // ── Agenda ────────────────────────────────────────────────────────────────────
 
-/** El estado de un día: bajo (verde, «Libre») hasta el 40 % del tope, medio (amarillo, «Casi»), alto (rojo, llegó al tope) */
+/** Qué tan cargado está un día: bajo hasta el 40 % del tope, medio (pasó el 40 %), alto (llegó al tope: solo un aviso) */
 export const NIVELES_AGENDA = ['bajo', 'medio', 'alto'] as const;
+
+/** Cómo ve el día el cliente en la web. Lo resuelve el back con la misma cuenta del carrito: solo «llena» lo bloquea */
+export const ESTADOS_WEB = ['libre', 'casi', 'llena'] as const;
 
 /** Un día de la agenda */
 export const diaAgendaSchema = z.object({
@@ -119,12 +122,21 @@ export const diaAgendaSchema = z.object({
   /** Si el dueño lo marcó como «Agenda llena»: la web no lo deja elegir */
   llena: z.boolean(),
   /**
-   * Cuántos productos quiere hacer el dueño ese día, si es menos que su tope de siempre (null = los de siempre). Lo que
-   * no quiere hacer el back lo cuenta como ocupado: `nivel` y `tope` ya vienen con eso. default: el back de antes no lo manda
+   * Cuántos productos quiere hacer el dueño ese día, si es menos que su tope de siempre (null = los de siempre): el día
+   * llega antes a su tope. `nivel` y `tope` ya vienen con eso. default: el back de antes no lo manda
    */
   quiereHacer: z.number().int().nullable().default(null),
-  /** Si llegó a los productos por día del dueño (su tope): la web tampoco lo deja elegir. default: el back de antes no lo manda */
+  /**
+   * Si llegó a los productos por día del dueño (su tope). Es solo un aviso para él («Tope» en su calendario): la web lo
+   * sigue ofreciendo. default: el back de antes no lo manda
+   */
   tope: z.boolean().default(false),
+  /**
+   * Cómo lo ve el cliente en la web: libre, casi o llena (solo si lo marcó el dueño). Lo calcula el back, así los dos
+   * calendarios no se pueden separar. Opcional: el back de antes no lo manda y el front lo deduce (`estadoWebDe`).
+   * z.string(): si el back suma un estado, no se rompe
+   */
+  estadoWeb: z.string().optional(),
   /**
    * Cuántos productos le quedan por preparar: los de sus pedidos sin entregar menos lo que el dueño anotó como hecho.
    * Solo viene en la agenda del mes (no al marcar «Agenda llena»)

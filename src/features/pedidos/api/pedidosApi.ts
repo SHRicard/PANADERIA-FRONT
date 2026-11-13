@@ -204,8 +204,8 @@ export const pedidosApi = baseApi.enhanceEndpoints({ addTagTypes: ['Pedido', 'Cl
       }),
 
       /**
-       * «¿Cuántos querés hacer este día?»: menos que su tope de siempre. Lo que no quiere hacer cuenta como ocupado, así
-       * que el día puede pasar a «Casi» o «Llena» en la web. Ponerlo otra vez lo reemplaza
+       * «¿Cuántos querés hacer este día?»: menos que su tope de siempre, así el día llega antes a «Tope» (un aviso: la
+       * web lo sigue ofreciendo; solo «Agenda llena» lo cierra). Ponerlo otra vez lo reemplaza
        */
       elegirQuiereHacer: build.mutation<DiaAgenda, { fecha: string; quiereHacer: number }>({
         query: ({ fecha, quiereHacer }) => ({ url: `/agenda/${fecha}/quiere-hacer`, method: 'PUT', body: { quiereHacer } }),

@@ -11,9 +11,9 @@ import { formularioProductosPorDiaSchema } from '../schemas';
 import type { FormularioProductosPorDia } from '../types';
 
 /**
- * La agenda del inicio: el tope y el mes pintado como en la web (verde «Libre», amarillo «Casi», rojo «Llena»). Al
- * tocar un día se abre su pantalla (/agenda/[fecha], `useDiaAgenda`) con sus números y sus pedidos: así el inicio no
- * queda cargado. Un día se cierra para la web al llegar al tope del dueño (sus productos por día) o cuando él lo marca.
+ * La agenda del inicio: el tope y el mes pintado (verde «Libre», amarillo «Casi» y «Tope», rojo «Llena»). Al tocar un
+ * día se abre su pantalla (/agenda/[fecha], `useDiaAgenda`) con sus números y sus pedidos: así el inicio no queda
+ * cargado. El tope es un aviso para el dueño: un día se cierra para la web solo cuando él marca «Agenda llena».
  * La usa el inicio (dashboard), que la refresca al tirar
  */
 export function useAgenda() {

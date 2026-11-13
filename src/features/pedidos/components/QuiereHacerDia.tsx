@@ -12,8 +12,8 @@ interface QuiereHacerDiaProps {
 
 /**
  * «¿Cuántos querés hacer este día?», en la pantalla de un día de la agenda: un día puntual con menos trabajo que su
- * tope de siempre. Lo que no quiere hacer, el back lo cuenta como ocupado, así que en la web el día puede pasar a «Casi»
- * o «Llena» (docs/quiere-hacer.md). Se pone en una hoja y se saca con «Volver a lo normal»
+ * tope de siempre: el día llega antes a «Tope» (un aviso; la web lo sigue ofreciendo, solo lo cierra «Agenda llena»)
+ * (docs/quiere-hacer.md). Se pone en una hoja y se saca con «Volver a lo normal»
  */
 export function QuiereHacerDia({ quiereHacer, productosPorDia }: QuiereHacerDiaProps) {
   const styles = useStyles(createStyles);
@@ -29,7 +29,7 @@ export function QuiereHacerDia({ quiereHacer, productosPorDia }: QuiereHacerDiaP
 
       {valor === null ? (
         <Text variant="caption" color="textMuted">
-          {productosPorDia ? `Los de siempre: hasta ${productosPorDia} productos.` : 'Sin tope: la web lo ofrece hasta que lo cierres.'}
+          {productosPorDia ? `Los de siempre: hasta ${productosPorDia} productos.` : 'Sin tope: no te avisa cuando se completa.'}
         </Text>
       ) : (
         <>
@@ -38,7 +38,7 @@ export function QuiereHacerDia({ quiereHacer, productosPorDia }: QuiereHacerDiaP
             {deSiempre}
           </Text>
           <Text variant="caption" color="textMuted">
-            Lo que no hacés cuenta como ocupado: la web lo muestra «Casi» o «Llena» antes.
+            Te avisa con «Tope» al llegar a ese número. Para que la web no lo ofrezca, «Agenda llena».
           </Text>
         </>
       )}
@@ -74,7 +74,7 @@ export function QuiereHacerDia({ quiereHacer, productosPorDia }: QuiereHacerDiaP
             name="quiereHacer"
             label="¿Cuántos productos querés hacer?"
             placeholder={productosPorDia ? String(productosPorDia) : '10'}
-            helper={`Solo este día${deSiempre ? `, en vez de los ${productosPorDia} de siempre` : ''}. Lo que no hacés la web lo cuenta como ocupado.`}
+            helper={`Solo este día${deSiempre ? `, en vez de los ${productosPorDia} de siempre` : ''}. Al llegar, lo ves marcado «Tope».`}
             keyboardType="number-pad"
           />
           {quiereHacer.aviso && <Alert tone="warning" message={quiereHacer.aviso} />}

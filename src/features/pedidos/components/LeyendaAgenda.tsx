@@ -1,11 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 import { Icon, Text } from '@/shared/ui/atoms';
 import { useStyles, useTheme, type ColorToken, type Theme } from '@/theme';
-import { ICONO_QUIERE_HACER, MARCA_CASI, MARCA_LIBRE, MARCA_LLENA, rangosDeLaAgenda } from '../agenda';
+import { ICONO_QUIERE_HACER, MARCA_CASI, MARCA_LIBRE, MARCA_LLENA, MARCA_TOPE, rangosDeLaAgenda } from '../agenda';
 
 /**
- * Qué quiere decir cada color, con los números del tope del dueño: con 25, «Libre» hasta 10, «Casi» de 11 a 24 y
- * «Llena» desde 25 o si la marca. Las mismas casillas del calendario, en chico
+ * Qué quiere decir cada color, con los números del tope del dueño: con 25, «Libre» hasta 10, «Casi» de 11 a 24,
+ * «Tope» desde 25 (un aviso: la web lo sigue ofreciendo) y «Llena» solo si la marca. Las mismas casillas del
+ * calendario, en chico
  */
 export function LeyendaAgenda({ productosPorDia }: { productosPorDia: number }) {
   const styles = useStyles(createStyles);
@@ -20,7 +21,8 @@ export function LeyendaAgenda({ productosPorDia }: { productosPorDia: number }) 
       fondo: 'warningSoft',
       texto: desdeCasi < hastaCasi ? `de ${desdeCasi} a ${hastaCasi}` : `${desdeCasi}`,
     },
-    { marca: MARCA_LLENA, color: 'danger', fondo: 'dangerSoft', texto: `desde ${tope} o si la marcás` },
+    { marca: MARCA_TOPE, color: 'warning', fondo: 'warningSoft', texto: `desde ${tope}` },
+    { marca: MARCA_LLENA, color: 'danger', fondo: 'dangerSoft', texto: 'si la marcás' },
   ];
 
   return (
