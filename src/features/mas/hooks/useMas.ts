@@ -25,6 +25,7 @@ export function useMas() {
     abrirPromos: () => router.push('/promos'),
     abrirBilletera: () => router.push('/billetera'),
     abrirMemoria: () => router.push('/memoria'),
+    abrirLogs: () => router.push('/logs'),
     abrirPreferencias: () => router.push('/preferencias'),
     abrirDiseno: () => router.push('/diseno'),
     // Se confirma: está a un toque en un menú por el que se pasa seguido, y salir obliga a escribir la contraseña de nuevo
