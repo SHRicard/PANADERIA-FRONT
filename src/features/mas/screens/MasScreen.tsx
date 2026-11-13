@@ -6,6 +6,7 @@ import {
   LogOut,
   Megaphone,
   Palette,
+  ScrollText,
   Settings,
   Tags,
   Wallet,
@@ -97,6 +98,16 @@ export function MasScreen() {
               titulo="Memoria"
               descripcion="Cuánto lugar usan tus fotos y videos"
               onPress={mas.abrirMemoria}
+            />
+          </View>
+
+          {/* La seguridad: quién usa la API, desde qué IP, y si hay un ataque */}
+          <View style={styles.grupo}>
+            <OpcionMenu
+              icono={ScrollText}
+              titulo="Logs"
+              descripcion="Quién entra a la web y si hay algo raro"
+              onPress={mas.abrirLogs}
             />
           </View>
 
