@@ -16,12 +16,6 @@ export function formatearDia(dia: string): string {
   return formatearFecha(fechaDeDia(dia));
 }
 
-/** "2026-11-25" → "25/11" */
-export function diaCorto(dia: string): string {
-  const [, mes, numero] = dia.split('-');
-  return `${numero}/${mes}`;
-}
-
 /** Una fecha → su día, "2026-11-25" (con la fecha del celular) */
 export function diaDeFecha(fecha: Date): string {
   return `${fecha.getFullYear()}-${dosCifras(fecha.getMonth() + 1)}-${dosCifras(fecha.getDate())}`;

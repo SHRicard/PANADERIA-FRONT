@@ -2,7 +2,8 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { storageService } from '@/services/storage';
 import type { EstiloTipografia } from '../types';
 
-const VALORES: readonly EstiloTipografia[] = ['clasica', 'artesanal', 'delicada'];
+// Un celular que tenía guardado un estilo que ya no está vuelve solo al de por defecto
+const VALORES: readonly EstiloTipografia[] = ['clasica'];
 export const ESTILO_TIPOGRAFIA_POR_DEFECTO: EstiloTipografia = 'clasica';
 const CLAVE = 'estilo-tipografia';
 

@@ -69,10 +69,10 @@ export function useDiaAgenda(fechaDeLaRuta: string | undefined) {
   });
   const escrito = useWatch({ control: formQuiereHacer.control, name: 'quiereHacer' });
   const numeroEscrito = /^\d+$/.test(escrito.trim()) ? Number(escrito) : null;
-  // Si ya tiene más pedidos que lo que quiere hacer, se quedan, pero el día se llena: se avisa antes de guardar
+  // Si ya tiene más pedidos que lo que quiere hacer, se quedan y el día queda en su tope: se avisa antes de guardar
   const avisoQuiereHacer =
     dia && numeroEscrito !== null && numeroEscrito >= 1 && numeroEscrito < dia.productos
-      ? `Ya tenés ${dia.productos} productos pedidos para ese día. Se quedan, pero el día va a quedar lleno.`
+      ? `Ya tenés ${dia.productos} productos pedidos para ese día. Se quedan, y el día ya queda en tu tope.`
       : null;
   const guardarQuiereHacer = formQuiereHacer.handleSubmit(async ({ quiereHacer }) => {
     setErrorQuiereHacer(null);

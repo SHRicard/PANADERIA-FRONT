@@ -9,9 +9,8 @@ import { usePreferenciaWeb } from '../hooks/usePreferenciaWeb';
 // Se abre desde Más. Cada cambio se ve en el momento y se guarda solo: no hay botón de guardar (salvo el mensaje del
 // cartel de cerrado, que se escribe). Lo de la app se guarda en el celular; lo de la web (catálogo o cerrado), en el
 // back (por eso se refresca tirando para abajo). El título lo pone el header del Stack.
-// La tipografía, el estilo de la barra y el del encabezado ya no se muestran (2026-11-13: el dueño ya eligió los suyos y
-// era mucho ruido): siguen guardados como están. Sus componentes (PreferenciaTipografia, PreferenciaBarra,
-// PreferenciaEncabezado) quedan en la feature por si vuelven
+// El estilo de la barra y el del encabezado ya no se eligen acá (2026-11-13: el dueño ya eligió los suyos y era mucho
+// ruido): siguen guardados como están y se pueden probar en Diseño del sistema. La tipografía quedó en una sola (clásica)
 export function PreferenciasScreen() {
   const styles = useStyles(createStyles);
   const catalogo = usePreferenciaWeb();

@@ -1,5 +1,4 @@
 export {
-  diaCorto,
   diaDeFecha,
   diaDeHoy,
   fechaDeDia,

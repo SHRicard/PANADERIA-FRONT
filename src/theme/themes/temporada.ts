@@ -5,7 +5,7 @@ import type { ColorToken, Fuentes, Theme } from '../types';
 import { darkTheme } from './darkTheme';
 import { lightTheme } from './lightTheme';
 
-/** Las fuentes por nombre: uno de los tres estilos de la app o una combinación de temporada */
+/** Las fuentes por nombre: el estilo de la app o una combinación de temporada */
 const TIPOGRAFIAS = { ...familias, ...familiasTemporada };
 export type NombreTipografia = keyof typeof TIPOGRAFIAS;
 
