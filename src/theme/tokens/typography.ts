@@ -38,27 +38,10 @@ export const familias = {
     textoMedio: 'Lato_400Regular',
     textoNegrita: 'Lato_700Bold',
   },
-  artesanal: {
-    titulo: 'Fraunces_700Bold',
-    tituloSuave: 'Fraunces_500Medium',
-    texto: 'Nunito_400Regular',
-    textoMedio: 'Nunito_600SemiBold',
-    textoNegrita: 'Nunito_700Bold',
-  },
-  delicada: {
-    titulo: 'CormorantGaramond_700Bold',
-    tituloSuave: 'CormorantGaramond_500Medium',
-    texto: 'Inter_400Regular',
-    textoMedio: 'Inter_500Medium',
-    textoNegrita: 'Inter_600SemiBold',
-  },
 } as const satisfies Record<EstiloTipografia, Fuentes>;
 
-/** El nombre de cada fuente que hay que cargar al arrancar */
-export type NombreFuente = (typeof familias)[EstiloTipografia][keyof Fuentes];
-
-// Las combinaciones de los temas de temporada (el catálogo de Navidad, docs/catalogo-navidad.md), además de los tres
-// estilos. Mezclan las fuentes que ya se cargan: el tipo no deja usar una que no esté en `familias`
+// Las combinaciones de los temas de temporada (el catálogo de Navidad, docs/catalogo-navidad.md), además del estilo
+// de la app
 export const familiasTemporada = {
   // Toda en Nunito, redondeada como los dibujos; los títulos en negrita
   redondeada: {
@@ -68,4 +51,9 @@ export const familiasTemporada = {
     textoMedio: 'Nunito_600SemiBold',
     textoNegrita: 'Nunito_700Bold',
   },
-} as const satisfies Record<string, Record<keyof Fuentes, NombreFuente>>;
+} as const satisfies Record<string, Fuentes>;
+
+/** El nombre de cada fuente que hay que cargar al arrancar: las del estilo y las de temporada */
+export type NombreFuente =
+  | (typeof familias)[EstiloTipografia][keyof Fuentes]
+  | (typeof familiasTemporada)[keyof typeof familiasTemporada][keyof Fuentes];

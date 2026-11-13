@@ -2,7 +2,7 @@
   "expo": {
     "name": "PANADERIA-DIGITAL",
     "slug": "PANADERIA-DIGITAL",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "panaderiadigital",
@@ -14,7 +14,7 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.rricardodev.PANADERIADIGITAL",
-      "versionCode": 6
+      "versionCode": 7
     },
     "web": {
       "output": "static",
@@ -52,6 +52,15 @@
         "react-native-share",
         {
           "android": ["com.whatsapp"]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
         }
       ]
     ],

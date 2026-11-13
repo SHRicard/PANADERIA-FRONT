@@ -18,8 +18,8 @@ export const base: Omit<TemaSinTipografia, 'mode' | 'colors'> = {
 
 /**
  * Variantes de texto con las fuentes de un estilo. La fuente de título va solo en las variantes
- * de 22 px para arriba (la Cormorant de «delicada» es muy fina para menos); el resto, con la de texto. Recibe uno de
- * los tres estilos o, para un tema de temporada, sus fuentes ya elegidas
+ * de 22 px para arriba; el resto, con la de texto. Recibe el estilo de la app o, para un tema de temporada, sus
+ * fuentes ya elegidas
  */
 export function crearTipografia(estilo: EstiloTipografia | Fuentes): TipografiaTema {
   const fuentes = typeof estilo === 'string' ? familias[estilo] : estilo;

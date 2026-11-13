@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View, type LayoutChangeEvent, type StyleProp, type ViewStyle } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { useStyles, useTheme, type Theme } from '@/theme';
@@ -107,47 +107,8 @@ export function GuirnaldaViva({ style }: { style?: StyleProp<ViewStyle> }) {
   );
 }
 
-/**
- * Un marco de guirnalda viva alrededor de lo que lleva adentro (la vidriera): el pino recorre el borde y la onda de luz
- * da la vuelta entera. Lo de adentro queda metido medio grosor, así la guirnalda pisa su borde
- */
-export function MarcoGuirnalda({ children }: { children: ReactNode }) {
-  const theme = useTheme();
-  const styles = useStyles(createStyles);
-  const { ancho, alto, medir } = useMedida();
-  const m = theme.sizes.guirnalda / 2;
-  // El contorno, en el sentido de las agujas del reloj, con las esquinas apenas recortadas
-  const r = theme.radius.xl * 0.6;
-  const camino = [
-    { x: m + r, y: m },
-    { x: ancho - m - r, y: m },
-    { x: ancho - m, y: m + r },
-    { x: ancho - m, y: alto - m - r },
-    { x: ancho - m - r, y: alto - m },
-    { x: m + r, y: alto - m },
-    { x: m, y: alto - m - r },
-    { x: m, y: m + r },
-    { x: m + r, y: m },
-  ];
-
-  return (
-    <View onLayout={medir} style={styles.marco}>
-      <View style={styles.adentro}>{children}</View>
-      {ancho > 0 && (
-        <View style={styles.encima} aria-hidden>
-          <Pino camino={camino} ancho={ancho} alto={alto} />
-          <Focos camino={camino} />
-        </View>
-      )}
-    </View>
-  );
-}
-
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
     recta: { height: theme.sizes.guirnalda, pointerEvents: 'none' },
     foco: { position: 'absolute' },
-    marco: { position: 'relative' },
-    adentro: { margin: theme.sizes.guirnalda / 2 },
-    encima: { ...StyleSheet.absoluteFill, pointerEvents: 'none' },
   });

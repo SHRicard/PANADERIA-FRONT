@@ -28,7 +28,6 @@ import {
   Sello,
   Text,
   type BadgeTone,
-  type OpcionSegmentado,
 } from '@/shared/ui/atoms';
 import {
   ESTILO_TIPOGRAFIA_POR_DEFECTO,
@@ -38,7 +37,6 @@ import {
   useThemeMode,
   useTipografia,
   type ColorToken,
-  type EstiloTipografia,
   type Fuentes,
   type TextVariant,
   type Theme,
@@ -78,10 +76,6 @@ const EJEMPLOS_TEXTO: { variante: TextVariant; ejemplo: string }[] = [
   { variante: 'caption', ejemplo: '12 unidades · 540 g' },
   { variante: 'overline', ejemplo: 'Jueves 15 de octubre' },
 ];
-
-const OPCIONES_TIPOGRAFIA: OpcionSegmentado<EstiloTipografia>[] = Object.values(ESTILOS_TIPOGRAFIA).map(
-  ({ estilo, nombre }) => ({ valor: estilo, label: nombre }),
-);
 
 const ROLES_FUENTE: (keyof Fuentes)[] = ['titulo', 'tituloSuave', 'texto', 'textoMedio', 'textoNegrita'];
 
@@ -139,14 +133,8 @@ export function DisenoScreen() {
 
         <Seccion
           titulo="Tipografía"
-          descripcion={`Tres estilos de fuentes; el dueño elige el suyo en Más → Preferencias (por defecto, ${ESTILOS_TIPOGRAFIA[ESTILO_TIPOGRAFIA_POR_DEFECTO].nombre.toLowerCase()}). Cambiarlo acá lo cambia en toda la app.`}
+          descripcion={`Un solo estilo, ${ESTILOS_TIPOGRAFIA[ESTILO_TIPOGRAFIA_POR_DEFECTO].nombre.toLowerCase()}: el que eligió el dueño. Los otros se desinstalaron para que la app pese menos (docs/TIPOGRAFIAS.md).`}
         >
-          <Segmentado
-            opciones={OPCIONES_TIPOGRAFIA}
-            valor={tipografia.estilo}
-            alCambiar={tipografia.cambiarEstilo}
-            accessibilityLabel="Tipografía"
-          />
           <Text variant="caption" color="textMuted">
             {ESTILOS_TIPOGRAFIA[tipografia.estilo].descripcion}
           </Text>
@@ -298,7 +286,7 @@ export function DisenoScreen() {
           </HojaInferior>
         </Seccion>
 
-        <Seccion titulo="Segmentado" descripcion="Elegir una entre pocas opciones, todas a la vista. Lo usan el tema, la barra de pestañas y la tipografía.">
+        <Seccion titulo="Segmentado" descripcion="Elegir una entre pocas opciones, todas a la vista. Lo usan el tema, la barra de pestañas y los períodos de las métricas.">
           <Segmentado opciones={PERIODOS} valor={periodo} alCambiar={setPeriodo} accessibilityLabel="Período" />
         </Seccion>
 
@@ -326,7 +314,7 @@ export function DisenoScreen() {
           </View>
         </Seccion>
 
-        <Seccion titulo="Calendario" descripcion="Un mes para elegir un día, como la agenda: hoy apagado, verde «Libre», amarillo «Casi» (pasó el 40 % del tope) y rojo «Llena» (llegó al tope o lo marcó el dueño). El circulito: cuántos productos hay ese día.">
+        <Seccion titulo="Calendario" descripcion="Un mes para elegir un día, como la agenda: hoy apagado, verde «Libre», amarillo «Casi» (pasó el 40 % del tope), amarillo «Tope» (llegó al tope: solo un aviso para el dueño) y rojo «Llena» (solo si lo marcó el dueño). El circulito: cuántos productos hay ese día.">
           <CalendarioMes {...calendario} />
         </Seccion>
 
