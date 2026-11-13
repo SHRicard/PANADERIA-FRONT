@@ -31,7 +31,7 @@ export function RecuperarScreen() {
           autoComplete="email"
           textContentType="emailAddress"
           returnKeyType="send"
-          onSubmitEditing={enviar}
+          onSubmitEditing={() => enviar()}
         />
 
         <View style={styles.acciones}>

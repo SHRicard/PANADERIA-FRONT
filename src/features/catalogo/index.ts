@@ -6,7 +6,7 @@ export { useAnticipaciones, type Anticipacion } from './hooks/useAnticipaciones'
 export type { EstiloCatalogo } from './types';
 // Lo que usa el layout de la web: la vista previa del link al compartirlo (logo, título y descripción) y el tema del
 // estilo de temporada (Navidad), que pinta el catálogo, el detalle y el pedido
-export { VistaPreviaLink } from './components/VistaPreviaLink';
+export { EtiquetasVistaPrevia } from './components/EtiquetasVistaPrevia';
 export { TemaCatalogo } from './components/TemaCatalogo';
 // Lo que usa el pedido para vestirse de fiestas mientras el catálogo es de Navidad: si lo es y los dibujos, con su
 // movimiento

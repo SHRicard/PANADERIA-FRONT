@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View, type ScrollViewInstance } from 'react-native';
 import { Image } from 'expo-image';
 import { ChevronLeft, ChevronRight, Croissant } from 'lucide-react-native';
 import { useStyles, useTheme, type Theme } from '@/theme';
@@ -34,8 +34,8 @@ const ANCHO_CON_FLECHAS = 420;
 export function CarruselFotos({ fotos, nombre, proporcion = 4 / 3, miniaturas = false }: CarruselFotosProps) {
   const theme = useTheme();
   const styles = useStyles(createStyles);
-  const scroll = useRef<ScrollView>(null);
-  const tira = useRef<ScrollView>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
+  const tira = useRef<ScrollViewInstance>(null);
   const [ancho, setAncho] = useState(0);
   const [anchoTira, setAnchoTira] = useState(0);
   const [actual, setActual] = useState(0);

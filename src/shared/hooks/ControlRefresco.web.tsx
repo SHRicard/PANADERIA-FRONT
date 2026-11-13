@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, type RefreshControlProps } from 'react-native';
+import { StyleSheet, View, type RefreshControlProps, type ViewInstance } from 'react-native';
 import Animated, { Extrapolation, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { ArrowDown } from 'lucide-react-native';
 import { Cargando, Icon, Text } from '@/shared/ui/atoms';
@@ -34,7 +34,7 @@ function hayAlgoBajado(desde: EventTarget | null, hasta: HTMLElement): boolean {
 export function ControlRefresco({ refreshing, onRefresh, enabled = true, style, children }: RefreshControlProps) {
   const styles = useStyles(createStyles);
   const theme = useTheme();
-  const caja = useRef<View>(null);
+  const caja = useRef<ViewInstance>(null);
   const tirado = useSharedValue(0);
   const [estado, setEstado] = useState<Estado>('tirando');
   // Si el dedo está tirando ahora. El aviso queda en la página aunque no se vea (opacidad 0): sin esto, el lector de

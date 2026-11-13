@@ -1,11 +1,11 @@
 import { memo, useState, type ReactNode, type Ref } from 'react';
-import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
+import { StyleSheet, TextInput, View, type TextInputInstance, type TextInputProps } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import { sinContornoDeFoco, useStyles, useTheme, type Theme } from '@/theme';
 import { Icon } from '../Icon';
 
 export interface InputProps extends Omit<TextInputProps, 'style' | 'editable' | 'placeholderTextColor'> {
-  ref?: Ref<TextInput>;
+  ref?: Ref<TextInputInstance>;
   /** Ícono a la izquierda, adentro del campo */
   icon?: LucideIcon;
   /** Algo a la derecha, adentro del campo (por ejemplo, el botón de mostrar la contraseña) */

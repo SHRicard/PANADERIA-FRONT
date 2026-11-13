@@ -1,14 +1,8 @@
 import { useRef } from 'react';
-import { Platform, type View } from 'react-native';
+import { Platform, type KeyDownEvent, type ViewInstance } from 'react-native';
 
 // Cuánto se mueve la elección con cada flecha: a la derecha o abajo, la siguiente; a la izquierda o arriba, la anterior
 const PASOS: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
-
-/** Lo que llega del navegador al apretar una tecla. React Native no lo tipa: en el celular no hay teclado */
-interface Tecla {
-  key: string;
-  preventDefault: () => void;
-}
 
 /**
  * Un grupo de radios que se maneja con el teclado, como los del navegador: con Tab se entra a la opción elegida (o a
@@ -18,14 +12,14 @@ interface Tecla {
  * `grupo` va con spread en el View del `radiogroup` y `opcion(i)`, en cada radio
  */
 export function useFlechasRadio<T>(valores: readonly T[], valor: T | null | undefined, alCambiar: (valor: T) => void) {
-  const radios = useRef<(View | null)[]>([]);
+  const radios = useRef<(ViewInstance | null)[]>([]);
   const elegida = valor == null ? -1 : valores.indexOf(valor);
   const conFoco = Math.max(elegida, 0);
 
   return {
     grupo: {
-      onKeyDown: (tecla: Tecla) => {
-        const paso = PASOS[tecla.key];
+      onKeyDown: (tecla: KeyDownEvent) => {
+        const paso = PASOS[tecla.nativeEvent.key];
         if (!paso || valores.length === 0) return;
         // Sin esto, la flecha también mueve el scroll de la página
         tecla.preventDefault();
@@ -37,7 +31,7 @@ export function useFlechasRadio<T>(valores: readonly T[], valor: T | null | unde
       },
     },
     opcion: (indice: number) => ({
-      ref: (radio: View | null) => {
+      ref: (radio: ViewInstance | null) => {
         radios.current[indice] = radio;
       },
       // Solo en la web: en Android, -1 deja el radio sin foco para un teclado conectado
