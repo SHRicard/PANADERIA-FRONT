@@ -1,7 +1,7 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View, type ScrollViewProps } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
-import { useStyles, type Theme } from '@/theme';
+import { useFondoTemporada, useStyles, type Theme } from '@/theme';
 
 export interface ScreenContainerProps {
   children: ReactNode;
@@ -24,7 +24,14 @@ export interface ScreenContainerProps {
   superpuesto?: ReactNode;
   /** Algo fijo abajo, debajo del scroll: no tapa el contenido (ej.: la barra del pedido en la web) */
   pie?: ReactNode;
+  /** Un fondo con dibujo, fijo detrás del scroll: el contenido se desliza por encima (ej.: el catálogo de Navidad) */
+  fondo?: ReactNode;
   edges?: Edge[];
+  /**
+   * Cada vez que cambia este valor, el scroll vuelve arriba de todo (ej.: el id del pedido recién confirmado, para que el
+   * cliente vea «¡Recibimos tu pedido!» y no el final de la pantalla). Sin valor, no hace nada
+   */
+  volverArribaCon?: string | number | null;
 }
 
 const BORDES_POR_DEFECTO: Edge[] = ['top', 'bottom', 'left', 'right'];
@@ -39,9 +46,17 @@ export function ScreenContainer({
   llenarAlto = false,
   superpuesto,
   pie,
+  fondo,
   edges = BORDES_POR_DEFECTO,
+  volverArribaCon,
 }: ScreenContainerProps) {
   const styles = useStyles(createStyles);
+  // Lo que pone un tema de temporada detrás de cada pantalla (la nieve de Navidad), encima del fondo de la pantalla
+  const deTemporada = useFondoTemporada();
+  const scroll = useRef<ScrollView>(null);
+  useEffect(() => {
+    if (volverArribaCon != null) scroll.current?.scrollTo({ y: 0, animated: false });
+  }, [volverArribaCon]);
   // Dónde empieza la pantalla en la ventana: debajo del header del Stack, si hay (Billetera, editar un
   // producto…). El KeyboardAvoidingView mide su lugar relativo al padre, no a la ventana: sin sumarle esto,
   // se quedaba corto justo el alto del header y el teclado tapaba los últimos campos
@@ -60,7 +75,14 @@ export function ScreenContainer({
     <SafeAreaView ref={pantalla} onLayout={medir} edges={edges} style={styles.fondo}>
       {/* También en Android: con edge-to-edge (SDK 54+) el adjustResize ya no achica la ventana y el teclado tapaba los inputs */}
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={arriba} style={styles.flex}>
+        {(fondo !== undefined || deTemporada !== null) && (
+          <View style={styles.fondoFijo}>
+            {fondo}
+            {deTemporada}
+          </View>
+        )}
         <ScrollView
+          ref={scroll}
           style={styles.flex}
           contentContainerStyle={[styles.scroll, width === 'form' && styles.scrollForm, centered && styles.centrado]}
           keyboardShouldPersistTaps="handled"
@@ -100,5 +122,6 @@ const createStyles = (theme: Theme) =>
     anchoForm: { width: theme.sizes.formWidth, maxWidth: theme.sizes.formMax },
     anchoContenido: { maxWidth: theme.sizes.contentMax },
     llenar: { flexGrow: 1 },
+    fondoFijo: { ...StyleSheet.absoluteFill, overflow: 'hidden', pointerEvents: 'none' },
     superpuesto: { position: 'absolute', top: theme.spacing.none, left: theme.spacing.none, right: theme.spacing.none, pointerEvents: 'box-none' },
   });

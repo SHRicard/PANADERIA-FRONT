@@ -19,7 +19,7 @@ export function PuntajeChico({ promedio, cantidad }: PuntajeChicoProps) {
     <View style={styles.puntaje} accessible aria-label={`${textoPromedio(promedio)} de 5 estrellas: ${frase}`}>
       <Icon icon={Star} size="xs" color="accent" relleno="lleno" />
       <Text variant="caption">{textoPromedio(promedio)}</Text>
-      <Text variant="caption" color="primary" style={styles.frase}>
+      <Text variant="caption" color="primary" numberOfLines={1} style={styles.frase}>
         {frase}
       </Text>
     </View>
@@ -28,7 +28,9 @@ export function PuntajeChico({ promedio, cantidad }: PuntajeChicoProps) {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    puntaje: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs },
+    // Si la frase no entra al lado del número (en la carta, al lado del «− 2 +»), baja entera al renglón de abajo
+    // en vez de partirse en dos; si tampoco entra ahí, se corta con «…»
+    puntaje: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: theme.spacing.xs },
     // En cursiva, como una nota escrita a mano
-    frase: { flexShrink: 1, fontStyle: 'italic' },
+    frase: { flexShrink: 1, minWidth: 0, fontStyle: 'italic' },
   });

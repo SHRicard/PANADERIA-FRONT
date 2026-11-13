@@ -1,9 +1,24 @@
+import type { ComponentType } from 'react';
 import { StyleSheet } from 'react-native';
 import { Cargando, ScreenContainer } from '@/shared/ui/atoms';
 import { useStyles, type Theme } from '@/theme';
 import { useEstiloCatalogo } from '../hooks/useEstiloCatalogo';
+import type { EstiloCatalogo } from '../types';
 import { CatalogoCartaScreen } from './CatalogoCartaScreen';
+import { CatalogoDiaNavidadScreen } from './CatalogoDiaNavidadScreen';
+import { CatalogoNocheNavidadScreen } from './CatalogoNocheNavidadScreen';
 import { CatalogoVidrieraScreen } from './CatalogoVidrieraScreen';
+
+/**
+ * La pantalla de cada estilo. Sumar uno (otro de temporada) es una entrada acá, otra en ESTILOS_CATALOGO y, si trae
+ * colores propios, otra en TEMAS_CATALOGO (docs/catalogo-navidad.md)
+ */
+const PANTALLAS: Record<EstiloCatalogo, ComponentType> = {
+  vidriera: CatalogoVidrieraScreen,
+  carta: CatalogoCartaScreen,
+  'dia-navidad': CatalogoDiaNavidadScreen,
+  'noche-navidad': CatalogoNocheNavidadScreen,
+};
 
 /**
  * La portada de la web: el catálogo con el estilo que eligió el dueño en Más → Preferencias (se guarda en
@@ -12,6 +27,7 @@ import { CatalogoVidrieraScreen } from './CatalogoVidrieraScreen';
 export function CatalogoScreen() {
   const styles = useStyles(createStyles);
   const { estilo, cargando } = useEstiloCatalogo();
+  const Pantalla = PANTALLAS[estilo];
 
   if (cargando) {
     return (
@@ -20,7 +36,7 @@ export function CatalogoScreen() {
       </ScreenContainer>
     );
   }
-  return estilo === 'vidriera' ? <CatalogoVidrieraScreen /> : <CatalogoCartaScreen />;
+  return <Pantalla />;
 }
 
 const createStyles = (theme: Theme) =>

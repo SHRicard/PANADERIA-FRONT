@@ -8,7 +8,7 @@ const LISTA = { type: 'Tipo', id: 'LISTA' } as const;
 // Renombrar o borrar un tipo cambia lo que muestran los productos: esas dos invalidan también 'Producto'
 export const tiposApi = baseApi.enhanceEndpoints({ addTagTypes: ['Tipo', 'Producto'] }).injectEndpoints({
   endpoints: (build) => ({
-    /** Todos, por nombre, con cuántos productos usa cada uno. Lo usan Más → Tipos y el formulario del producto */
+    /** Todos, por nombre, con cuántos productos lo usan. Lo usan Más → Tipos y el formulario del producto */
     listarTipos: build.query<Tipo[], void>({
       query: () => '/tipos',
       rawResponseSchema: tiposSchema,

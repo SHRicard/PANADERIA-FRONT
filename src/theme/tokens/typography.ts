@@ -56,3 +56,16 @@ export const familias = {
 
 /** El nombre de cada fuente que hay que cargar al arrancar */
 export type NombreFuente = (typeof familias)[EstiloTipografia][keyof Fuentes];
+
+// Las combinaciones de los temas de temporada (el catálogo de Navidad, docs/catalogo-navidad.md), además de los tres
+// estilos. Mezclan las fuentes que ya se cargan: el tipo no deja usar una que no esté en `familias`
+export const familiasTemporada = {
+  // Toda en Nunito, redondeada como los dibujos; los títulos en negrita
+  redondeada: {
+    titulo: 'Nunito_700Bold',
+    tituloSuave: 'Nunito_600SemiBold',
+    texto: 'Nunito_400Regular',
+    textoMedio: 'Nunito_600SemiBold',
+    textoNegrita: 'Nunito_700Bold',
+  },
+} as const satisfies Record<string, Record<keyof Fuentes, NombreFuente>>;

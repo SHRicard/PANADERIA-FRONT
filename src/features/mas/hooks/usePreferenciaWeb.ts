@@ -5,9 +5,9 @@ import { useCierre } from '@/features/cierre';
 export type OpcionWeb = EstiloCatalogo | 'cerrado';
 
 /**
- * Preferencias → Web: cómo ven la web los clientes. Vidriera o Carta (el estilo del catálogo) o Cerrado (el cartel en
- * lugar del catálogo, sin pedidos). Las tres se guardan en el back, en los ajustes. Cerrar no pisa el estilo: al
- * elegir de nuevo Vidriera o Carta, la web se abre con ese
+ * Preferencias → Web: cómo ven la web los clientes. Un estilo del catálogo (Vidriera, Carta, Navidad de día o Navidad
+ * de noche, los de ESTILOS_CATALOGO) o Cerrado (el cartel en lugar del catálogo, sin pedidos). Todo se guarda en el
+ * back, en los ajustes. Cerrar no pisa el estilo: al elegir de nuevo un estilo, la web se abre con ese
  */
 export function usePreferenciaWeb() {
   const catalogo = useEstiloCatalogo();

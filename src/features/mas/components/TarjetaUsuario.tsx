@@ -16,7 +16,9 @@ export function TarjetaUsuario({ usuario }: TarjetaUsuarioProps) {
 
   return (
     <View style={styles.tarjeta}>
-      <Text variant="title" numberOfLines={1}>
+      {/* El usuario es un email: en la letra de título casi llenaba la tarjeta y uno largo se cortaba. Más chico y,
+          si igual no entra, en dos renglones antes de cortarse con «…» */}
+      <Text variant="bodyStrong" numberOfLines={2}>
         {usuario ?? 'Administrador'}
       </Text>
       <Text variant="caption" color="textMuted">

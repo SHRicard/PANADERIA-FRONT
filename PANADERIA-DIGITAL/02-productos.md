@@ -69,8 +69,7 @@ para ver todo de nuevo.
 
 ## Cargar un producto nuevo
 
-1. En la pestaña **Productos**, tocá **Nuevo** (o el **+** redondo, según el estilo de
-   encabezado que tengas).
+1. En la pestaña **Productos**, tocá **Nuevo**, arriba a la derecha.
 2. Completá los datos (los explicamos abajo).
 3. Tocá **Guardar producto**.
 

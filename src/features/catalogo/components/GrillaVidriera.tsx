@@ -9,6 +9,8 @@ import { PuntajeChico } from './PuntajeChico';
 
 // Mobile-first: 2 por fila en el celular, más a medida que hay ancho
 const COLUMNAS: Record<Breakpoint, number> = { celular: 2, tableta: 3, compu: 4 };
+// El nombre se corta en dos renglones, y siempre reserva los dos
+const LINEAS_NOMBRE = 2;
 
 interface GrillaVidrieraProps {
   productos: ProductoCatalogo[];
@@ -55,7 +57,8 @@ export function GrillaVidriera({ productos, alAbrir, cantidadDe, alCambiarCantid
                       </View>
                     ) : null}
                   </View>
-                  <Text variant="bodyStrong" numberOfLines={2}>
+                  {/* Con lugar para dos renglones aunque ocupe uno: así el precio y el «+» quedan a la misma altura en toda la fila */}
+                  <Text variant="bodyStrong" numberOfLines={LINEAS_NOMBRE} style={styles.nombre}>
                     {nombre}
                   </Text>
                 </Pressable>
@@ -97,6 +100,7 @@ const createStyles = (theme: Theme) =>
     tarjeta: { gap: theme.spacing.sm },
     presionada: { opacity: theme.opacity.pressed },
     sello: { position: 'absolute', top: theme.spacing.sm, left: theme.spacing.sm, right: theme.spacing.sm },
+    nombre: { minHeight: (theme.text.bodyStrong.lineHeight ?? theme.spacing.none) * LINEAS_NOMBRE },
     textos: { gap: theme.spacing.xxs },
     // Cifras de ancho fijo: los precios de una fila quedan parejos
     precio: { flexShrink: 1, fontVariant: ['tabular-nums'] },

@@ -2,6 +2,7 @@ export * from './Adorno';
 export * from './Alert';
 export * from './Badge';
 export * from './Button';
+export * from './CalendarioMes';
 export * from './HojaInferior';
 export * from './CampoTexto';
 export * from './Cargando';

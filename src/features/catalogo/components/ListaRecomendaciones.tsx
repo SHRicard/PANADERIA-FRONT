@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Trophy } from 'lucide-react-native';
 import type { Recomendacion } from '@/features/productos';
@@ -12,13 +12,15 @@ interface ListaRecomendacionesProps {
   /** null si nadie lo votó todavía */
   promedio: number | null;
   cantidad: number;
+  /** El dibujo de cuando nadie lo votó, en lugar del trofeo (los catálogos de Navidad ponen un muñequito) */
+  dibujoVacio?: ReactNode;
 }
 
 // Las primeras se ven; el resto, con «Ver todas»
 const A_LA_VISTA = 3;
 
 /** Lo que dicen los que ya lo probaron: el promedio arriba y cada recomendación, de la más nueva a la más vieja */
-export function ListaRecomendaciones({ recomendaciones, promedio, cantidad }: ListaRecomendacionesProps) {
+export function ListaRecomendaciones({ recomendaciones, promedio, cantidad, dibujoVacio }: ListaRecomendacionesProps) {
   const styles = useStyles(createStyles);
   const [todas, setTodas] = useState(false);
   const visibles = todas ? recomendaciones : recomendaciones.slice(0, A_LA_VISTA);
@@ -26,7 +28,7 @@ export function ListaRecomendaciones({ recomendaciones, promedio, cantidad }: Li
   if (promedio === null || recomendaciones.length === 0) {
     return (
       <View style={styles.vacio}>
-        <Icon icon={Trophy} size="xl" color="accent" />
+        {dibujoVacio ?? <Icon icon={Trophy} size="xl" color="accent" />}
         <Text variant="subtitle" align="center">
           Todavía nadie lo votó
         </Text>

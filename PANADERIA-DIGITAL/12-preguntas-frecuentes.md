@@ -41,7 +41,8 @@ En la pestaña **Pedidos**, **tirá la lista para abajo** para actualizarla: los
 pedidos nuevos no aparecen solos mientras la pantalla está abierta. Los que todavía
 no miraste salen resaltados, con la marca «Nuevo».
 
-Fijate también que el filtro **Estado** diga **Todos**.
+Fijate también que el filtro **Estado** diga **Todos**. Si sabés para qué día lo
+pidió, también lo ves tocando ese día en la agenda del **Inicio**.
 
 ---
 
@@ -61,7 +62,7 @@ Fijate también que el filtro **Estado** diga **Todos**.
    ([Cerrar la web por un tiempo](10-preferencias.md#cerrar-la-web-por-un-tiempo)).
 2. Si está en **Carta** o **Vidriera**, el servidor no estaba respondiendo cuando el
    cliente entró, y en ese caso la web muestra el cartel. Abrí la web vos desde
-   **Ver mi catálogo**, en el Dashboard: si ves el catálogo, pedile al cliente que
+   **Ver catálogo**, en el **Inicio**: si ves el catálogo, pedile al cliente que
    recargue la página. Si vos también ves el cartel, esperá unos minutos y probá de
    nuevo.
 
@@ -75,6 +76,50 @@ tocan. Cuando vuelvas, elegí **Carta** o **Vidriera**. Ver
 [Cerrar la web por un tiempo](10-preferencias.md#cerrar-la-web-por-un-tiempo).
 
 No hace falta pausar los productos uno por uno.
+
+Si es **un solo día** el que no vas a estar, no cierres toda la web: abrí ese día en
+la agenda y tocá **Agenda llena** (ver la pregunta siguiente).
+
+---
+
+## Un día ya no puedo más
+
+En el **Inicio**, tocá ese día en la agenda y después el botón rojo **Agenda llena**.
+La web deja de ofrecer ese día y en el calendario sale en rojo «Llena». Los pedidos
+que ya tenía se quedan, y vos podés seguir cargando pedidos manuales para ese día.
+
+Para abrirlo de nuevo, tocá **Volver a abrir el día**. Ver
+[Agenda llena](03-pedidos.md#agenda-llena).
+
+> 💡 Si un día llega a tu tope de productos, la web lo cierra sola: no hace falta que
+> hagas nada.
+
+---
+
+## Quiero tomar menos pedidos un día
+
+Sin tocar tu tope de siempre: en el **Inicio**, tocá ese día en la agenda y, en
+**¿Cuántos querés hacer este día?**, tocá **Hacer menos este día**. Escribí cuántos
+productos querés hacer, por ejemplo `12`, y tocá **Guardar**.
+
+La web va a mostrar ese día «Casi» o «Llena» antes que los demás, y lo cierra cuando
+llegás a ese número. Para volver a lo de siempre, tocá **Volver a lo normal**. Ver
+[¿Cuántos querés hacer este día?](03-pedidos.md#cuántos-querés-hacer-este-día).
+
+Si lo que querés es tomar menos **todos** los días, bajá tu tope: en la agenda, tocá
+**Cambiar** al lado de «Tu tope».
+
+---
+
+## ¿Qué tengo que preparar mañana?
+
+En el **Inicio**, tocá el día de mañana en la agenda y después **Qué hay que hacer**.
+Ves todos los productos de los pedidos de ese día, sumados (por ejemplo, «3 Lemon
+pie»), sin importar de quién es cada uno. A medida que los hacés, anotalos con **+** y
+**Agregar**, o con **Listo**. Ver [Qué hay que hacer](03-pedidos.md#qué-hay-que-hacer).
+
+El circulito con un número en la esquina de cada día del calendario te dice cuántos
+productos te faltan para ese día, sin tener que abrirlo.
 
 ---
 
@@ -131,11 +176,10 @@ que ya no vendés y las promos viejas. Ver [Memoria](09-memoria.md).
 
 ## ¿Cómo le mando mi catálogo a un cliente?
 
-En el **Dashboard**, la tarjeta **Tu catálogo** tiene el botón **Compartir por
-WhatsApp**: abre WhatsApp con un saludo y el link de tu web, y vos elegís a quién
-mandarlo. Para mandar un solo producto, abrilo en **Productos** y tocá **Compartir por
+En el **Inicio**, tocá el botón verde **Compartir**: abre WhatsApp con un saludo y
+el link de tu web, y vos elegís a quién mandarlo. Para mandar un solo producto, abrilo en **Productos** y tocá **Compartir por
 WhatsApp**: va con su foto, el precio y el link para pedirlo. Ver
-[Empezar](01-empezar.md#el-dashboard) y [Productos](02-productos.md#compartir-un-producto-por-whatsapp).
+[Empezar](01-empezar.md#compartir-y-ver-catálogo) y [Productos](02-productos.md#compartir-un-producto-por-whatsapp).
 
 ---
 
@@ -152,17 +196,21 @@ bajar la foto o el video: revisá la conexión y volvé a tocar.
 
 ## El cliente me pregunta para cuándo está su pedido
 
-En el resumen del pedido la web le dijo cuándo va a estar listo, contando desde que
-paga la seña (según la anticipación de cada producto). Si te dejó una nota con la
-fecha, la ves en el pedido, en **Nota del cliente**.
+Cada pedido es **para un día**, que el cliente eligió en la web al hacerlo (o vos, en
+el pedido manual). Lo ves en la tarjeta de la lista y en el pedido: «Para el jueves
+26 de noviembre». Los pedidos viejos, de antes de la agenda, dicen «Sin día de
+entrega»: ahí fijate si dejó la fecha en **Nota del cliente**.
+
+Si el cliente lo quiere para otro día, abrí el pedido y tocá **Cambiar día**. Ver
+[Para qué día es](03-pedidos.md#para-qué-día-es).
 
 ---
 
 ## ¿Puedo usar la app en otro celular?
 
 Sí: instalala y entrá con tu mismo usuario y contraseña. Los productos, pedidos y
-números son los mismos. Lo que no pasa al otro celular son tus preferencias de cómo se
-ve la app (tema, letra, barra y encabezado).
+números son los mismos. Lo que no pasa al otro celular es el tema que elegiste
+(claro u oscuro).
 
 ---
 

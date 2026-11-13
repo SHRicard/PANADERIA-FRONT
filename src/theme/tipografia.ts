@@ -28,7 +28,7 @@ export const ESTILOS_TIPOGRAFIA: Record<EstiloTipografia, InfoTipografia> = {
   clasica: {
     estilo: 'clasica',
     nombre: 'Clásica',
-    descripcion: 'Playfair Display y Lato: se siente a pastelería fina.',
+    descripcion: 'Playfair Display y Lato: tiene aire de pastelería fina.',
   },
   artesanal: {
     estilo: 'artesanal',

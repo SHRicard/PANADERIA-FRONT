@@ -61,4 +61,99 @@ export const palette = {
   // El brillo de arriba del pan de la vidriera (el loader): en oscuro, más tenue para que no encandile
   brilloBlanco: 'rgba(255, 255, 255, 0.55)',
   brilloTenue: 'rgba(255, 255, 255, 0.35)',
+
+  // ── Navidad (el catálogo de temporada, docs/catalogo-navidad.md). Los usan solo los temas de temporada; los
+  // adornos (nieve, cinta, pino, lo destacado) también tienen un valor en los temas de la app, para Diseño del
+  // sistema. Los colores salen del logo de Navidad: el verde pino, el crema, el rojo del bastón y el dorado del aro ──
+
+  // Navidad de día: crema con el verde del logo, rojo y dorado. De noche, un oscuro cálido neutro (cacao casi negro): el verde queda solo en la guirnalda
+  guirnaldaCrema: '#FBF6EC',
+  guirnaldaApagado: '#F3EBDC',
+  guirnaldaBorde: '#E8DCC6',
+  chocolate: '#3A1608',
+  chocolateSuave: '#6E5646',
+  rojoNavidad: '#C21F2B',
+  rojoNavidadPresionado: '#9E1822',
+  rojoNavidadSuave: '#FBE6E4',
+  doradoAro: '#D7A63B',
+  // El dorado del aro como letra sobre la crema: 5:1 (doradoAro como texto daba 2:1)
+  doradoAroTexto: '#8A6416',
+  pinoLogo: '#1F5A36',
+  pinoLogoOscuro: '#163F26',
+  luzAzul: '#2F6FD6',
+  sombraChocolate: 'rgba(58, 22, 8, 0.12)',
+  guirnaldaNoche: '#15110E',
+  guirnaldaNocheSuperficie: '#1F1A16',
+  guirnaldaNocheApagado: '#29231E',
+  guirnaldaNocheBorde: '#3B332C',
+  guirnaldaNocheTinta: '#F7EEDC',
+  guirnaldaNocheTintaSuave: '#C8BDB0',
+  rojoNavidadNoche: '#F0656B',
+  rojoNavidadNochePresionado: '#DB5157',
+  rojoNavidadNocheSuave: '#3A1E1F',
+  rojoNavidadNocheTinta: '#2A0A0C',
+  doradoNoche: '#E6C06A',
+  doradoNocheTinta: '#2A1A05',
+  pinoNoche: '#7CC796',
+  pinoNocheOscuro: '#2F6E45',
+  luzAzulNoche: '#6EA8FF',
+  // La guirnalda de la Navidad de día: oropel en los dorados de la app (bronce y champán) en vez del pino verde, y un
+  // foquito cobre en vez del azul. De noche, un poco más claros
+  oropelBronce: '#A8743A',
+  oropelChampan: '#E2C27D',
+  luzCobre: '#E07A5F',
+  oropelBronceNoche: '#8A5E2E',
+  oropelChampanNoche: '#E8CB8A',
+  luzCobreNoche: '#F0957C',
+  // La vidriera de la cabecera: cacao cálido, como iluminada desde adentro, más profundo hacia los bordes (el tono de la
+  // app; antes era verde pino y no combinaba con las tarjetas)
+  vidriera: '#4A2A1C',
+  vidrieraProfunda: '#1A0F0A',
+
+  // Navidad de noche: el cielo negro de noche con nieve, sobre una página blanca neutra. De noche, todo negro
+  // El contorno de los copos: sobre claro, un marrón suave; sobre oscuro no hace falta
+  contornoNieveClaro: 'rgba(110, 86, 70, 0.55)',
+  contornoNieveOscuro: 'rgba(0, 0, 0, 0)',
+  nieveNoche: '#F5F5F4',
+  nieveNocheApagado: '#EAEAE8',
+  nieveNocheBorde: '#DADAD7',
+  negroNoche: '#141416',
+  negroNocheSuave: '#56565C',
+  // El cielo: el horizonte y lo alto (en claro y en oscuro)
+  cieloHorizonte: '#2A2A30',
+  cieloCenit: '#070708',
+  cieloHorizonteNoche: '#222227',
+  cieloCenitNoche: '#030304',
+  rojoEscena: '#C9293A',
+  rojoEscenaPresionado: '#A62230',
+  rojoEscenaSuave: '#FBE6E7',
+  mostazaEscena: '#F2B544',
+  // La mostaza como letra sobre el blanco de la noche: 5,2:1 (mostazaEscena como texto daba 1,7:1)
+  mostazaEscenaTexto: '#87601A',
+  pinoEscena: '#2C7A4E',
+  pinoEscenaOscuro: '#1E5536',
+  luzAzulEscena: '#5B9BFF',
+  crema: '#F6F1E6',
+  sombraNoche: 'rgba(20, 20, 22, 0.12)',
+  escenaNoche: '#0B0B0D',
+  escenaNocheSuperficie: '#17171A',
+  escenaNocheApagado: '#202024',
+  escenaNocheBorde: '#2E2E33',
+  escenaNocheTinta: '#F2F2F3',
+  escenaNocheTintaSuave: '#B0B0B6',
+  rojoEscenaNoche: '#FF6B72',
+  rojoEscenaNochePresionado: '#F0575E',
+  rojoEscenaNocheSuave: '#3A1C1F',
+  rojoEscenaNocheTinta: '#2A0A0D',
+  mostazaEscenaNoche: '#F5C25E',
+  mostazaEscenaNocheTinta: '#241604',
+  pinoEscenaNoche: '#74C995',
+  luzAzulEscenaNoche: '#7FB2FF',
+
+  // La luz dorada de la tarjeta de un producto en la Navidad de día, prendida en la esquina de arriba
+  resplandorDorado: 'rgba(201, 151, 46, 0.34)',
+  resplandorDoradoNoche: 'rgba(232, 191, 99, 0.3)',
 } as const;
+
+/** El nombre de un primitivo: los temas de temporada eligen sus colores por nombre, sin repetir el valor */
+export type ColorPrimitivo = keyof typeof palette;

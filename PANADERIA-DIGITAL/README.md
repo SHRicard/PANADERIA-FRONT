@@ -26,22 +26,32 @@ pestaña **Pedidos**.
 
 ---
 
-## Qué hay de nuevo en la versión 1.3.0
+## Qué hay de nuevo en la versión 1.5.0
 
-- **Recetas**: cada producto puede tener su receta, con los insumos que lleva y
-  cuántas unidades salen. La app te dice cuánto te cuesta hacer cada unidad, cuánto
-  necesitás para un pedido grande y te ayuda a ponerle el precio
-  ([Las recetas](07-insumos.md#las-recetas)).
-- **Cerrar la web por un tiempo**: si no podés tomar pedidos por unos días, tus
-  clientes ven un cartel con tu mensaje en lugar del catálogo
-  ([Cerrar la web por un tiempo](10-preferencias.md#cerrar-la-web-por-un-tiempo)).
-- **Pedidos nuevos resaltados**: los pedidos de la web que todavía no miraste salen
-  con la marca «Nuevo» hasta que tocás **Marcar como visto**
-  ([Los pedidos nuevos](03-pedidos.md#los-pedidos-nuevos)).
-- **El link con tu logo**: al mandar el link de la web por WhatsApp, aparece la vista
-  previa con el logo de Dama Blanca ([El link en WhatsApp](11-la-web.md#el-link-en-whatsapp)).
-- **En la web también se tira para abajo** para actualizar
-  ([Actualizar la web](11-la-web.md#actualizar-la-web)).
+- **La agenda en el Inicio**: un calendario del mes con tus pedidos por día, pintado
+  como lo ve el cliente (verde «Libre», amarillo «Casi», rojo «Llena») y, en cada
+  día con pedidos, un circulito con cuántos productos te quedan por preparar
+  ([La agenda](03-pedidos.md#la-agenda-tus-pedidos-por-día)).
+- **Cada día en su pantalla**: al tocar un día de la agenda ves sus números y sus
+  pedidos ([La agenda](03-pedidos.md#la-agenda-tus-pedidos-por-día)).
+- **«¿Cuántos querés hacer este día?»**: elegís cuántos productos hacés por día;
+  al llegar, la web deja de ofrecer ese día
+  ([La agenda](03-pedidos.md#la-agenda-tus-pedidos-por-día)).
+- **«Qué hay que hacer»**: la hoja de trabajo del día, con todo lo que tenés que
+  hornear sumado y lo que ya hiciste
+  ([La agenda](03-pedidos.md#la-agenda-tus-pedidos-por-día)).
+- **El pedido es para un día**: el cliente lo elige en un calendario al hacer el
+  pedido ([¿Para qué día?](11-la-web.md#para-qué-día)).
+- **Con envío o retira**: el cliente dice cómo lo recibe, y lo ves en cada pedido
+  ([¿Cómo lo recibís?](11-la-web.md#cómo-lo-recibís)).
+- **Sin seña**: podés confirmar un pedido aunque el cliente no haya dejado seña
+  ([Confirmar la seña](03-pedidos.md#confirmar-la-seña)).
+- **Editar los productos de un pedido**: sumar, sacar o cambiar cantidades de un
+  pedido abierto ([El detalle de un pedido](03-pedidos.md#el-detalle-de-un-pedido)).
+- **El tema que elegís lo ven todos tus clientes**: si elegís Claro u Oscuro, la web
+  se ve así para todos ([Tema](10-preferencias.md#tema)).
+- **Los catálogos de Navidad**: dos estilos para las fiestas, de día y de noche
+  ([Los catálogos de Navidad](10-preferencias.md#los-catálogos-de-navidad)).
 
 ---
 
@@ -56,7 +66,7 @@ pestaña **Pedidos**.
 7. [Insumos y recetas](07-insumos.md): lo que comprás para producir, cuánto pagaste y cuánto te cuesta hacer cada producto.
 8. [Métricas](08-metricas.md): cuánto vendiste, cuánto gastaste y cuánto te quedó.
 9. [Memoria](09-memoria.md): cuánto lugar ocupan tus fotos y videos.
-10. [Preferencias](10-preferencias.md): cómo se ve la app, cómo se ve tu catálogo web y cómo cerrarla por un tiempo.
+10. [Preferencias](10-preferencias.md): el tema de la app y de la web, cómo se ve tu catálogo web (también los de Navidad) y cómo cerrarla por un tiempo.
 11. [La web de tus clientes](11-la-web.md): qué ven y qué hacen tus clientes cuando abren el link.
 12. [Problemas y preguntas frecuentes](12-preguntas-frecuentes.md): qué hacer cuando algo no anda.
 
@@ -78,10 +88,12 @@ pestaña **Pedidos**.
 > conviene revisar antes de seguir.
 
 Cada captura de pantalla aparece dos veces: a la izquierda con la app en **modo
-claro** y a la derecha en **modo oscuro**. Se ve igual en los dos: elegís el que
-te resulte más cómodo en **Más → Preferencias** ([Preferencias](10-preferencias.md)).
+claro** y a la derecha en **modo oscuro**. Funciona igual en los dos: elegís el que
+te guste en **Más → Preferencias** ([Preferencias](10-preferencias.md#tema)). Tené en
+cuenta que **el tema que elegís es el que ven tus clientes en la web**: si elegís
+Oscuro, todos ven la web oscura.
 
-Las capturas son de la versión 1.3.0, con tus productos y fotos reales. Los
+Las capturas son de la versión 1.5.0, con tus productos y fotos reales. Los
 pedidos, los clientes, los insumos y los montos son de ejemplo: en tu celular vas a
 ver los tuyos.
 
@@ -96,8 +108,8 @@ Para tener todo listo antes de mandarle el link a tus clientes, seguí este orde
    transferirte la seña ([Billetera](05-billetera.md)).
 3. Armá los tipos con los que ordenás tus productos (Tortas, Tartas…) en **Más → Tipos**, y
    cargá tus productos con sus fotos, precios y anticipación ([Productos](02-productos.md)).
-4. Elegí cómo se ve tu catálogo web en **Más → Preferencias**, en la parte **Web** ([Preferencias](10-preferencias.md)).
+4. Elegí el tema y cómo se ve tu catálogo web en **Más → Preferencias** ([Preferencias](10-preferencias.md)).
 5. Abrí la web vos primero, mirá cómo queda y hacé un pedido de prueba ([La web de tus clientes](11-la-web.md)).
    Después cancelalo desde **Pedidos**, así no cuenta como venta.
-6. Mandale el link a tus clientes por WhatsApp: en el **Dashboard**, la tarjeta **Tu catálogo**
-   tiene el botón **Compartir por WhatsApp** ([Empezar](01-empezar.md#el-dashboard)).
+6. Mandale el link a tus clientes por WhatsApp: en el **Inicio**, arriba de todo, tocá
+   el botón verde **Compartir** ([Empezar](01-empezar.md#el-inicio)).

@@ -11,26 +11,33 @@ import { PieCatalogo } from '../components/AvisosCatalogo';
 import { Estrellas } from '../components/Estrellas';
 import { FormularioRecomendacion } from '../components/FormularioRecomendacion';
 import { ListaRecomendaciones } from '../components/ListaRecomendaciones';
+import { BotonFiestas } from '../components/navidad/BotonFiestas';
+import { EtiquetaNavidad } from '../components/navidad/EtiquetaNavidad';
+import { Ilustracion } from '../components/navidad/Ilustracion';
+import { Vivo } from '../components/navidad/adornos';
+import { useEsNavidad } from '../hooks/useEsNavidad';
 import { useProductoCatalogo } from '../hooks/useProductoCatalogo';
 import { useRecomendar } from '../hooks/useRecomendar';
 import { textoIngredientes, textoPeso, textoPromedio, textoVotos } from '../textos';
 
 /**
  * El detalle de un producto, con todas sus fotos. Tiene URL propia (/producto/:id): es lo que se comparte.
- * En la tableta y la compu, las fotos a la izquierda y los datos a la derecha. Abajo, las recomendaciones:
- * votar y lo que dijeron los demás (en la compu, una al lado de la otra)
+ * En cualquier ancho va igual que en el celular, todo uno debajo del otro: las fotos, los datos, votar y lo que dijeron
+ * los demás. Del mismo ancho que la carta: hasta `cartaMax` y el 80% de la ventana en la compu (así lo quiere el dueño). Mientras la web está de Navidad: una ramita
+ * de acebo prendida en la esquina de la foto, la etiqueta como cinta roja, «Agregar al pedido» dorado, la línea dorada
+ * entre dos ramitas de acebo y un muñequito en las recomendaciones
  */
 export function ProductoCatalogoScreen() {
   const theme = useTheme();
   const styles = useStyles(createStyles);
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const enCompu = useBreakpoint() === 'compu';
   const detalle = useProductoCatalogo(id);
   const refresco = useRefrescar(detalle.refrescar);
-  const tamano = useBreakpoint();
-  const enCelular = tamano === 'celular';
   const carrito = useCarrito();
   const recomendar = useRecomendar(id);
+  const navidad = useEsNavidad();
   const { producto } = detalle;
   const enPedido = producto ? carrito.cantidadDe(producto._id) : 0;
   // Con 0 se pide en el momento: no se muestra nada
@@ -38,7 +45,7 @@ export function ProductoCatalogoScreen() {
 
   return (
     <ScreenContainer width="completo" refreshControl={refresco.control} pie={<BarraCarrito />} llenarAlto>
-      <View style={[styles.contenido, tamano === 'compu' && styles.contenidoCompu]}>
+      <View style={[styles.contenido, enCompu && styles.contenidoCompu]}>
         <View style={styles.volver}>
           <Button variant="ghost" size="sm" icon={ArrowLeft} label="Catálogo" onPress={detalle.volver} accessibilityLabel="Volver al catálogo" />
         </View>
@@ -67,17 +74,19 @@ export function ProductoCatalogoScreen() {
         )}
 
         {producto && (
-          <View style={[styles.producto, !enCelular && styles.productoAncho]}>
-            <View style={!enCelular && styles.fotosAncho}>
+          <View style={styles.producto}>
+            <View style={styles.fotos}>
               <CarruselFotos fotos={producto.imagenes} nombre={nombreParaMostrar(producto.nombre)} proporcion={1} miniaturas />
               {/* La etiqueta del dueño sobre la foto grande, arriba a la izquierda, como en la vidriera */}
               {producto.etiqueta ? (
                 <View style={styles.sello} pointerEvents="none">
-                  <Sello texto={producto.etiqueta} />
+                  {navidad ? <EtiquetaNavidad texto={producto.etiqueta} /> : <Sello texto={producto.etiqueta} />}
                 </View>
               ) : null}
+              {/* La ramita de acebo prendida en la esquina de la foto grande, montada sobre el borde */}
+              {navidad && <Ilustracion nombre="acebo" alto={theme.sizes.aceboFoto} style={styles.aceboFoto} />}
             </View>
-            <View style={[styles.datos, !enCelular && styles.datosAncho]}>
+            <View style={styles.datos}>
               <Text variant="overline" color="textMuted">
                 {producto.categoria}
               </Text>
@@ -107,7 +116,11 @@ export function ProductoCatalogoScreen() {
               {producto.descripcion ? <Text>{producto.descripcion}</Text> : null}
               <View style={styles.agregar}>
                 {enPedido === 0 ? (
-                  <Button label="Agregar al pedido" icon={Plus} onPress={() => carrito.cambiarCantidad(producto._id, 1)} />
+                  navidad ? (
+                    <BotonFiestas label="Agregar al pedido" ancho="justo" onPress={() => carrito.cambiarCantidad(producto._id, 1)} />
+                  ) : (
+                    <Button label="Agregar al pedido" icon={Plus} onPress={() => carrito.cambiarCantidad(producto._id, 1)} />
+                  )
                 ) : (
                   <View style={styles.enPedido}>
                     <ControlCantidad
@@ -135,22 +148,45 @@ export function ProductoCatalogoScreen() {
 
         {producto && (
           <View style={styles.recomendaciones}>
-            <Adorno forma="izquierda" />
-            <View style={[styles.opiniones, tamano === 'compu' && styles.opinionesCompu]}>
-              <View style={tamano === 'compu' && styles.votar}>
+            {navidad ? (
+              <View style={styles.separadorNavidad}>
+                <Ilustracion nombre="acebo" alto={theme.sizes.mascota} />
+                <Adorno forma="corto" />
+                <Ilustracion nombre="acebo" alto={theme.sizes.mascota} espejado />
+              </View>
+            ) : (
+              <Adorno forma="izquierda" />
+            )}
+            <View style={styles.opiniones}>
+              <View>
                 <FormularioRecomendacion
                   form={recomendar.form}
                   enviar={recomendar.enviar}
                   enviando={recomendar.enviando}
                   error={recomendar.error}
                   enviada={recomendar.enviada}
+                  navidad={navidad}
+                  dibujo={
+                    navidad ? (
+                      <Vivo como="flotar">
+                        <Ilustracion nombre="osoGalleta" alto={theme.sizes.pedidoDibujo} />
+                      </Vivo>
+                    ) : undefined
+                  }
                 />
               </View>
-              <View style={tamano === 'compu' && styles.leer}>
+              <View>
                 <ListaRecomendaciones
                   recomendaciones={producto.recomendaciones ?? []}
                   promedio={producto.puntajePromedio}
                   cantidad={producto.cantidadRecomendaciones}
+                  dibujoVacio={
+                    navidad ? (
+                      <Vivo como="flotar">
+                        <Ilustracion nombre="renoGorro" alto={theme.sizes.ilustracionPie} />
+                      </Vivo>
+                    ) : undefined
+                  }
                 />
               </View>
             </View>
@@ -165,7 +201,7 @@ export function ProductoCatalogoScreen() {
 
 const createStyles = (theme: Theme) =>
   StyleSheet.create({
-    // El mismo ancho que la carta: una columna de hasta 780 en la tableta, el 80% de la ventana en la compu
+    // Una sola columna, como en el celular, del mismo ancho que la carta: hasta 780 en la tableta, el 80% en la compu
     contenido: { flexGrow: 1, gap: theme.spacing.lg, width: '100%', maxWidth: theme.sizes.cartaMax, alignSelf: 'center' },
     contenidoCompu: { width: theme.sizes.cartaCompu, maxWidth: '100%' },
     volver: { alignItems: 'flex-start' },
@@ -173,12 +209,18 @@ const createStyles = (theme: Theme) =>
     error: { gap: theme.spacing.sm, alignItems: 'flex-start' },
     noDisponible: { alignItems: 'center', gap: theme.spacing.md, paddingVertical: theme.spacing.xxl },
     producto: { gap: theme.spacing.xl },
-    productoAncho: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.xxl },
-    // Las fotos crecen hasta un tope (en una pantalla grande tapaban todo); lo que sobra es para los datos
-    fotosAncho: { flex: 1, minWidth: 0, maxWidth: theme.sizes.galeriaMax },
+    // La foto con sus miniaturas: con tope y centrada; el resto de la página sigue al ancho de la carta
+    fotos: { width: '100%', maxWidth: theme.sizes.fotoDetalleMax, alignSelf: 'center' },
     datos: { gap: theme.spacing.sm },
-    datosAncho: { flex: 1, minWidth: 0 },
     sello: { position: 'absolute', top: theme.spacing.md, left: theme.spacing.md, right: theme.spacing.xxxl },
+    // Un tercio afuera de la foto, arriba a la derecha, apenas torcida
+    aceboFoto: {
+      position: 'absolute',
+      top: -theme.sizes.aceboFoto / 3,
+      right: -theme.sizes.aceboFoto / 4,
+      transform: [{ rotate: '18deg' }],
+    },
+    separadorNavidad: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.spacing.sm },
     puntaje: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm },
     precioFila: { flexDirection: 'row', alignItems: 'baseline', gap: theme.spacing.sm },
     // El precio con la letra de texto en negrita (la de título es para nombres), en cifras parejas
@@ -188,7 +230,4 @@ const createStyles = (theme: Theme) =>
     enPedido: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md },
     recomendaciones: { gap: theme.spacing.xl, paddingTop: theme.spacing.lg },
     opiniones: { gap: theme.spacing.xxl },
-    opinionesCompu: { flexDirection: 'row', alignItems: 'flex-start', gap: theme.spacing.xxxl },
-    votar: { flex: 2, minWidth: 0 },
-    leer: { flex: 3, minWidth: 0 },
   });

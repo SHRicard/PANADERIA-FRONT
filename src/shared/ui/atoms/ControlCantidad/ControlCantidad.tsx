@@ -12,13 +12,15 @@ export interface ControlCantidadProps {
   max?: number;
   /** Qué se cuenta, para el lector de pantalla: "Tarta de frutilla" */
   nombre: string;
+  /** El botón de agregar (con 0) más grande, del alto de un control: una tarjeta que lo quiere bien a la vista */
+  grande?: boolean;
 }
 
 /**
  * Agregar y cambiar la cantidad de algo. Con 0, un botón redondo con «+»; con 1 o más, «− 2 +».
  * Con 1, el «−» es un tachito: quita del todo
  */
-export function ControlCantidad({ valor, alCambiar, max = Number.POSITIVE_INFINITY, nombre }: ControlCantidadProps) {
+export function ControlCantidad({ valor, alCambiar, max = Number.POSITIVE_INFINITY, nombre, grande = false }: ControlCantidadProps) {
   const styles = useStyles(createStyles);
 
   if (valor === 0) {
@@ -27,10 +29,10 @@ export function ControlCantidad({ valor, alCambiar, max = Number.POSITIVE_INFINI
         onPress={() => alCambiar(1)}
         accessibilityRole="button"
         accessibilityLabel={`Agregar ${nombre}`}
-        hitSlop={styles.alcance.padding}
-        style={({ pressed }) => [styles.boton, styles.agregar, pressed && styles.presionado]}
+        hitSlop={grande ? undefined : styles.alcance.padding}
+        style={({ pressed }) => [styles.boton, grande && styles.grande, styles.agregar, pressed && styles.presionado]}
       >
-        <Icon icon={Plus} color="onPrimary" trazo="grueso" />
+        <Icon icon={Plus} size={grande ? 'lg' : 'md'} color="onPrimary" trazo="grueso" />
       </Pressable>
     );
   }
@@ -53,7 +55,9 @@ export function ControlCantidad({ valor, alCambiar, max = Number.POSITIVE_INFINI
         onPress={() => alCambiar(valor + 1)}
         disabled={valor >= max}
         accessibilityRole="button"
-        accessibilityLabel={`Uno más de ${nombre}`}
+        // En el tope el botón se apaga: el lector de pantalla dice por qué
+        accessibilityLabel={valor >= max ? `Uno más de ${nombre}: llegaste al máximo de ${max}` : `Uno más de ${nombre}`}
+        accessibilityHint={valor >= max ? `Se pueden pedir hasta ${max}` : undefined}
         accessibilityState={{ disabled: valor >= max }}
         hitSlop={styles.alcance.padding}
         style={({ pressed }) => [styles.boton, styles.agregar, valor >= max && styles.deshabilitado, pressed && styles.presionado]}
@@ -76,6 +80,8 @@ const createStyles = (theme: Theme) =>
       borderRadius: theme.radius.full,
     },
     alcance: { padding: (theme.sizes.touchMin - theme.sizes.iconoPestanaChico) / 2 },
+    // Ya tiene el alto mínimo tocable: no le hace falta alcance extra
+    grande: { width: theme.sizes.control, height: theme.sizes.control },
     agregar: { backgroundColor: theme.colors.primary },
     restar: { borderWidth: 1, borderColor: theme.colors.border, backgroundColor: theme.colors.surface },
     presionado: { opacity: theme.opacity.pressed },

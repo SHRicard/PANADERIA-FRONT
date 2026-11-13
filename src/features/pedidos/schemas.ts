@@ -50,6 +50,11 @@ export const pedidoSchema = z.object({
    * todavía no lo manda
    */
   conEnvio: z.boolean().default(false),
+  /**
+   * Para qué día es (AAAA-MM-DD). null en los pedidos de antes de la agenda, hasta que el back corra la migración.
+   * El default, por si el back todavía no lo manda
+   */
+  fechaEntrega: z.string().nullable().default(null),
   /** Lo que falta cobrar al entregar: el total menos la seña */
   saldo: z.number(),
   createdAt: z.string(),
@@ -93,6 +98,70 @@ export const clientesSchema = z.array(
   }),
 );
 
+// ── Agenda ────────────────────────────────────────────────────────────────────
+
+/** El estado de un día: bajo (verde, «Libre») hasta el 40 % del tope, medio (amarillo, «Casi»), alto (rojo, llegó al tope) */
+export const NIVELES_AGENDA = ['bajo', 'medio', 'alto'] as const;
+
+/** Un día de la agenda */
+export const diaAgendaSchema = z.object({
+  /** AAAA-MM-DD */
+  fecha: z.string(),
+  /** Pedidos no cancelados para ese día (también los pendientes y los manuales) */
+  pedidos: z.number().int(),
+  /** La suma de las cantidades: un pack de 50 chipás es 1, 3 tartas son 3 */
+  productos: z.number().int(),
+  /**
+   * Qué tan lleno está contra los productos por día del dueño: bajo (libre), medio (casi) o alto (llegó al tope). null
+   * mientras no los puso. z.string(): si el back suma un nivel, no se rompe
+   */
+  nivel: z.string().nullable(),
+  /** Si el dueño lo marcó como «Agenda llena»: la web no lo deja elegir */
+  llena: z.boolean(),
+  /**
+   * Cuántos productos quiere hacer el dueño ese día, si es menos que su tope de siempre (null = los de siempre). Lo que
+   * no quiere hacer el back lo cuenta como ocupado: `nivel` y `tope` ya vienen con eso. default: el back de antes no lo manda
+   */
+  quiereHacer: z.number().int().nullable().default(null),
+  /** Si llegó a los productos por día del dueño (su tope): la web tampoco lo deja elegir. default: el back de antes no lo manda */
+  tope: z.boolean().default(false),
+  /**
+   * Cuántos productos le quedan por preparar: los de sus pedidos sin entregar menos lo que el dueño anotó como hecho.
+   * Solo viene en la agenda del mes (no al marcar «Agenda llena»)
+   */
+  faltan: z.number().int().optional(),
+});
+
+/** GET /api/agenda?mes=AAAA-MM: todos los días del mes */
+/**
+ * GET (y PUT) /api/agenda/:fecha/productos: lo que hay que preparar ese día, sumado de todos sus pedidos que falta
+ * entregar (sin importar de quién son), con cuántos ya hizo el dueño. Primero lo que falta, los listos al final.
+ * `sinSena`: cuántos de esa cantidad son de pedidos que todavía no pagaron la seña
+ */
+export const produccionDelDiaSchema = z.object({
+  fecha: z.string(),
+  pedidos: z.number().int(),
+  total: z.number().int(),
+  hechos: z.number().int(),
+  productos: z.array(
+    z.object({
+      productoId: z.string(),
+      nombre: z.string(),
+      cantidad: z.number().int(),
+      sinSena: z.number().int(),
+      hechos: z.number().int(),
+      faltan: z.number().int(),
+      listo: z.boolean(),
+    }),
+  ),
+});
+
+export const agendaSchema = z.object({
+  mes: z.string(),
+  productosPorDia: z.number().int().nullable(),
+  dias: z.array(diaAgendaSchema),
+});
+
 // ── Formulario ────────────────────────────────────────────────────────────────
 
 /** El monto de la seña, en pesos enteros. Que no pase del total lo revisa el hook, que conoce el pedido */
@@ -131,4 +200,25 @@ export const formularioPedidoManualSchema = z.object({
   sena: senaOpcional,
   /** true: hay que mandárselo · false: lo pasa a retirar */
   conEnvio: z.boolean(),
+  /** Cualquier día: el dueño no tiene las reglas de la web. Vacío = todavía no eligió */
+  fechaEntrega: z.string().min(1, 'Elegí para qué día es'),
+});
+
+/** La referencia de la agenda: un entero de 1 a 1000, o vacío para sacarla */
+/** «¿Cuántos querés hacer este día?»: un entero de 1 a 1000 (para no hacer nada está «Agenda llena») */
+export const formularioQuiereHacerSchema = z.object({
+  quiereHacer: z
+    .string()
+    .trim()
+    .min(1, 'Escribí cuántos productos querés hacer')
+    .regex(/^\d+$/, 'Solo números, sin puntos ni comas')
+    .refine((valor) => Number(valor) >= 1 && Number(valor) <= 1000, 'De 1 a 1000. Para no hacer nada, usá «Agenda llena»'),
+});
+
+export const formularioProductosPorDiaSchema = z.object({
+  productosPorDia: z
+    .string()
+    .trim()
+    .refine((valor) => valor === '' || /^\d+$/.test(valor), 'Solo números')
+    .refine((valor) => valor === '' || (Number(valor) >= 1 && Number(valor) <= 1000), 'De 1 a 1000'),
 });
