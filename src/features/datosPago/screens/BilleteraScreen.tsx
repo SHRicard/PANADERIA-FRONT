@@ -68,7 +68,7 @@ export function BilleteraScreen() {
               placeholder="Mercado Pago, Ualá, Banco Nación…"
               autoCapitalize="words"
               returnKeyType="done"
-              onSubmitEditing={billetera.guardar}
+              onSubmitEditing={() => billetera.guardar()}
             />
 
             {billetera.guardado && <Alert tone="success" message="Listo: la web ya muestra estos datos." />}

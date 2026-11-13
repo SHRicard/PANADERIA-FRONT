@@ -81,12 +81,13 @@ function Navegacion() {
           Como en el StatusBar, `style` es el color de los botones: claros en el tema oscuro */}
       <NavigationBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
       <Stack screenOptions={{ headerShown: false, headerShadowVisible: false }}>
-        <Stack.Protected guard={esWeb}>
+        {/* redirectTo: desde el SDK 58, sin él el router manda a la URL del grupo, que no tiene pantalla (404) */}
+        <Stack.Protected guard={esWeb} redirectTo="/dashboard">
           <Stack.Screen name="(publico)" />
         </Stack.Protected>
 
         {/* Login y gestión: nunca se montan en la web */}
-        <Stack.Protected guard={!esWeb}>
+        <Stack.Protected guard={!esWeb} redirectTo="/">
           <Stack.Screen name="(admin)" />
         </Stack.Protected>
 

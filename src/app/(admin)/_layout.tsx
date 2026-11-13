@@ -10,7 +10,8 @@ export default function AdminLayout() {
 
   return (
     <Stack screenOptions={{ headerShown: false, header: (props) => <EncabezadoPantalla {...props} /> }}>
-      <Stack.Protected guard={haySesion}>
+      {/* redirectTo: desde el SDK 58, sin él el router manda a la URL del grupo, que no tiene pantalla (404) */}
+      <Stack.Protected guard={haySesion} redirectTo="/login">
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="productos/nuevo" options={{ headerShown: true, title: 'Nuevo producto' }} />
         <Stack.Screen name="productos/[id]/index" options={{ headerShown: true, title: 'Producto' }} />
@@ -45,7 +46,7 @@ export default function AdminLayout() {
         <Stack.Screen name="metricas/insumos" options={{ headerShown: true, title: 'Gasto en insumos' }} />
       </Stack.Protected>
 
-      <Stack.Protected guard={!haySesion}>
+      <Stack.Protected guard={!haySesion} redirectTo="/dashboard">
         <Stack.Screen name="login" />
         <Stack.Screen name="recuperar" />
         <Stack.Screen name="restablecer" />

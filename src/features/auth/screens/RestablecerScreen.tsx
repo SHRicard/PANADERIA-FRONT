@@ -80,7 +80,7 @@ export function RestablecerScreen() {
             autoComplete="new-password"
             textContentType="newPassword"
             returnKeyType="go"
-            onSubmitEditing={enviar}
+            onSubmitEditing={() => enviar()}
           />
         </View>
 
