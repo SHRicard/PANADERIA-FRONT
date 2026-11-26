@@ -1,56 +1,94 @@
-# Welcome to your Expo app 👋
+# 🥐 Panadería Digital — App móvil y catálogo web
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App de gestión para un emprendimiento de panadería, **en producción y en uso por un cliente real**.
+Con una sola base de código en **React Native + Expo** se generan dos productos:
 
-## Get started
+- **App del dueño (Android / APK):** maneja pedidos, agenda, productos, recetas, insumos, promos y métricas del negocio.
+- **Catálogo web para clientes:** el dueño lo comparte por WhatsApp y los clientes arman su pedido, eligen el día de entrega y ven los datos de pago.
 
-1. Install dependencies
+🔗 **Web:** https://panaderia-front-psi.vercel.app
+🔗 **Backend (API):** [PANADERIA-BACK](https://github.com/SHRicard/PANADERIA-BACK)
 
-   ```bash
-   npm install
-   ```
+<!-- Capturas (agregar en docs/ con datos de prueba y descomentar):
+| Inicio del dueño | Agenda | Catálogo web | Métricas |
+|---|---|---|---|
+| ![Inicio](docs/inicio.png) | ![Agenda](docs/agenda.png) | ![Catálogo](docs/catalogo.png) | ![Métricas](docs/metricas.png) |
+-->
 
-2. Start the app
+📘 **Manual de usuario:** [manual en PDF](./manual)
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✨ Funcionalidades
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Para el cliente (web)
+- Catálogo con estilos visuales elegibles por el dueño (vidriera, carta y temáticos de Navidad) y modo claro/oscuro.
+- Filtros por tipo de producto y gusto, búsqueda, detalle con galería de fotos y recomendaciones con puntaje.
+- Carrito con precios cotizados por el servidor y aviso de productos que dejaron de estar disponibles.
+- Elección del **día de entrega** según la anticipación de cada producto y la agenda del negocio (días llenos y "casi llenos").
+- Envío o retiro, y datos de transferencia al confirmar el pedido.
+- Aviso de "local cerrado" con mensaje personalizado.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Para el dueño (app)
+- **Resumen del día:** pedidos y ventas de hoy y pedidos abiertos.
+- **Pedidos:** web y manuales (los que entran por WhatsApp o en persona), con seña, entrega, cancelación, cambio de fecha y edición de productos.
+- **Agenda mensual:** tope de productos por día, días llenos, "qué hay que hacer" por día y avance de producción.
+- **Productos:** alta y edición con hasta 10 fotos (subida en segundo plano y marca de agua), tipos, gustos y anticipación.
+- **Recetas e insumos:** costo por unidad calculado con el último precio de cada insumo, cantidades para producir N unidades y precio de venta sugerido.
+- **Promos:** biblioteca de fotos y videos listos para compartir en el estado de WhatsApp.
+- **Métricas:** productos y gustos más vendidos, pedidos por estado y día, clientes nuevos y recurrentes, gasto en insumos y balance.
+- **Seguridad y mantenimiento:** login con JWT, recuperación de contraseña por email, visor de logs con IPs sospechosas y uso del almacenamiento de Cloudinary.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🛠️ Tecnologías
 
-```bash
-npm run reset-project
+| Área | Tecnologías |
+|---|---|
+| Base | React Native, Expo, Expo Router (rutas por archivos), TypeScript |
+| Web | React Native Web, deploy en Vercel |
+| Estado | Redux Toolkit |
+| Formularios | React Hook Form + Zod |
+| Almacenamiento local | MMKV |
+| UI y animaciones | Reanimated, Gesture Handler, SVG, Lucide Icons |
+| Imágenes y archivos | Expo Image, Image Picker, Image Manipulator, File System |
+| Compartir | React Native Share (WhatsApp) |
+| Backend | Node.js, Express, MongoDB, Cloudinary ([ver repo](https://github.com/SHRicard/PANADERIA-BACK)) |
+
+---
+
+## 📁 Estructura
+
+```
+src/
+├── app/        # Pantallas y navegación (Expo Router)
+├── features/   # Módulos por funcionalidad (pedidos, agenda, productos…)
+├── services/   # Llamadas a la API
+├── store/      # Estado global (Redux Toolkit)
+├── shared/     # Componentes y utilidades compartidas
+├── theme/      # Colores, tipografías y modo claro/oscuro
+├── config/     # Configuración de la app
+└── types/      # Tipos de TypeScript
+manual/         # Manual de usuario (PDF)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-### Other setup steps
+## 🚀 Cómo correrlo
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+npm install
+cp .env.example .env   # URL de la API, WhatsApp del dueño y URL de la web
+npx expo start         # app en Expo Go o emulador
+npm run web            # versión web
+npm run android        # build nativo de Android
+```
 
-## Learn more
+Para probar con datos de ejemplo, en el backend se pueden cargar productos y pedidos de prueba con `npm run sembrar` y `npm run sembrar-pedidos`.
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 👤 Autor
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Ricardo Ramírez** — Desarrollador Full Stack (React · React Native · TypeScript · Node.js)
+[LinkedIn](https://www.linkedin.com/in/ramirez-ricardo-dev) · [GitHub](https://github.com/SHRicard)
